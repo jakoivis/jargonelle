@@ -38,7 +38,6 @@ export default class ColorPicker extends React.Component {
     }
 
     onGradientChange(color) {
-        console.log("hue", ColorUtil.int.toHex(color));
         this.setState({
             grayScaleMatrix: [[0xFFFFFF, color], [0]],
             hueColor: color
@@ -46,8 +45,6 @@ export default class ColorPicker extends React.Component {
     }
 
     onGrayScaleChange(color) {
-        console.log("gray", ColorUtil.int.toHex(color))
-        // console.log("hue", ColorUtil.int.toHex(getClosestColor(color, verticalHue.gradient)));
         this.props.onChange(color);
 
         this.setState({
@@ -62,10 +59,10 @@ export default class ColorPicker extends React.Component {
             <ColorMatrix
                 className='grayScale'
                 width={200}
-                colors={this.state.grayScaleMatrix} 
+                colors={this.state.grayScaleMatrix}
                 onValueChange={this.onGrayScaleChange}>
 
-                <Selection color={this.state.grayScaleColor} />
+                <GrayScaleSelection color={this.state.grayScaleColor} />
 
             </ColorMatrix>
 
@@ -78,19 +75,27 @@ export default class ColorPicker extends React.Component {
                 lockYAxis={verticalHue.lockYAxis}
                 onChange={this.onGradientChange}>
 
-                <Selection color={this.state.hueColor} />
+                <HueSelection color={this.state.hueColor} />
 
             </ColorMatrix>
         </div>
     }
 }
 
-function Selection(props) {
+function GrayScaleSelection(props) {
     let color = ColorUtil.int.toHex(props.color);
 
-    return <div 
-        className='selection' 
+    return <div
+        className='selection'
         style={{backgroundColor: color}} />
+}
+
+function HueSelection(props) {
+    let color = ColorUtil.int.toHex(props.color);
+
+    return <svg className="selection">
+        <polygon points="0,0 0,16 10,8"/>
+    </svg>
 }
 
 ColorPicker.propTypes = {
@@ -103,28 +108,7 @@ ColorPicker.defaultProps = {
     onChange: _.noop
 }
 
-function getClosestColor(color, hues) {
-    hues = _.flattenDeep(hues);
 
-    let c = ColorUtil.int.toObj(color);
-    let m;
-    let mDiff;
-
-    _.forEach(hues, hue => {
-        let o = ColorUtil.int.toObj(hue);
-
-        if (!m) {
-            m = o;
-            mDiff = (o.r - c.r) + (o.g - c.g) + (o.b - c.b); 
-        } else {
-            let diff = (o.r - c.r) + (o.g - c.g) + (o.b - c.b);
-
-            if(diff > mDiff) {
-                m = o;
-                mDiff = diff;
-            }
-        }
-    });
-
-    return ColorUtil.obj.toInt(m);
+function getHue(color) {
+    return ColorUtil.rgb.toHsl(ColorUtil.int.toRgb(color)).h;
 }

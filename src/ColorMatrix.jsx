@@ -81,20 +81,20 @@ export default class ColorMatrix extends React.Component {
             y = h / 2;
 
         } else {
-            y = y < 0 ? 0 : y > h ? h : y; 
+            y = y < 0 ? 0 : y > h ? h : y;
         }
 
         if (this.props.lockXAxis) {
             x = w / 2;
-        
+
         } else {
-            x = x < 0 ? 0 : x > w ? w : x; 
+            x = x < 0 ? 0 : x > w ? w : x;
         }
 
         let matrixX = x / w;
         let matrixY = y / h;
         let color = this.getColor(matrixX, matrixY, this.props.colors);
-        
+
         this.setState({
             selectionX: x,
             selectionY: y,
@@ -109,15 +109,15 @@ export default class ColorMatrix extends React.Component {
     getColor(matrixX, matrixY, colors) {
         return ColorUtil.getGradientMatrixColor(
             colors,
-            matrixX, matrixY, 
-            ColorUtil.int.toObj,
-            ColorUtil.obj.toInt);
+            matrixX, matrixY,
+            ColorUtil.int.toRgb,
+            ColorUtil.rgb.toInt);
     }
 
     updateCanvas() {
         let width = this.props.width;
         let height = this.props.height;
-        let colors = ColorUtil.convert(this.props.colors, ColorUtil.int.toObj);
+        let colors = ColorUtil.convert(this.props.colors, ColorUtil.int.toRgb);
         let ctx = this.canvas.getContext('2d');
         let imageData = ctx.createImageData(width, height);
         let buffer = imageData.data.buffer;
@@ -134,7 +134,7 @@ export default class ColorMatrix extends React.Component {
                         x/width,
                         y/height,
                         null,
-                        ColorUtil.obj.toUint32);
+                        ColorUtil.rgb.toUint32);
             }
         }
 
@@ -144,10 +144,10 @@ export default class ColorMatrix extends React.Component {
     }
 
     render() {
-        return <div 
+        return <div
             className={getClassName(this.props, 'color-matrix')}>
 
-            <div 
+            <div
                 className="color"
                 onMouseDown={this.onMouseDown}
                 style={{
@@ -167,9 +167,9 @@ export default class ColorMatrix extends React.Component {
                     top: this.state.selectionY,
                     left: this.state.selectionX
                 }} >
-            
+
                 {this.props.children}
-            
+
             </div>
 
         </div>;
