@@ -1,20 +1,32 @@
 
 import _ from 'lodash';
 
-export default function getClassName(props, className) {
+export default function getClassName(className, props, state) {
     let result = '';
+    let propsClassName = _.get(props, 'className');
 
     if (className) {
         result = className;
     }
 
-    let propsClassName = _.get(props, 'className');
-
     if (propsClassName) {
-        result = _.trim(result + ' ' + propsClassName);
+        result += ' ' + propsClassName;
     }
 
-    return result;
+    result += ' ' + getCss(props);
+    result += ' ' + getCss(state);
+
+    return _.trim(result);
+}
+
+function getCss(obj) {
+    let css = _.get(obj, 'css');
+
+    if(css) {
+        return _.join(_.keys(_.pickBy(css)), ' ');
+    }
+
+    return '';
 }
 
 // function parseClassName(classes) {

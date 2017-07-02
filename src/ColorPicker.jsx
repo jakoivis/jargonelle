@@ -10,7 +10,7 @@ import './styles/color-picker.styl';
 
 const verticalHue = {
     gradient: [[0xFF0000], [0xFFFF00], [0x00FF00], [0x00FFFF], [0x0000FF], [0xFF00FF], [0xFF0000]],
-    width: 5,
+    width: 10,
     height: 400,
     lockYAxis: false,
     lockXAxis: true
@@ -63,19 +63,7 @@ export default class ColorPicker extends React.Component {
 
     render() {
         return <div
-            className={getClassName(this.props, 'color-picker')}>
-
-            <ColorMatrix
-                className='grayScale'
-                width={200}
-                colors={this.state.grayScaleMatrix}
-                onValueChange={this.onGrayScaleChange}
-                x={this.state.hsv.s}
-                y={1-this.state.hsv.v}>
-
-                <GrayScaleSelection color={this.state.grayScaleColor} />
-
-            </ColorMatrix>
+            className={getClassName('color-picker', this.props)}>
 
             <ColorMatrix
                 className='hue'
@@ -90,6 +78,23 @@ export default class ColorPicker extends React.Component {
                 <HueSelection color={this.state.hueColor} />
 
             </ColorMatrix>
+
+            <div className='control-container'>
+
+                <ColorMatrix
+                    className='grayScale'
+                    width={200}
+                    colors={this.state.grayScaleMatrix}
+                    onValueChange={this.onGrayScaleChange}
+                    x={this.state.hsv.s}
+                    y={1-this.state.hsv.v}>
+
+                    <GrayScaleSelection color={this.state.grayScaleColor} />
+
+                </ColorMatrix>
+
+            </div>
+
         </div>
     }
 }

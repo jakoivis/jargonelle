@@ -24,8 +24,8 @@ export default class ColorMatrix extends React.Component {
     componentDidMount() {
         this.updateCanvas();
 
-        document.body.addEventListener('mousemove', this.onMouseMove);
-        document.body.addEventListener('mouseup', this.onMouseUp);
+        document.addEventListener('mousemove', this.onMouseMove);
+        document.addEventListener('mouseup', this.onMouseUp);
 
         let color = this.getColor(
                 this.state.matrixX,
@@ -36,11 +36,13 @@ export default class ColorMatrix extends React.Component {
     }
 
     componentWillUnmount() {
-        document.body.removeEventListener('mousemove', this.onMouseMove)
-        document.body.removeEventListener('mouseup', this.onMouseUp)
+        document.removeEventListener('mousemove', this.onMouseMove)
+        document.removeEventListener('mouseup', this.onMouseUp)
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps.colors);
+
         if (this.props.colors !== nextProps.colors) {
             let color = this.getColor(
                 this.state.matrixX,
@@ -62,11 +64,23 @@ export default class ColorMatrix extends React.Component {
     onMouseDown(event) {
         this.mouseDown = true;
 
+        this.setState({
+            css: {
+                dragging: true
+            }
+        });
+
         this.updateSelectionPosition(event);
     }
 
     onMouseUp(event) {
         this.mouseDown = false;
+
+        this.setState({
+            css: {
+                dragging: false
+            }
+        });
     }
 
     onMouseMove(event) {
@@ -95,6 +109,9 @@ export default class ColorMatrix extends React.Component {
         } else {
             x = x < 0 ? 0 : x > w ? w : x;
         }
+
+        console.log(x, y);
+
 
         let matrixX = x / w;
         let matrixY = y / h;
@@ -148,21 +165,14 @@ export default class ColorMatrix extends React.Component {
 
     render() {
         return <div
-            className={getClassName(this.props, 'color-matrix')}>
+            className={getClassName('color-matrix', this.props, this.state)}
+            onMouseDown={this.onMouseDown}>
 
-            <div
+            <canvas
                 className="color"
-                onMouseDown={this.onMouseDown}
-                style={{
-                    width: this.props.width,
-                    height: this.props.height
-                }}>
-
-                <canvas
-                    ref={canvas => {this.canvas = canvas}}
-                    width={this.props.width}
-                    height={this.props.height} />
-            </div>
+                ref={canvas => {this.canvas = canvas}}
+                width={this.props.width}
+                height={this.props.height} />
 
             <div
                 className="selection-container"
