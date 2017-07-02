@@ -49,7 +49,7 @@
     "webpack-dev-server": "^2.5.0"
   },
   "dependencies": {
-    "color-util": "^0.2.1",
+    "color-util": "^0.3.0",
     "lodash": "^4.17.4"
   }
 }

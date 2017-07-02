@@ -12,10 +12,8 @@ export default class ColorMatrix extends React.Component {
         super(props);
 
         this.state = {
-            selectionX: 0,
-            selectionY: 0,
-            matrixX: 0,
-            matrixY: 0
+            matrixX: this.props.x,
+            matrixY: this.props.y
         };
 
         this.onMouseDown = this.onMouseDown.bind(this);
@@ -28,6 +26,13 @@ export default class ColorMatrix extends React.Component {
 
         document.body.addEventListener('mousemove', this.onMouseMove);
         document.body.addEventListener('mouseup', this.onMouseUp);
+
+        let color = this.getColor(
+                this.state.matrixX,
+                this.state.matrixY,
+                this.props.colors);
+
+        this.props.onValueChange(color);
     }
 
     componentWillUnmount() {
@@ -96,8 +101,6 @@ export default class ColorMatrix extends React.Component {
         let color = this.getColor(matrixX, matrixY, this.props.colors);
 
         this.setState({
-            selectionX: x,
-            selectionY: y,
             matrixX: matrixX,
             matrixY: matrixY
         });
@@ -164,8 +167,8 @@ export default class ColorMatrix extends React.Component {
             <div
                 className="selection-container"
                 style={{
-                    top: this.state.selectionY,
-                    left: this.state.selectionX
+                    left: this.state.matrixX * this.props.width,
+                    top: this.state.matrixY * this.props.height
                 }} >
 
                 {this.props.children}
@@ -183,7 +186,9 @@ ColorMatrix.propTypes = {
     onChange: PropTypes.func,
     onValueChange: PropTypes.func,
     lockYAxis: PropTypes.bool,
-    lockXAxis: PropTypes.bool
+    lockXAxis: PropTypes.bool,
+    x: PropTypes.number,
+    y: PropTypes.number
 }
 
 ColorMatrix.defaultProps = {
@@ -193,5 +198,7 @@ ColorMatrix.defaultProps = {
     onChange: _.noop,
     onValueChange: _.noop,
     lockXAxis: false,
-    lockYAxis: false
+    lockYAxis: false,
+    x: 0.5,
+    y: 0.5
 }

@@ -20,7 +20,7 @@ class Components extends React.Component {
         return <div>
             <ColorPicker
                 onChange={this.onColorChange}
-                color={0xFF0000}
+                color={0x125569}
                 className='' />
         </div>
     }

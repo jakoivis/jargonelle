@@ -33,7 +33,16 @@ export default class ColorPicker extends React.Component {
         this.onGrayScaleChange = this.onGrayScaleChange.bind(this);
 
         this.state = {
+            hsv: ColorUtil.rgb.toHsv(ColorUtil.int.toRgb(this.props.color)),
             grayScaleMatrix: [[0xFFFFFF, 0xFFFFFF],[0]]
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.color !== this.props.color) {
+            this.setState({
+                hsv: ColorUtil.rgb.toHsv(ColorUtil.int.toRgb(nextProps.color)),
+            });
         }
     }
 
@@ -60,7 +69,9 @@ export default class ColorPicker extends React.Component {
                 className='grayScale'
                 width={200}
                 colors={this.state.grayScaleMatrix}
-                onValueChange={this.onGrayScaleChange}>
+                onValueChange={this.onGrayScaleChange}
+                x={this.state.hsv.s}
+                y={1-this.state.hsv.v}>
 
                 <GrayScaleSelection color={this.state.grayScaleColor} />
 
@@ -73,7 +84,8 @@ export default class ColorPicker extends React.Component {
                 colors={verticalHue.gradient}
                 lockXAxis={verticalHue.lockXAxis}
                 lockYAxis={verticalHue.lockYAxis}
-                onChange={this.onGradientChange}>
+                onValueChange={this.onGradientChange}
+                y={this.state.hsv.h/360}>
 
                 <HueSelection color={this.state.hueColor} />
 
