@@ -4,9 +4,14 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import ColorUtil from 'color-util';
 import ColorMatrix from './ColorMatrix.jsx';
+import RgbInputs from './RgbInputs.jsx';
 import getClassName from './util/getClassName.js';
 
 import './styles/color-picker.styl';
+import './styles/input.styl';
+
+// TODO: values in rgb
+var hueColors = ColorUtil.convert(ColorUtil.hueColors, ColorUtil.int.toRgb);
 
 const verticalHue = {
     gradient: [[0xFF0000], [0xFFFF00], [0x00FF00], [0x00FFFF], [0x0000FF], [0xFF00FF], [0xFF0000]],
@@ -29,35 +34,51 @@ export default class ColorPicker extends React.Component {
     constructor(props) {
         super(props);
 
-        this.onGradientChange = this.onGradientChange.bind(this);
+        this.onHueChange = this.onHueChange.bind(this);
         this.onGrayScaleChange = this.onGrayScaleChange.bind(this);
+        this.onRgbInputsChange = this.onRgbInputsChange.bind(this);
+
+        let rgb = ColorUtil.any.toRgb(this.props.color);
+        let hsv = ColorUtil.any.toHsv(this.props.color);
+        // TODO: use shortcut method
+        let hueRgb = ColorUtil.getGradientColor(hueColors, hsv.h);
+        let hue = ColorUtil.rgb.toInt(hueRgb);
+
+        // console.log(rgb, hsv, hue);
 
         this.state = {
-            hsv: ColorUtil.rgb.toHsv(ColorUtil.int.toRgb(this.props.color)),
-            grayScaleMatrix: [[0xFFFFFF, 0xFFFFFF],[0]]
+            rgb: rgb,
+            hsv: hsv,
+            // TODO: maybe short-cut method for this?
+            grayScaleMatrix: [[0xFFFFFF, hue],[0]]
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.color !== this.props.color) {
-            this.setState({
-                hsv: ColorUtil.rgb.toHsv(ColorUtil.int.toRgb(nextProps.color)),
-            });
-        }
-    }
+    onHueChange(rgb) {
+        let hsv = ColorUtil.rgb.toHsv(rgb);
+        let hue = ColorUtil.getGradientColor(hueColors, hsv.h);
 
-    onGradientChange(color) {
+        // console.log(rgb, hsv, hue);
+
         this.setState({
-            grayScaleMatrix: [[0xFFFFFF, color], [0]],
-            hueColor: color
+            rgb: rgb,
+            hsv: hsv,
+            grayScaleMatrix: [[0xFFFFFF, hue], [0]]
         });
     }
 
     onGrayScaleChange(color) {
+        let rgb = ColorUtil.rgb.to
         this.props.onChange(color);
 
         this.setState({
-            grayScaleColor: color
+            color: color
+        });
+    }
+
+    onRgbInputsChange(color) {
+        this.setState({
+            color: color
         });
     }
 
@@ -72,26 +93,30 @@ export default class ColorPicker extends React.Component {
                 colors={verticalHue.gradient}
                 lockXAxis={verticalHue.lockXAxis}
                 lockYAxis={verticalHue.lockYAxis}
-                onValueChange={this.onGradientChange}
-                y={this.state.hsv.h/360}>
+                onChange={this.onHueChange}
+                y={this.state.hsv.h}>
 
-                <HueSelection color={this.state.hueColor} />
+                <HueSelection />
 
             </ColorMatrix>
 
-            <div className='control-container'>
+            <div className='right'>
 
                 <ColorMatrix
                     className='grayScale'
                     width={200}
                     colors={this.state.grayScaleMatrix}
-                    onValueChange={this.onGrayScaleChange}
+                    onChange={this.onGrayScaleChange}
                     x={this.state.hsv.s}
                     y={1-this.state.hsv.v}>
 
-                    <GrayScaleSelection color={this.state.grayScaleColor} />
+                    <GrayScaleSelection color={this.state.rgb} />
 
                 </ColorMatrix>
+
+                <RgbInputs
+                    color={this.state.hsv}
+                    onChange={this.onRgbInputsChange} />
 
             </div>
 
@@ -100,16 +125,15 @@ export default class ColorPicker extends React.Component {
 }
 
 function GrayScaleSelection(props) {
-    let color = ColorUtil.int.toHex(props.color);
+
+    let color = ColorUtil.any.toHex(props.color);
 
     return <div
         className='selection'
         style={{backgroundColor: color}} />
 }
 
-function HueSelection(props) {
-    let color = ColorUtil.int.toHex(props.color);
-
+function HueSelection() {
     return <svg className="selection">
         <polygon points="0,0 0,16 10,8"/>
     </svg>

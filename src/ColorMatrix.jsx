@@ -26,35 +26,11 @@ export default class ColorMatrix extends React.Component {
 
         document.addEventListener('mousemove', this.onMouseMove);
         document.addEventListener('mouseup', this.onMouseUp);
-
-        let color = this.getColor(
-                this.state.matrixX,
-                this.state.matrixY,
-                this.props.colors);
-
-        this.props.onValueChange(color);
     }
 
     componentWillUnmount() {
         document.removeEventListener('mousemove', this.onMouseMove)
         document.removeEventListener('mouseup', this.onMouseUp)
-    }
-
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps.colors);
-
-        if (this.props.colors !== nextProps.colors) {
-            let color = this.getColor(
-                this.state.matrixX,
-                this.state.matrixY,
-                nextProps.colors);
-
-            this.props.onValueChange(color);
-
-            this.setState({
-                color: color
-            })
-        }
     }
 
     componentDidUpdate() {
@@ -110,51 +86,37 @@ export default class ColorMatrix extends React.Component {
             x = x < 0 ? 0 : x > w ? w : x;
         }
 
-        console.log(x, y);
-
-
         let matrixX = x / w;
         let matrixY = y / h;
-        let color = this.getColor(matrixX, matrixY, this.props.colors);
+        let rgb = ColorUtil.getMatrixColor(this.props.colors, matrixX, matrixY);
 
         this.setState({
             matrixX: matrixX,
             matrixY: matrixY
         });
 
-        this.props.onChange(color);
-        this.props.onValueChange(color);
-    }
-
-    getColor(matrixX, matrixY, colors) {
-        return ColorUtil.getGradientMatrixColor(
-            colors,
-            matrixX, matrixY,
-            ColorUtil.int.toRgb,
-            ColorUtil.rgb.toInt);
+        this.props.onChange(rgb, matrixX, matrixY);
     }
 
     updateCanvas() {
         let width = this.props.width;
         let height = this.props.height;
-        let colors = ColorUtil.convert(this.props.colors, ColorUtil.int.toRgb);
+        let colors = this.props.colors;
         let ctx = this.canvas.getContext('2d');
         let imageData = ctx.createImageData(width, height);
         let buffer = imageData.data.buffer;
         let uint32View = new Uint32Array(buffer);
         let uint8CView = new Uint8ClampedArray(buffer);
 
+        let rgb;
+
         for(let x = 0; x < width; x++) {
 
             for(let y = 0; y < height; y++) {
 
-                uint32View[y * width + x] =
-                    ColorUtil.getGradientMatrixColor(
-                        colors,
-                        x/width,
-                        y/height,
-                        null,
-                        ColorUtil.rgb.toUint32);
+                rgb = ColorUtil.getMatrixColor(colors, x/width, y/height);
+
+                uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
             }
         }
 
@@ -194,7 +156,6 @@ ColorMatrix.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     onChange: PropTypes.func,
-    onValueChange: PropTypes.func,
     lockYAxis: PropTypes.bool,
     lockXAxis: PropTypes.bool,
     x: PropTypes.number,
@@ -202,11 +163,16 @@ ColorMatrix.propTypes = {
 }
 
 ColorMatrix.defaultProps = {
-    colors: [[0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000], [0x000000]],
+    colors: ColorUtil.convert(
+        [
+            [0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000],
+            [0x000000]
+        ],
+        ColorUtil.int.toRgb
+    ),
     width: 100,
     height: 100,
     onChange: _.noop,
-    onValueChange: _.noop,
     lockXAxis: false,
     lockYAxis: false,
     x: 0.5,
