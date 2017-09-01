@@ -71,6 +71,8 @@ export default class ColorMatrix extends React.Component {
         let y = event.clientY - bounds.top;
         let w = this.props.width;
         let h = this.props.height;
+        let colors = this.props.colors;
+        let rotation = this.props.rotation;
 
         if (this.props.lockYAxis) {
             y = h / 2;
@@ -88,7 +90,7 @@ export default class ColorMatrix extends React.Component {
 
         let matrixX = x / w;
         let matrixY = y / h;
-        let rgb = ColorUtil.rgb.matrixColor(this.props.colors, matrixX, matrixY);
+        let rgb = ColorUtil.rgb.matrixColor(colors, matrixX, matrixY, 0.5, 0.5, rotation);
 
         this.setState({
             matrixX: matrixX,
@@ -99,24 +101,24 @@ export default class ColorMatrix extends React.Component {
     }
 
     updateCanvas() {
-        let width = this.props.width;
-        let height = this.props.height;
+        let w = this.props.width;
+        let h = this.props.height;
         let colors = this.props.colors;
+        let rotation = this.props.rotation;
         let ctx = this.canvas.getContext('2d');
-        let imageData = ctx.createImageData(width, height);
+        let imageData = ctx.createImageData(w, h);
         let buffer = imageData.data.buffer;
         let uint32View = new Uint32Array(buffer);
         let uint8CView = new Uint8ClampedArray(buffer);
-
         let rgb;
 
-        for(let x = 0; x < width; x++) {
+        for(let x = 0; x < w; x++) {
 
-            for(let y = 0; y < height; y++) {
+            for(let y = 0; y < h; y++) {
 
-                rgb = ColorUtil.rgb.matrixColor(colors, x/width, y/height);
+                rgb = ColorUtil.rgb.matrixColor(colors, x/w, y/h, 0.5, 0.5, rotation);
 
-                uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+                uint32View[y * w + x] = ColorUtil.rgb.toUint32(rgb);
             }
         }
 
@@ -153,6 +155,7 @@ export default class ColorMatrix extends React.Component {
 
 ColorMatrix.propTypes = {
     colors: PropTypes.array,
+    rotation: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
     onChange: PropTypes.func,
@@ -167,6 +170,7 @@ ColorMatrix.defaultProps = {
         ColorUtil.rgb.hueColors(),
         {r: 0, g: 0, b: 0, a: 0}
     ],
+    rotation: 0,
     width: 100,
     height: 100,
     onChange: _.noop,

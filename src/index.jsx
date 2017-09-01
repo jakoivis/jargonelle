@@ -3,7 +3,7 @@ import React from 'react';
 import ColorUtil from 'color-util';
 import ColorPicker from './ColorPicker.jsx';
 import ColorMatrix from './ColorMatrix.jsx';
-import HSVGrayscaleMatrix from './HSVGrayscaleMatrix.jsx';
+
 import './styles/samples.styl';
 import './styles/common.styl';
 
@@ -16,17 +16,15 @@ class Components extends React.Component {
     }
 
     onColorChange(color) {
-        document.body.style.backgroundColor = ColorUtil.int.toHex(color);
+        document.body.style.backgroundColor = ColorUtil.rgb.toHex(color);
     }
-// <ColorPicker
-//                 onChange={this.onColorChange}
-//                 color={0x125569}
-//                 className='' />
+
     render() {
         return <div>
-            <HSVGrayscaleMatrix onChange={function(rgb, matrix, matryxy) {
-                console.log(rgb, matrix, matryxy)
-            }}/>
+            <ColorPicker
+                onChange={this.onColorChange}
+                color={0x125569}
+                className='' />
         </div>
     }
 }
