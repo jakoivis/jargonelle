@@ -10,8 +10,7 @@ import getClassName from './util/getClassName.js';
 import './styles/color-picker.styl';
 import './styles/input.styl';
 
-// TODO: values in rgb
-var hueColors = ColorUtil.convert(ColorUtil.hueColors, ColorUtil.int.toRgb);
+const hueColors = ColorUtil.rgb.hueColors();
 
 const verticalHue = {
     gradient: [[0xFF0000], [0xFFFF00], [0x00FF00], [0x00FFFF], [0x0000FF], [0xFF00FF], [0xFF0000]],
@@ -40,11 +39,9 @@ export default class ColorPicker extends React.Component {
 
         let rgb = ColorUtil.any.toRgb(this.props.color);
         let hsv = ColorUtil.any.toHsv(this.props.color);
-        // TODO: use shortcut method
-        let hueRgb = ColorUtil.getGradientColor(hueColors, hsv.h);
-        let hue = ColorUtil.rgb.toInt(hueRgb);
 
-        // console.log(rgb, hsv, hue);
+        let hueRgb = ColorUtil.rgb.hue(rgb);
+        let hue = ColorUtil.rgb.toInt(hueRgb);
 
         this.state = {
             rgb: rgb,
@@ -56,9 +53,7 @@ export default class ColorPicker extends React.Component {
 
     onHueChange(rgb) {
         let hsv = ColorUtil.rgb.toHsv(rgb);
-        let hue = ColorUtil.getGradientColor(hueColors, hsv.h);
-
-        // console.log(rgb, hsv, hue);
+        let hue = ColorUtil.gradientColor(hueColors, hsv.h);
 
         this.setState({
             rgb: rgb,
@@ -68,7 +63,7 @@ export default class ColorPicker extends React.Component {
     }
 
     onGrayScaleChange(color) {
-        let rgb = ColorUtil.rgb.to
+        // let rgb = ColorUtil.rgb.to
         this.props.onChange(color);
 
         this.setState({
@@ -147,9 +142,4 @@ ColorPicker.propTypes = {
 ColorPicker.defaultProps = {
     color: 0xFF0000,
     onChange: _.noop
-}
-
-
-function getHue(color) {
-    return ColorUtil.rgb.toHsl(ColorUtil.int.toRgb(color)).h;
 }

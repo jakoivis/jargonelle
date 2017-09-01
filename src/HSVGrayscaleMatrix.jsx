@@ -16,7 +16,7 @@ export default class HSVGrayscaleMatrix extends React.Component {
     }
 
     onChange(rgb, matrixX, matrixY) {
-        let rgbWithHue = ColorUtil.getMatrixColor(this.getHsvGrayscaleMatrix(), matrixX, matrixY);
+        let rgbWithHue = ColorUtil.rgb.matrixColor(this.getHsvGrayscaleMatrix(), matrixX, matrixY);
 
         this.props.onChange(rgbWithHue, matrixX, matrixY);
     }

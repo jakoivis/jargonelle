@@ -88,7 +88,7 @@ export default class ColorMatrix extends React.Component {
 
         let matrixX = x / w;
         let matrixY = y / h;
-        let rgb = ColorUtil.getMatrixColor(this.props.colors, matrixX, matrixY);
+        let rgb = ColorUtil.rgb.matrixColor(this.props.colors, matrixX, matrixY);
 
         this.setState({
             matrixX: matrixX,
@@ -114,7 +114,7 @@ export default class ColorMatrix extends React.Component {
 
             for(let y = 0; y < height; y++) {
 
-                rgb = ColorUtil.getMatrixColor(colors, x/width, y/height);
+                rgb = ColorUtil.rgb.matrixColor(colors, x/width, y/height);
 
                 uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
             }
@@ -163,13 +163,10 @@ ColorMatrix.propTypes = {
 }
 
 ColorMatrix.defaultProps = {
-    colors: ColorUtil.convert(
-        [
-            [0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000],
-            [0x000000]
-        ],
-        ColorUtil.int.toRgb
-    ),
+    colors: [
+        ColorUtil.rgb.hueColors(),
+        {r: 0, g: 0, b: 0, a: 0}
+    ],
     width: 100,
     height: 100,
     onChange: _.noop,
