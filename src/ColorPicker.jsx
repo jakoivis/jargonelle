@@ -33,17 +33,27 @@ export default class ColorPicker extends React.Component {
     }
 
     onHueChange(hue) {
-        // TODO: update the selection color
-        // needs set hue function
+        // TODO: Create ColorUtil.rgb.setHue(rgb, hue)
+        // hue as rgb or number 0-1
+
+        let hsv = ColorUtil.rgb.toHsv(this.state.rgb);
+        let hueHsv = ColorUtil.rgb.toHsv(hue);
+
+        hsv.h = hueHsv.h;
+
+        let rgb = ColorUtil.hsv.toRgb(hsv);
+
+        //
+
+        this.props.onChange(rgb);
 
         this.setState({
-            hue: hue
+            hue: hue,
+            rgb: rgb
         });
     }
 
     onGrayScaleChange(rgb, x, y) {
-        console.log(x, y);
-
         this.props.onChange(rgb);
 
         this.setState({
