@@ -11,15 +11,8 @@ import HSVGrayscaleMatrix from './HSVGrayscaleMatrix.jsx';
 import './styles/color-picker.styl';
 import './styles/input.styl';
 
-const hueColors = ColorUtil.rgb.hueColors();
-
-const verticalHue = {
-    gradient: [ColorUtil.rgb.hueColors()],
-    width: 10,
-    height: 400,
-    lockYAxis: false,
-    lockXAxis: true
-};
+const HUE_GRADIENT = ColorUtil.rgb.hueColors();
+const HUE_MATRIX = [ColorUtil.rgb.hueColors()];
 
 export default class ColorPicker extends React.Component {
 
@@ -30,26 +23,31 @@ export default class ColorPicker extends React.Component {
         this.onGrayScaleChange = this.onGrayScaleChange.bind(this);
         this.onRgbInputsChange = this.onRgbInputsChange.bind(this);
 
+        let rgb = ColorUtil.any.toRgb(this.props.color);
+        let hue = ColorUtil.rgb.hue(rgb);
+
         this.state = {
-            rgb: ColorUtil.any.toRgb(this.props.color)
+            rgb: rgb,
+            hue: hue
         }
     }
 
-    onHueChange(rgb) {
-        let hsv = ColorUtil.rgb.toHsv(rgb);
-        let hue = ColorUtil.rgb.gradientColor(hueColors, hsv.h);
+    onHueChange(hue) {
+        // TODO: update the selection color
+        // needs set hue function
 
         this.setState({
-            rgb: rgb
+            hue: hue
         });
     }
 
-    onGrayScaleChange(color) {
-        // let rgb = ColorUtil.rgb.to
-        this.props.onChange(color);
+    onGrayScaleChange(rgb, x, y) {
+        console.log(x, y);
+
+        this.props.onChange(rgb);
 
         this.setState({
-            color: color
+            rgb: rgb
         });
     }
 
@@ -61,19 +59,19 @@ export default class ColorPicker extends React.Component {
 
     render() {
         let hsv = ColorUtil.rgb.toHsv(this.state.rgb);
-        let hueRgb = ColorUtil.rgb.gradientColor(hueColors, hsv.h);
+        let hue = this.state.hue;
+        let rgb = this.state.rgb;
 
         return <div
             className={getClassName('color-picker', this.props)}>
 
             <ColorMatrix
                 className='hue'
-                height={verticalHue.height}
-                width={verticalHue.width}
-                colors={verticalHue.gradient}
+                height={400}
+                width={10}
+                colors={HUE_MATRIX}
                 rotation={0.25}
-                lockXAxis={verticalHue.lockXAxis}
-                lockYAxis={verticalHue.lockYAxis}
+                lockXAxis={true}
                 onChange={this.onHueChange}
                 y={hsv.h}>
 
@@ -84,18 +82,19 @@ export default class ColorPicker extends React.Component {
             <div className='right'>
 
                 <HSVGrayscaleMatrix
-                    className='grayScale'
+                    className='gray-scale'
                     width={200}
-                    hue={hueRgb}
+                    hue={hue}
                     x={hsv.s}
                     y={1-hsv.v}
-                    onChange={this.onGrayScaleChange} />
+                    onChange={this.onGrayScaleChange}>
 
+                    <GrayScaleSelection color={rgb} />
 
-                <GrayScaleSelection color={this.state.rgb} />
+                </HSVGrayscaleMatrix>
 
                 <RgbInputs
-                    color={this.state.rgb}
+                    color={rgb}
                     onChange={this.onRgbInputsChange} />
 
             </div>
