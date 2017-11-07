@@ -2,7 +2,6 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import ColorUtil from 'color-util';
 import ColorPicker from './ColorPicker.jsx';
-import ColorMatrix from './ColorMatrix.jsx';
 
 import './styles/samples.styl';
 import './styles/common.styl';

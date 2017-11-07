@@ -3,20 +3,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ColorUtil from 'color-util';
 import ColorMatrix from './ColorMatrix.jsx';
-import getClassName from './util/getClassName.js';
+import getClassName from '../util/getClassName.js';
 
-import './styles/hsv-grayscale-matrix.styl';
+import '../styles/hsv-grayscale-matrix.styl';
 
-export default class HSVGrayscaleMatrix extends React.Component {
+export default class HSVGrayscalePalette extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            rgb: ColorUtil.any.toRgb(this.props.color)
+        };
 
         this.onChange = this.onChange.bind(this);
     }
 
     onChange(rgb, matrixX, matrixY) {
-        let rgbWithHue = ColorUtil.rgb.matrixColor(this.getHsvGrayscaleMatrix(), matrixX, matrixY);
+
+        let gradient = ColorUtil.rgb.createGradient({
+            colors: this.getHsvGrayscaleMatrix(),
+            width: this.props.width,
+            height: this.props.height
+        });
+
+        let rgbWithHue = gradient(matrixX, matrixY);
 
         this.props.onChange(rgbWithHue, matrixX, matrixY);
     }
@@ -25,10 +36,10 @@ export default class HSVGrayscaleMatrix extends React.Component {
         return [
             [
                 {r: 255, g: 255, b: 255, a: 255},
-                {r: 0, g: 0, b: 0, a: 0}
+                {a: 0}
             ],
             [
-                {r: 0, g: 0, b: 0, a: 255},
+                {a: 255},
             ]
         ];
     }
@@ -40,7 +51,7 @@ export default class HSVGrayscaleMatrix extends React.Component {
                 this.props.hue
             ],
             [
-                {r: 0, g: 0, b: 0, a: 255},
+                {a: 255},
             ]
         ];
     }
@@ -63,13 +74,14 @@ export default class HSVGrayscaleMatrix extends React.Component {
             <ColorMatrix
                 {...this.props}
                 onChange={this.onChange}
-                colors={this.getGrayscaleMatrix()} />
+                matrix={this.getGrayscaleMatrix()} />
 
         </div>;
     }
 }
 
-HSVGrayscaleMatrix.propTypes = {
+HSVGrayscalePalette.propTypes = {
+    color: PropTypes.any,
     hue: PropTypes.object,
     width: PropTypes.number,
     height: PropTypes.number,
@@ -80,13 +92,14 @@ HSVGrayscaleMatrix.propTypes = {
     y: PropTypes.number
 }
 
-HSVGrayscaleMatrix.defaultProps = {
-    hue: {r: 255, g: 0, b: 0, a: 255},
+HSVGrayscalePalette.defaultProps = {
+    color: 0xFF0000,
+    hue: {r: 255},
     width: 100,
     height: 100,
     onChange: _.noop,
     lockXAxis: false,
     lockYAxis: false,
-    x: 0.5,
-    y: 0.5
+    x: 0,
+    y: 0
 }

@@ -15,32 +15,31 @@ export default class RgbInputs extends React.Component {
         this.onHexChange =this.onHexChange.bind(this);
 
         this.state = {
-            rgb: this.props.rgb,
-            hex: ColorUtil.rgb.toHex(this.props.rgb)
+            rgb: ColorUtil.any.toRgbString(this.props.color),
+            hex: ColorUtil.any.toHex(this.props.color)
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.rgb !== this.props.rgb) {
+        if (nextProps.color !== this.props.color) {
+
             this.setState({
-                rgb: nextProps.rgb,
-                hex: ColorUtil.rgb.toHex(nextProps.rgb)
+                rgb: ColorUtil.rgb.toRgbString(nextProps.color),
+                hex: ColorUtil.rgb.toHex(nextProps.color)
             });
         }
     }
 
     onHexChange(event) {
-        let name = event.target.name;
         let value = event.target.value;
-        let rgb = ColorUtil.hex.toRgb(value);
 
-        if (rgb) {
+        if (ColorUtil.hex.test(value)) {
             this.setState({
-                rgb: rgb,
+                rgb: ColorUtil.hex.toRgbString(value),
                 hex: value
             });
 
-            this.props.onChange(rgb);
+            this.props.onChange(ColorUtil.hex.toRgb(value));
 
         } else {
             this.setState({
@@ -50,34 +49,49 @@ export default class RgbInputs extends React.Component {
     }
 
     onRgbChange(event) {
-        let name = event.target.name;
         let value = event.target.value;
-        let rgb = _.clone(this.state.rgb);
 
-        rgb[name] = value;
+        if (ColorUtil.rgbString.test(value)) {
+            this.setState({
+                rgb: value,
+                hex: ColorUtil.rgbString.toHex(value)
+            });
 
-        this.setState({
-            rgb: rgb,
-            hex: ColorUtil.rgb.toHex(rgb)
-        });
+            this.props.onChange(ColorUtil.rgbString.toRgb(value));
+
+        } else {
+            this.setState({
+                rgb: value
+            });
+        }
     }
 
     render() {
+        let hex = _.toUpper(this.state.hex);
+        let rgb = this.state.rgb;
+
+
         return <div>
-            <input name='hex' type='text' value={this.state.hex} onChange={this.onHexChange} />
-            <input name='r' type='text' value={this.state.rgb.r} onChange={this.onRgbChange} />
-            <input name='g' type='text' value={this.state.rgb.g} onChange={this.onRgbChange} />
-            <input name='b' type='text' value={this.state.rgb.b} onChange={this.onRgbChange} />
+            <input name='hex' type='text' value={hex} onChange={this.onHexChange} />
+            <input name='rgb' type='text' value={rgb} onChange={this.onRgbChange} />
         </div>;
     }
 }
 
 RgbInputs.propTypes = {
-    rgb: PropTypes.object,
-    onChange: PropTypes.func
+    color: PropTypes.any,
+    onChange: PropTypes.func,
+    hex: PropTypes.bool,
+    rgb: PropTypes.bool,
+    hsv: PropTypes.bool,
+    hsl: PropTypes.bool
 }
 
 RgbInputs.defaultProps = {
-    rgb: {r:0, g: 0, b: 0},
-    onChange: _.noop
+    color: 0,
+    onChange: _.noop,
+    hex: true,
+    rgb: true,
+    hsv: false,
+    hsl: false
 }

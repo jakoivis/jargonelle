@@ -3,10 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import ColorUtil from 'color-util';
-import ColorMatrix from './ColorMatrix.jsx';
 import RgbInputs from './RgbInputs.jsx';
 import getClassName from './util/getClassName.js';
-import HSVGrayscaleMatrix from './HSVGrayscaleMatrix.jsx';
+import ColorMatrix from './palette/ColorMatrix.jsx';
+import HSVGrayscalePalette from './palette/HSVGrayscalePalette.jsx';
+import HueSliderPalette from './palette/HueSliderPalette.jsx';
 
 import './styles/color-picker.styl';
 import './styles/input.styl';
@@ -61,9 +62,10 @@ export default class ColorPicker extends React.Component {
         });
     }
 
-    onRgbInputsChange(color) {
+    onRgbInputsChange(rgb) {
         this.setState({
-            color: color
+            rgb: rgb,
+            hue: ColorUtil.rgb.hue(rgb)
         });
     }
 
@@ -75,37 +77,37 @@ export default class ColorPicker extends React.Component {
         return <div
             className={getClassName('color-picker', this.props)}>
 
-            <ColorMatrix
-                className='hue'
+            <HueSliderPalette
                 height={400}
                 width={10}
-                colors={HUE_MATRIX}
-                rotation={0.25}
-                lockXAxis={true}
-                onChange={this.onHueChange}
-                y={hsv.h}>
+                color={rgb}
+                onChange={this.onHueChange}>
 
                 <HueSelection />
 
-            </ColorMatrix>
+            </HueSliderPalette>
 
             <div className='right'>
 
-                <HSVGrayscaleMatrix
+                <HSVGrayscalePalette
                     className='gray-scale'
                     width={200}
+                    height={200}
+                    color={rgb}
                     hue={hue}
-                    x={hsv.s}
-                    y={1-hsv.v}
+                    x={hsv.s*200}
+                    y={(1-hsv.v)*200}
                     onChange={this.onGrayScaleChange}>
 
                     <GrayScaleSelection color={rgb} />
 
-                </HSVGrayscaleMatrix>
+                </HSVGrayscalePalette>
 
                 <RgbInputs
                     color={rgb}
                     onChange={this.onRgbInputsChange} />
+
+
 
             </div>
 

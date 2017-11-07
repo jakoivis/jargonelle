@@ -2,9 +2,9 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ColorUtil from 'color-util';
-import getClassName from './util/getClassName.js';
+import getClassName from '../util/getClassName.js';
 
-import './styles/color-matrix.styl';
+import '../styles/color-matrix.styl';
 
 export default class ColorMatrix extends React.Component {
 
@@ -35,6 +35,20 @@ export default class ColorMatrix extends React.Component {
 
     componentDidUpdate() {
         this.updateCanvas();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.x !== this.props.x) {
+            this.setState({
+                matrixX: this.props.x
+            });
+        }
+
+        if (nextProps.y !== this.props.y) {
+            this.setState({
+                matrixY: this.props.y
+            });
+        }
     }
 
     onMouseDown(event) {
@@ -71,7 +85,7 @@ export default class ColorMatrix extends React.Component {
         let y = event.clientY - bounds.top;
         let w = this.props.width;
         let h = this.props.height;
-        let colors = this.props.colors;
+        let matrix = this.props.matrix;
         let rotation = this.props.rotation;
 
         if (this.props.lockYAxis) {
@@ -88,35 +102,33 @@ export default class ColorMatrix extends React.Component {
             x = x < 0 ? 0 : x > w ? w : x;
         }
 
-        let matrixX = x / w;
-        let matrixY = y / h;
-        let rgb = ColorUtil.rgb.matrixColor(colors, matrixX, matrixY, 0.5, 0.5, rotation);
+        let gradient = this.createGradient();
+        let rgb = gradient(x, y);
 
         this.setState({
-            matrixX: matrixX,
-            matrixY: matrixY
+            matrixX: x,
+            matrixY: y
         });
 
-        this.props.onChange(rgb, matrixX, matrixY);
+        this.props.onChange(rgb, x, y);
     }
 
     updateCanvas() {
         let w = this.props.width;
         let h = this.props.height;
-        let colors = this.props.colors;
-        let rotation = this.props.rotation;
         let ctx = this.canvas.getContext('2d');
         let imageData = ctx.createImageData(w, h);
         let buffer = imageData.data.buffer;
         let uint32View = new Uint32Array(buffer);
         let uint8CView = new Uint8ClampedArray(buffer);
+        let gradient = this.createGradient();
         let rgb;
 
         for(let x = 0; x < w; x++) {
 
             for(let y = 0; y < h; y++) {
 
-                rgb = ColorUtil.rgb.matrixColor(colors, x/w, y/h, 0.5, 0.5, rotation);
+                rgb = gradient(x, y);
 
                 uint32View[y * w + x] = ColorUtil.rgb.toUint32(rgb);
             }
@@ -127,7 +139,19 @@ export default class ColorMatrix extends React.Component {
         ctx.putImageData(imageData, 0, 0);
     }
 
+    createGradient() {
+        return ColorUtil.rgb.createGradient({
+            colors: this.props.matrix,
+            rotation: this.props.rotation,
+            width: this.props.width,
+            height: this.props.height,
+            centerX: 0.5,
+            centerY: 0.5
+        });
+    }
+
     render() {
+
         return <div
             className={getClassName('color-matrix', this.props, this.state)}
             onMouseDown={this.onMouseDown}>
@@ -141,9 +165,9 @@ export default class ColorMatrix extends React.Component {
             <div
                 className="selection-container"
                 style={{
-                    left: this.state.matrixX * this.props.width,
-                    top: this.state.matrixY * this.props.height
-                }} >
+                    left: this.state.matrixX,
+                    top: this.state.matrixY
+                }}>
 
                 {this.props.children}
 
@@ -154,7 +178,7 @@ export default class ColorMatrix extends React.Component {
 }
 
 ColorMatrix.propTypes = {
-    colors: PropTypes.array,
+    matrix: PropTypes.array,
     rotation: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
@@ -166,7 +190,7 @@ ColorMatrix.propTypes = {
 }
 
 ColorMatrix.defaultProps = {
-    colors: [
+    matrix: [
         ColorUtil.rgb.hueColors(),
         {r: 0, g: 0, b: 0, a: 0}
     ],
