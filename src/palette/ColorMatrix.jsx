@@ -12,8 +12,8 @@ export default class ColorMatrix extends React.Component {
         super(props);
 
         this.state = {
-            matrixX: this.props.x,
-            matrixY: this.props.y
+            x: this.props.x,
+            y: this.props.y
         };
 
         this.onMouseDown = this.onMouseDown.bind(this);
@@ -31,24 +31,6 @@ export default class ColorMatrix extends React.Component {
     componentWillUnmount() {
         document.removeEventListener('mousemove', this.onMouseMove)
         document.removeEventListener('mouseup', this.onMouseUp)
-    }
-
-    componentDidUpdate() {
-        this.updateCanvas();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.x !== this.props.x) {
-            this.setState({
-                matrixX: this.props.x
-            });
-        }
-
-        if (nextProps.y !== this.props.y) {
-            this.setState({
-                matrixY: this.props.y
-            });
-        }
     }
 
     onMouseDown(event) {
@@ -80,13 +62,20 @@ export default class ColorMatrix extends React.Component {
     }
 
     updateSelectionPosition(event) {
+        var pos = this.calculatePointerPosition(event);
+        let gradient = this.createGradient();
+        let rgb = gradient(pos.x, pos.y);
+
+        this.setState(pos);
+        this.props.onChange(rgb, pos.x, pos.y);
+    }
+
+    calculatePointerPosition(event) {
         let bounds = this.canvas.getBoundingClientRect();
         let x = event.clientX - bounds.left;
         let y = event.clientY - bounds.top;
         let w = this.props.width;
         let h = this.props.height;
-        let matrix = this.props.matrix;
-        let rotation = this.props.rotation;
 
         if (this.props.lockYAxis) {
             y = h / 2;
@@ -102,15 +91,10 @@ export default class ColorMatrix extends React.Component {
             x = x < 0 ? 0 : x > w ? w : x;
         }
 
-        let gradient = this.createGradient();
-        let rgb = gradient(x, y);
-
-        this.setState({
-            matrixX: x,
-            matrixY: y
-        });
-
-        this.props.onChange(rgb, x, y);
+        return {
+            x: x,
+            y: y
+        };
     }
 
     updateCanvas() {
@@ -141,7 +125,7 @@ export default class ColorMatrix extends React.Component {
 
     createGradient() {
         return ColorUtil.rgb.createGradient({
-            colors: this.props.matrix,
+            colors: this.props.colors,
             rotation: this.props.rotation,
             width: this.props.width,
             height: this.props.height,
@@ -165,8 +149,8 @@ export default class ColorMatrix extends React.Component {
             <div
                 className="selection-container"
                 style={{
-                    left: this.state.matrixX,
-                    top: this.state.matrixY
+                    left: this.state.x,
+                    top: this.state.y
                 }}>
 
                 {this.props.children}
@@ -178,7 +162,7 @@ export default class ColorMatrix extends React.Component {
 }
 
 ColorMatrix.propTypes = {
-    matrix: PropTypes.array,
+    colors: PropTypes.array,
     rotation: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
@@ -190,7 +174,7 @@ ColorMatrix.propTypes = {
 }
 
 ColorMatrix.defaultProps = {
-    matrix: [
+    colors: [
         ColorUtil.rgb.hueColors(),
         {r: 0, g: 0, b: 0, a: 0}
     ],
@@ -200,6 +184,6 @@ ColorMatrix.defaultProps = {
     onChange: _.noop,
     lockXAxis: false,
     lockYAxis: false,
-    x: 0.5,
-    y: 0.5
+    x: 0,
+    y: 0
 }

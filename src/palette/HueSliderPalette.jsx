@@ -36,7 +36,7 @@ export default class HueSliderPalette extends React.Component {
             className='hue-slider-palette'
             width={this.props.width}
             height={this.props.height}
-            matrix={HUE_MATRIX}
+            colors={HUE_MATRIX}
             rotation={-0.25}
             lockXAxis={true}
             onChange={this.props.onChange}
