@@ -18,15 +18,31 @@ export default class HueGrayscaleMatrix extends React.Component {
             ColorUtil.any.toRgb,
             ColorUtil.rgb.hue);
 
-        this.hueGradient = ColorUtil.rgb.createGradient({
-            colors: this.getHueGrayscaleMatrix(rgbHue),
-            width: this.props.width,
-            height: this.props.height
+        this.state = {
+            hueGrayscaleGradient: ColorUtil.rgb.createGradient({
+                colors: this.getHueGrayscaleMatrix(rgbHue),
+                width: this.props.width,
+                height: this.props.height
+            })
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        let rgbHue = ColorUtil.convert(nextProps.hue,
+            ColorUtil.any.toRgb,
+            ColorUtil.rgb.hue);
+
+        this.setState({
+            hueGrayscaleGradient: ColorUtil.rgb.createGradient({
+                colors: this.getHueGrayscaleMatrix(rgbHue),
+                width: nextProps.width,
+                height: nextProps.height
+            })
         });
     }
 
     onChange(rgb, x, y) {
-        let rgbWithHue = this.hueGradient(x, y);
+        let rgbWithHue = this.state.hueGrayscaleGradient(x, y);
 
         this.props.onChange(rgbWithHue, x, y);
     }

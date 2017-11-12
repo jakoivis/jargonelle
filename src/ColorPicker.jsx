@@ -35,33 +35,32 @@ export default class ColorPicker extends React.Component {
         }
     }
 
-    onHueChange(hue) {
-        // TODO: Create ColorUtil.rgb.setHue(rgb, hue)
-        // hue as rgb or number 0-1
-
+    onHueChange(rgbHue) {
         let hsv = ColorUtil.rgb.toHsv(this.state.rgb);
-        let hueHsv = ColorUtil.rgb.toHsv(hue);
+        let hueHsv = ColorUtil.rgb.toHsv(rgbHue);
 
         hsv.h = hueHsv.h;
 
         let rgb = ColorUtil.hsv.toRgb(hsv);
 
-        //
+        this.setState({
+            rgb: rgb,
+            rgbHue: rgbHue,
+            hsv: hsv
+        });
 
         this.props.onChange(rgb);
-
-        this.setState({
-            hue: hue,
-            rgb: rgb
-        });
     }
 
     onHueGrayScaleChange(rgb) {
-        this.props.onChange(rgb);
+        let hsv = ColorUtil.rgb.toHsv(rgb);
 
         this.setState({
-            rgb: rgb
+            rgb: rgb,
+            hsv: hsv
         });
+
+        this.props.onChange(rgb);
     }
 
     onRgbInputsChange(rgb) {
@@ -76,7 +75,15 @@ export default class ColorPicker extends React.Component {
         return <div
             className={getClassName('color-picker', this.props)}>
 
+            <HueSliderPalette
+                height={400}
+                width={10}
+                color={this.state.rgb}
+                onChange={this.onHueChange}>
 
+                <HueSelection />
+
+            </HueSliderPalette>
 
             <div className='right'>
 
@@ -108,15 +115,7 @@ export default class ColorPicker extends React.Component {
                     // onChange={this.onRgbInputsChange} />
 
 
-// <HueSliderPalette
-//                 height={400}
-//                 width={10}
-//                 color={rgb}
-//                 onChange={this.onHueChange}>
 
-//                 <HueSelection />
-
-//             </HueSliderPalette>
 
 function GrayScaleSelection(props) {
 

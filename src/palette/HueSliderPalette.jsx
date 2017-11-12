@@ -30,8 +30,6 @@ export default class HueSliderPalette extends React.Component {
     }
 
     render() {
-        console.log(this.state.hueValue);
-
         return <ColorMatrix
             className='hue-slider-palette'
             width={this.props.width}

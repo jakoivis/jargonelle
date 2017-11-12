@@ -114,7 +114,7 @@ export default class ColorMatrix extends React.Component {
 
                 rgb = gradient(x, y);
 
-                uint32View[y * w + x] = ColorUtil.rgb.toUint32(rgb);
+                uint32View[y * w + x] = ColorUtil.rgb.toInt32ABGR(rgb);
             }
         }
 
