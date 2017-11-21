@@ -24,50 +24,36 @@ export default class ColorPicker extends React.Component {
         this.onHueGrayScaleChange = this.onHueGrayScaleChange.bind(this);
         this.onRgbInputsChange = this.onRgbInputsChange.bind(this);
 
-        let rgb = colorutil.any.to.rgb(this.props.color);
-        let rgbHue = colorutil.rgb.hue(rgb);
-        let hsv = colorutil.rgb.to.hsv(rgb);
-
         this.state = {
-            rgb: rgb,
-            rgbHue: rgbHue,
-            hsv: hsv
+            color: colorutil.color(this.props.color)
         }
     }
 
     onHueChange(rgbHue) {
-        let hsv = colorutil.rgb.to.hsv(this.state.rgb);
-        let hueHsv = colorutil.rgb.to.hsv(rgbHue);
-
-        hsv.h = hueHsv.h;
-
-        let rgb = colorutil.hsv.to.rgb(hsv);
+        let color = this.state.color.hueFromColor(rgbHue);
 
         this.setState({
-            rgb: rgb,
-            rgbHue: rgbHue,
-            hsv: hsv
+            color: color
         });
 
-        this.props.onChange(rgb);
+        this.props.onChange(color.rgb);
     }
 
     onHueGrayScaleChange(rgb) {
-        let hsv = colorutil.rgb.to.hsv(rgb);
+        let color = colorutil.color(rgb);
 
         this.setState({
-            rgb: rgb,
-            hsv: hsv
+            color: color
         });
 
-        this.props.onChange(rgb);
+        this.props.onChange(color.rgb);
     }
 
     onRgbInputsChange(rgb) {
-        this.setState({
-            rgb: rgb,
-            hue: colorutil.rgb.hue(rgb)
-        });
+        // this.setState({
+        //     rgb: rgb,
+        //     hue: colorutil.rgb.hue(rgb)
+        // });
     }
 
     render() {
@@ -78,7 +64,7 @@ export default class ColorPicker extends React.Component {
             <HueSliderPalette
                 height={400}
                 width={10}
-                color={this.state.rgb}
+                color={this.state.color.rgb}
                 onChange={this.onHueChange}>
 
                 <HueSelection />
@@ -91,12 +77,12 @@ export default class ColorPicker extends React.Component {
                     className='gray-scale'
                     width={200}
                     height={200}
-                    hue={this.state.rgbHue}
-                    x={this.state.hsv.s * 200}
-                    y={(1 - this.state.hsv.v) * 200}
+                    hue={this.state.color.hue.rgb}
+                    x={this.state.color.hsv.s * 200}
+                    y={(1 - this.state.color.hsv.v) * 200}
                     onChange={this.onHueGrayScaleChange}>
 
-                    <GrayScaleSelection color={this.state.rgb} />
+                    <GrayScaleSelection color={this.state.color.rgb} />
 
                 </HueGrayscaleMatrix>
 
