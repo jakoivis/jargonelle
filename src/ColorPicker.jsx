@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import ColorUtil from 'color-util';
+import colorutil from 'color-util';
 import RgbInputs from './RgbInputs.jsx';
 import getClassName from './util/getClassName.js';
 import ColorMatrix from './palette/ColorMatrix.jsx';
@@ -12,8 +12,8 @@ import HueSliderPalette from './palette/HueSliderPalette.jsx';
 import './styles/color-picker.styl';
 import './styles/input.styl';
 
-const HUE_GRADIENT = ColorUtil.rgb.hueColors();
-const HUE_MATRIX = [ColorUtil.rgb.hueColors()];
+const HUE_GRADIENT = colorutil.rgb.hueColors();
+const HUE_MATRIX = [colorutil.rgb.hueColors()];
 
 export default class ColorPicker extends React.Component {
 
@@ -24,9 +24,9 @@ export default class ColorPicker extends React.Component {
         this.onHueGrayScaleChange = this.onHueGrayScaleChange.bind(this);
         this.onRgbInputsChange = this.onRgbInputsChange.bind(this);
 
-        let rgb = ColorUtil.any.toRgb(this.props.color);
-        let rgbHue = ColorUtil.rgb.hue(rgb);
-        let hsv = ColorUtil.rgb.toHsv(rgb);
+        let rgb = colorutil.any.to.rgb(this.props.color);
+        let rgbHue = colorutil.rgb.hue(rgb);
+        let hsv = colorutil.rgb.to.hsv(rgb);
 
         this.state = {
             rgb: rgb,
@@ -36,12 +36,12 @@ export default class ColorPicker extends React.Component {
     }
 
     onHueChange(rgbHue) {
-        let hsv = ColorUtil.rgb.toHsv(this.state.rgb);
-        let hueHsv = ColorUtil.rgb.toHsv(rgbHue);
+        let hsv = colorutil.rgb.to.hsv(this.state.rgb);
+        let hueHsv = colorutil.rgb.to.hsv(rgbHue);
 
         hsv.h = hueHsv.h;
 
-        let rgb = ColorUtil.hsv.toRgb(hsv);
+        let rgb = colorutil.hsv.to.rgb(hsv);
 
         this.setState({
             rgb: rgb,
@@ -53,7 +53,7 @@ export default class ColorPicker extends React.Component {
     }
 
     onHueGrayScaleChange(rgb) {
-        let hsv = ColorUtil.rgb.toHsv(rgb);
+        let hsv = colorutil.rgb.to.hsv(rgb);
 
         this.setState({
             rgb: rgb,
@@ -66,7 +66,7 @@ export default class ColorPicker extends React.Component {
     onRgbInputsChange(rgb) {
         this.setState({
             rgb: rgb,
-            hue: ColorUtil.rgb.hue(rgb)
+            hue: colorutil.rgb.hue(rgb)
         });
     }
 
@@ -119,7 +119,7 @@ export default class ColorPicker extends React.Component {
 
 function GrayScaleSelection(props) {
 
-    let color = ColorUtil.any.toHex(props.color);
+    let color = colorutil.any.to.hex(props.color);
 
     return <div
         className='selection'

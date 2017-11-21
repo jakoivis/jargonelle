@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import ColorUtil from 'color-util';
+import colorutil from 'color-util';
 import getClassName from '../util/getClassName.js';
 
 import '../styles/color-matrix.styl';
@@ -114,7 +114,7 @@ export default class ColorMatrix extends React.Component {
 
                 rgb = gradient(x, y);
 
-                uint32View[y * w + x] = ColorUtil.rgb.toInt32ABGR(rgb);
+                uint32View[y * w + x] = colorutil.rgb.to.intabgr(rgb);
             }
         }
 
@@ -124,13 +124,11 @@ export default class ColorMatrix extends React.Component {
     }
 
     createGradient() {
-        return ColorUtil.rgb.createGradient({
+        return colorutil.rgb.gradient({
             colors: this.props.colors,
             rotation: this.props.rotation,
             width: this.props.width,
-            height: this.props.height,
-            centerX: 0.5,
-            centerY: 0.5
+            height: this.props.height
         });
     }
 
@@ -175,7 +173,7 @@ ColorMatrix.propTypes = {
 
 ColorMatrix.defaultProps = {
     colors: [
-        ColorUtil.rgb.hueColors(),
+        colorutil.rgb.hueColors(),
         {r: 0, g: 0, b: 0, a: 0}
     ],
     rotation: 0,

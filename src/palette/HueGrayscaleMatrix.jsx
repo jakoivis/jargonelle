@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import ColorUtil from 'color-util';
+import colorutil from 'color-util';
 import ColorMatrix from './ColorMatrix.jsx';
 import getClassName from '../util/getClassName.js';
 
@@ -14,12 +14,12 @@ export default class HueGrayscaleMatrix extends React.Component {
 
         this.onChange = this.onChange.bind(this);
 
-        let rgbHue = ColorUtil.convert(this.props.hue,
-            ColorUtil.any.toRgb,
-            ColorUtil.rgb.hue);
+        let rgbHue = colorutil.convert(this.props.hue,
+            colorutil.any.to.rgb,
+            colorutil.rgb.hue);
 
         this.state = {
-            hueGrayscaleGradient: ColorUtil.rgb.createGradient({
+            hueGrayscaleGradient: colorutil.rgb.gradient({
                 colors: this.getHueGrayscaleMatrix(rgbHue),
                 width: this.props.width,
                 height: this.props.height
@@ -28,12 +28,12 @@ export default class HueGrayscaleMatrix extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let rgbHue = ColorUtil.convert(nextProps.hue,
-            ColorUtil.any.toRgb,
-            ColorUtil.rgb.hue);
+        let rgbHue = colorutil.convert(nextProps.hue,
+            colorutil.any.to.rgb,
+            colorutil.rgb.hue);
 
         this.setState({
-            hueGrayscaleGradient: ColorUtil.rgb.createGradient({
+            hueGrayscaleGradient: colorutil.rgb.gradient({
                 colors: this.getHueGrayscaleMatrix(rgbHue),
                 width: nextProps.width,
                 height: nextProps.height
@@ -72,10 +72,10 @@ export default class HueGrayscaleMatrix extends React.Component {
     }
 
     render() {
-        let hexHue = ColorUtil.convert(this.props.hue,
-            ColorUtil.any.toRgb,
-            ColorUtil.rgb.hue,
-            ColorUtil.rgb.toHex);
+        let hexHue = colorutil.convert(this.props.hue,
+            colorutil.any.to.rgb,
+            colorutil.rgb.hue,
+            colorutil.rgb.to.hex);
 
         return <div
             className={getClassName('hsv-grayscale-matrix', this.props)}

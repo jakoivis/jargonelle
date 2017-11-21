@@ -2,14 +2,14 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import ColorUtil from 'color-util';
+import colorutil from 'color-util';
 import ColorMatrix from './ColorMatrix.jsx';
 import getClassName from '../util/getClassName.js';
 
 // import '../styles/hsv-grayscale-matrix.styl';
 
-const HUE_GRADIENT = ColorUtil.rgb.hueColors();
-const HUE_MATRIX = [ColorUtil.rgb.hueColors()];
+const HUE_GRADIENT = colorutil.rgb.hueColors();
+const HUE_MATRIX = [colorutil.rgb.hueColors()];
 
 export default class HueSliderPalette extends React.Component {
 
@@ -17,14 +17,14 @@ export default class HueSliderPalette extends React.Component {
         super(props);
 
         this.state = {
-            hueValue: ColorUtil.any.toHsv(this.props.color).h
+            hueValue: colorutil.any.to.hsv(this.props.color).h
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.color !== this.props.color) {
             this.setState({
-                hueValue: ColorUtil.any.toHsv(this.props.color).h
+                hueValue: colorutil.any.to.hsv(this.props.color).h
             });
         }
     }

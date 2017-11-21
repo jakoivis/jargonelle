@@ -15,7 +15,7 @@ class Components extends React.Component {
     }
 
     onColorChange(color) {
-        document.body.style.backgroundColor = ColorUtil.rgb.toHex(color);
+        document.body.style.backgroundColor = ColorUtil.rgb.to.hex(color);
     }
 
     render() {
