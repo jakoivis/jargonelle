@@ -9,6 +9,7 @@ import ColorUtil from 'color-util';
 export default class RgbInputs extends React.Component {
 
     constructor(props) {
+
         super(props);
 
         this.onRgbChange =this.onRgbChange.bind(this);
@@ -21,6 +22,7 @@ export default class RgbInputs extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+
         if (nextProps.color !== this.props.color) {
 
             this.setState({
@@ -31,9 +33,11 @@ export default class RgbInputs extends React.Component {
     }
 
     onHexChange(event) {
+
         let value = event.target.value;
 
         if (ColorUtil.hex.test(value)) {
+
             this.setState({
                 rgb: ColorUtil.hex.toRgbString(value),
                 hex: value
@@ -42,6 +46,7 @@ export default class RgbInputs extends React.Component {
             this.props.onChange(ColorUtil.hex.toRgb(value));
 
         } else {
+
             this.setState({
                 hex: value
             });
@@ -49,9 +54,11 @@ export default class RgbInputs extends React.Component {
     }
 
     onRgbChange(event) {
+
         let value = event.target.value;
 
         if (ColorUtil.rgbString.test(value)) {
+
             this.setState({
                 rgb: value,
                 hex: ColorUtil.rgbString.toHex(value)
@@ -60,6 +67,7 @@ export default class RgbInputs extends React.Component {
             this.props.onChange(ColorUtil.rgbString.toRgb(value));
 
         } else {
+
             this.setState({
                 rgb: value
             });
@@ -67,9 +75,9 @@ export default class RgbInputs extends React.Component {
     }
 
     render() {
+
         let hex = _.toUpper(this.state.hex);
         let rgb = this.state.rgb;
-
 
         return <div>
             <input name='hex' type='text' value={hex} onChange={this.onHexChange} />

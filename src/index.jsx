@@ -9,16 +9,19 @@ import './styles/common.styl';
 class Components extends React.Component {
 
     constructor(props) {
+
         super(props);
 
         this.onColorChange.bind(this);
     }
 
     onColorChange(color) {
-        document.body.style.backgroundColor = ColorUtil.rgb.to.hex(color);
+
+        document.body.style.backgroundColor = color.hex;
     }
 
     render() {
+
         return <div>
             <ColorPicker
                 onChange={this.onColorChange}
@@ -29,6 +32,7 @@ class Components extends React.Component {
 }
 
 let div = document.createElement('div');
+
 document.body.appendChild(div)
 
 ReactDOM.render(<Components/>, div);

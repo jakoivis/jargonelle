@@ -1,3 +1,4 @@
+
 import ReactDOM from 'react-dom';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -18,6 +19,7 @@ const HUE_MATRIX = [colorutil.rgb.hueColors()];
 export default class ColorPicker extends React.Component {
 
     constructor(props) {
+
         super(props);
 
         this.onHueChange = this.onHueChange.bind(this);
@@ -29,27 +31,28 @@ export default class ColorPicker extends React.Component {
         }
     }
 
-    onHueChange(rgbHue) {
-        let color = this.state.color.hueFromColor(rgbHue);
+    onHueChange(color) {
+
+        let newColor = this.state.color.hueFromColor(color);
 
         this.setState({
-            color: color
+            color: newColor
         });
 
-        this.props.onChange(color.rgb);
+        this.props.onChange(newColor);
     }
 
-    onHueGrayScaleChange(rgb) {
-        let color = colorutil.color(rgb);
+    onHueGrayScaleChange(color) {
 
         this.setState({
             color: color
         });
 
-        this.props.onChange(color.rgb);
+        this.props.onChange(color);
     }
 
     onRgbInputsChange(rgb) {
+
         // this.setState({
         //     rgb: rgb,
         //     hue: colorutil.rgb.hue(rgb)
@@ -64,7 +67,7 @@ export default class ColorPicker extends React.Component {
             <HueSliderPalette
                 height={400}
                 width={10}
-                color={this.state.color.rgb}
+                color={this.state.color}
                 onChange={this.onHueChange}>
 
                 <HueSelection />
@@ -77,7 +80,7 @@ export default class ColorPicker extends React.Component {
                     className='gray-scale'
                     width={200}
                     height={200}
-                    hue={this.state.color.hue.rgb}
+                    color={this.state.color}
                     x={this.state.color.hsv.s * 200}
                     y={(1 - this.state.color.hsv.v) * 200}
                     onChange={this.onHueGrayScaleChange}>
@@ -113,8 +116,11 @@ function GrayScaleSelection(props) {
 }
 
 function HueSelection() {
+
     return <svg className="selection">
+
         <polygon points="0,0 0,16 10,8"/>
+
     </svg>
 }
 

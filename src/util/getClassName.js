@@ -2,14 +2,17 @@
 import _ from 'lodash';
 
 export default function getClassName(className, props, state) {
+
     let result = '';
     let propsClassName = _.get(props, 'className');
 
     if (className) {
+
         result = className;
     }
 
     if (propsClassName) {
+
         result += ' ' + propsClassName;
     }
 
@@ -20,9 +23,11 @@ export default function getClassName(className, props, state) {
 }
 
 function getCss(obj) {
+
     let css = _.get(obj, 'css');
 
     if(css) {
+
         return _.join(_.keys(_.pickBy(css)), ' ');
     }
 

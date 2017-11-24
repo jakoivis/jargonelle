@@ -8,37 +8,25 @@ import getClassName from '../util/getClassName.js';
 
 // import '../styles/hsv-grayscale-matrix.styl';
 
-const HUE_GRADIENT = colorutil.rgb.hueColors();
-const HUE_MATRIX = [colorutil.rgb.hueColors()];
+const HUE_MATRIX = [
+    {h:0, s: 1, l: 0.5},
+    {h:1, s: 1, l: 0.5}
+];
 
 export default class HueSliderPalette extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            hueValue: colorutil.any.to.hsv(this.props.color).h
-        };
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.color !== this.props.color) {
-            this.setState({
-                hueValue: colorutil.any.to.hsv(this.props.color).h
-            });
-        }
-    }
-
     render() {
+
         return <ColorMatrix
             className='hue-slider-palette'
             width={this.props.width}
             height={this.props.height}
             colors={HUE_MATRIX}
+            colorType='hsl'
             rotation={-0.25}
             lockXAxis={true}
             onChange={this.props.onChange}
-            y={this.state.hueValue*this.props.height}>
+            y={this.props.color.hsv.h*this.props.height}>
 
             {this.props.children}
 
