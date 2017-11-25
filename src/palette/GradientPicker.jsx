@@ -22,6 +22,26 @@ export default class GradientPicker extends React.Component {
         this.onMouseDown = this.onMouseDown.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+
+        let xChanged = nextProps.x !== this.props.x;
+        let yChanged = nextProps.y !== this.props.y;
+
+        if (xChanged) {
+
+            this.setState({
+                x: nextProps.x,
+            });
+        }
+
+        if (yChanged) {
+
+            this.setState({
+                y: nextProps.y
+            })
+        }
+    }
+
     onChange(color, x, y) {
 
         this.setState({

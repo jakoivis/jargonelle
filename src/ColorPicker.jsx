@@ -58,7 +58,8 @@ export default class ColorPicker extends React.Component {
     onInputsChange(color) {
 
         this.setState({
-            color: color
+            color: color,
+            hue: color.hue()
         });
 
         this.props.onChange(color);
@@ -89,7 +90,7 @@ export default class ColorPicker extends React.Component {
                     color={this.state.color}
                     onChange={this.onHueGrayScaleChange}>
 
-                    <GrayScaleSelection color={this.state.color.rgb} />
+                    <GrayScaleSelection color={this.state.color} />
 
                 </HueGrayscaleMatrix>
 
@@ -106,11 +107,9 @@ export default class ColorPicker extends React.Component {
 
 function GrayScaleSelection(props) {
 
-    let color = colorutil.any.to.hex(props.color);
-
     return <div
         className='selection'
-        style={{backgroundColor: color}} />
+        style={{backgroundColor: props.color.hex}} />
 }
 
 function HueSelection() {

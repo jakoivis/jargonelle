@@ -75,14 +75,14 @@ export default class Gradient extends React.Component {
         let h = this.props.height;
 
         if (this.props.lockYAxis) {
-            y = h / 2;
+            y = 0;
 
         } else {
             y = y < 0 ? 0 : y > h ? h : y;
         }
 
         if (this.props.lockXAxis) {
-            x = w / 2;
+            x = 0;
 
         } else {
             x = x < 0 ? 0 : x > w ? w : x;

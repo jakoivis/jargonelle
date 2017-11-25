@@ -26,7 +26,7 @@ export default class HueSliderPalette extends React.Component {
             rotation={-0.25}
             lockXAxis={true}
             onChange={this.props.onChange}
-            y={this.props.color.hsv.h*this.props.height}>
+            y={this.props.color.hsv.h * this.props.height}>
 
             {this.props.children}
 
