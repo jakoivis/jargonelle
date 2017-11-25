@@ -25,17 +25,22 @@ export default class ColorPicker extends React.Component {
         this.onHueGrayScaleChange = this.onHueGrayScaleChange.bind(this);
         this.onInputsChange = this.onInputsChange.bind(this);
 
+        let color = colorutil.color(this.props.color);
+        let hue = color.hue();
+
         this.state = {
-            color: colorutil.color(this.props.color)
+            color: color,
+            hue: hue
         }
     }
 
-    onHueChange(color) {
+    onHueChange(hue) {
 
-        let newColor = this.state.color.hueFromColor(color);
+        let newColor = this.state.color.hueFromColor(hue);
 
         this.setState({
-            color: newColor
+            color: newColor,
+            hue: hue
         });
 
         this.props.onChange(newColor);
@@ -67,7 +72,7 @@ export default class ColorPicker extends React.Component {
             <HueSliderPalette
                 height={400}
                 width={10}
-                color={this.state.color}
+                color={this.state.hue}
                 onChange={this.onHueChange}>
 
                 <HueSelection />
@@ -80,6 +85,7 @@ export default class ColorPicker extends React.Component {
                     className='gray-scale'
                     width={200}
                     height={200}
+                    hue={this.state.hue}
                     color={this.state.color}
                     onChange={this.onHueGrayScaleChange}>
 

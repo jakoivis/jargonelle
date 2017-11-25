@@ -13,11 +13,6 @@ export default class Gradient extends React.Component {
 
         super(props);
 
-        this.state = {
-            x: this.props.x,
-            y: this.props.y
-        };
-
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
@@ -41,24 +36,16 @@ export default class Gradient extends React.Component {
 
         this.mouseDown = true;
 
-        this.setState({
-            css: {
-                dragging: true
-            }
-        });
-
         this.updateSelectionPosition(event);
+
+        this.props.onMouseDown(event);
     }
 
     onMouseUp(event) {
 
         this.mouseDown = false;
 
-        this.setState({
-            css: {
-                dragging: false
-            }
-        });
+        this.props.onMouseUp(event);
     }
 
     onMouseMove(event) {
@@ -71,13 +58,12 @@ export default class Gradient extends React.Component {
 
     updateSelectionPosition(event) {
 
-        var pos = this.calculatePointerPosition(event);
+        let {x, y} = this.calculatePointerPosition(event);
         let gradient = this.createGradient();
-        let colorValue = gradient(pos.x, pos.y);
+        let colorValue = gradient(x, y);
         let color = colorutil.color(colorValue);
 
-        this.setState(pos);
-        this.props.onChange(color, pos.x, pos.y);
+        this.props.onChange(color, x, y);
     }
 
     calculatePointerPosition(event) {
@@ -109,6 +95,8 @@ export default class Gradient extends React.Component {
     }
 
     updateCanvas() {
+
+        console.log('update canvas');
 
         let w = this.props.width;
         let h = this.props.height;
@@ -191,28 +179,12 @@ export default class Gradient extends React.Component {
 
     render() {
 
-        return <div
-            className={getClassName('color-matrix', this.props, this.state)}
-            onMouseDown={this.onMouseDown}>
-
-            <canvas
-                className="color"
-                ref={canvas => {this.canvas = canvas}}
-                width={this.props.width}
-                height={this.props.height} />
-
-            <div
-                className="selection-container"
-                style={{
-                    left: this.state.x,
-                    top: this.state.y
-                }}>
-
-                {this.props.children}
-
-            </div>
-
-        </div>;
+        return <canvas
+            onMouseDown={this.onMouseDown}
+            className="color"
+            ref={canvas => {this.canvas = canvas}}
+            width={this.props.width}
+            height={this.props.height} />
     }
 }
 
@@ -220,9 +192,9 @@ Gradient.propTypes = {
     colorType: PropTypes.oneOf(['rgb', 'hsv', 'hsl']),
     lockYAxis: PropTypes.bool,
     lockXAxis: PropTypes.bool,
-    x: PropTypes.number,
-    y: PropTypes.number,
     onChange: PropTypes.func,
+    onMouseDown: PropTypes.func,
+    onMouseUp: PropTypes.func,
 
     colors: PropTypes.array,
     type: PropTypes.string,
@@ -246,14 +218,14 @@ Gradient.defaultProps = {
     colorType: 'rgb',
     lockXAxis: false,
     lockYAxis: false,
-    x: 0,
-    y: 0,
     onChange: _.noop,
+    onMouseDown: _.noop,
+    onMouseUp: _.noop,
 
     // null used to let colorutil determine default
     colors: [
         colorutil.rgb.hueColors(),
-        {r: 0, g: 0, b: 0, a: 0}
+        [{r: 0, g: 0, b: 0, a: 0}]
     ],
     type: 'linear',
     defaultColor: null,

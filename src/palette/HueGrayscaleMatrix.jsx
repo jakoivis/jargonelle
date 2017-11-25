@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
-import Gradient from './Gradient.jsx';
+import GradientPicker from './GradientPicker.jsx';
 import getClassName from '../util/getClassName.js';
 
 import '../styles/hsv-grayscale-matrix.styl';
@@ -18,7 +18,7 @@ export default class HueGrayscaleMatrix extends React.Component {
 
         this.state = {
             hueGrayscaleGradient: colorutil.rgb.gradient({
-                colors: this.getHueGrayscaleMatrix(this.props.color.hue().rgb),
+                colors: this.getHueGrayscaleColors(this.props.hue.rgb),
                 width: this.props.width,
                 height: this.props.height
             })
@@ -29,7 +29,7 @@ export default class HueGrayscaleMatrix extends React.Component {
 
         this.setState({
             hueGrayscaleGradient: colorutil.rgb.gradient({
-                colors: this.getHueGrayscaleMatrix(nextProps.color.hue().rgb),
+                colors: this.getHueGrayscaleColors(nextProps.hue.rgb),
                 width: nextProps.width,
                 height: nextProps.height
             })
@@ -44,7 +44,7 @@ export default class HueGrayscaleMatrix extends React.Component {
         this.props.onChange(color, x, y);
     }
 
-    getTransparentGrayscaleMatrix() {
+    getTransparentGrayscaleColors() {
 
         return [
             [
@@ -57,7 +57,7 @@ export default class HueGrayscaleMatrix extends React.Component {
         ];
     }
 
-    getHueGrayscaleMatrix(rgbHue) {
+    getHueGrayscaleColors(rgbHue) {
 
         return [
             [
@@ -79,18 +79,18 @@ export default class HueGrayscaleMatrix extends React.Component {
             <div
                 className="hue"
                 style={{
-                    backgroundColor: this.props.color.hue().hex,
+                    backgroundColor: this.props.hue.hex,
                     width: this.props.width,
                     height: this.props.height
                 }}>
             </div>
 
-            <Gradient
+            <GradientPicker
                 {...this.props}
                 x={this.props.color.hsv.s * this.props.width}
                 y={(1 - this.props.color.hsv.v) * this.props.height}
                 onChange={this.onChange}
-                colors={this.getTransparentGrayscaleMatrix()} />
+                colors={this.getTransparentGrayscaleColors()} />
 
         </div>;
     }
@@ -98,6 +98,7 @@ export default class HueGrayscaleMatrix extends React.Component {
 
 HueGrayscaleMatrix.propTypes = {
     color: PropTypes.object,
+    hue: PropTypes.object,
     width: PropTypes.number,
     height: PropTypes.number,
     onChange: PropTypes.func,
@@ -107,6 +108,7 @@ HueGrayscaleMatrix.propTypes = {
 
 HueGrayscaleMatrix.defaultProps = {
     color: null,
+    hue: null,
     width: 100,
     height: 100,
     onChange: _.noop,

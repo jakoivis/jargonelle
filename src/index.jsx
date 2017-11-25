@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import ColorUtil from 'color-util';
+import colorutil from 'color-util';
 import ColorPicker from './ColorPicker.jsx';
 
 import './styles/samples.styl';
