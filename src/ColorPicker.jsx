@@ -71,7 +71,7 @@ export default class ColorPicker extends React.Component {
             className={getClassName('color-picker', this.props)}>
 
             <HueSliderPalette
-                height={400}
+                height={280}
                 width={10}
                 color={this.state.hue}
                 onChange={this.onHueChange}>

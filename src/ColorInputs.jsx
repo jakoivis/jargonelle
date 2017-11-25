@@ -86,7 +86,7 @@ export default class ColorInputs extends React.Component {
 
     render() {
 
-        return <div>
+        return <div className='inputs'>
             {this.renderInputs()}
         </div>;
     }
