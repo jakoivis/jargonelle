@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
-import ColorMatrix from './ColorMatrix.jsx';
+import Gradient from './Gradient.jsx';
 import getClassName from '../util/getClassName.js';
 
 // import '../styles/hsv-grayscale-matrix.styl';
@@ -17,7 +17,9 @@ export default class HueSliderPalette extends React.Component {
 
     render() {
 
-        return <ColorMatrix
+        console.log(this.props.color);
+
+        return <Gradient
             className='hue-slider-palette'
             width={this.props.width}
             height={this.props.height}
@@ -30,7 +32,7 @@ export default class HueSliderPalette extends React.Component {
 
             {this.props.children}
 
-        </ColorMatrix>;
+        </Gradient>;
     }
 }
 

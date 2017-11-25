@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
-import ColorMatrix from './ColorMatrix.jsx';
+import Gradient from './Gradient.jsx';
 import getClassName from '../util/getClassName.js';
 
 import '../styles/hsv-grayscale-matrix.styl';
@@ -85,8 +85,10 @@ export default class HueGrayscaleMatrix extends React.Component {
                 }}>
             </div>
 
-            <ColorMatrix
+            <Gradient
                 {...this.props}
+                x={this.props.color.hsv.s * this.props.width}
+                y={(1 - this.props.color.hsv.v) * this.props.height}
                 onChange={this.onChange}
                 colors={this.getTransparentGrayscaleMatrix()} />
 
@@ -100,9 +102,7 @@ HueGrayscaleMatrix.propTypes = {
     height: PropTypes.number,
     onChange: PropTypes.func,
     lockYAxis: PropTypes.bool,
-    lockXAxis: PropTypes.bool,
-    x: PropTypes.number,
-    y: PropTypes.number
+    lockXAxis: PropTypes.bool
 }
 
 HueGrayscaleMatrix.defaultProps = {
@@ -111,7 +111,5 @@ HueGrayscaleMatrix.defaultProps = {
     height: 100,
     onChange: _.noop,
     lockXAxis: false,
-    lockYAxis: false,
-    x: 0,
-    y: 0
+    lockYAxis: false
 }

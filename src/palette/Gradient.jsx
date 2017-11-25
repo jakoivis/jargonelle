@@ -7,7 +7,7 @@ import getClassName from '../util/getClassName.js';
 
 import '../styles/color-matrix.styl';
 
-export default class ColorMatrix extends React.Component {
+export default class Gradient extends React.Component {
 
     constructor(props) {
 
@@ -171,9 +171,21 @@ export default class ColorMatrix extends React.Component {
 
         return colorutil[this.props.colorType].gradient({
             colors: this.props.colors,
-            rotation: this.props.rotation,
+            type: this.props.type,
+            defaultColor: this.props.defaultColor,
             width: this.props.width,
-            height: this.props.height
+            height: this.props.height,
+            centerX: this.props.centerX,
+            centerY: this.props.centerY,
+            scale: this.props.scale,
+            scaleX: this.props.scaleX,
+            scaleY: this.props.scaleY,
+            translateX: this.props.translateX,
+            translateY: this.props.translateY,
+            centralize: this.props.centralize,
+            rotation: this.props.rotation,
+            repeatX: this.props.repeatX,
+            repeatY: this.props.repeatY
         });
     }
 
@@ -204,31 +216,58 @@ export default class ColorMatrix extends React.Component {
     }
 }
 
-ColorMatrix.propTypes = {
-    colors: PropTypes.array,
+Gradient.propTypes = {
     colorType: PropTypes.oneOf(['rgb', 'hsv', 'hsl']),
-    rotation: PropTypes.number,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    onChange: PropTypes.func,
     lockYAxis: PropTypes.bool,
     lockXAxis: PropTypes.bool,
     x: PropTypes.number,
-    y: PropTypes.number
+    y: PropTypes.number,
+    onChange: PropTypes.func,
+
+    colors: PropTypes.array,
+    type: PropTypes.string,
+    defaultColor: PropTypes.object,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    centerX: PropTypes.number,
+    centerY: PropTypes.number,
+    scale: PropTypes.number,
+    scaleX: PropTypes.number,
+    scaleY: PropTypes.number,
+    translateX: PropTypes.number,
+    translateY: PropTypes.number,
+    centralize: PropTypes.bool,
+    rotation: PropTypes.number,
+    repeatX: PropTypes.func,
+    repeatY: PropTypes.func
 }
 
-ColorMatrix.defaultProps = {
+Gradient.defaultProps = {
+    colorType: 'rgb',
+    lockXAxis: false,
+    lockYAxis: false,
+    x: 0,
+    y: 0,
+    onChange: _.noop,
+
+    // null used to let colorutil determine default
     colors: [
         colorutil.rgb.hueColors(),
         {r: 0, g: 0, b: 0, a: 0}
     ],
-    colorType: 'rgb',
-    rotation: 0,
+    type: 'linear',
+    defaultColor: null,
     width: 100,
     height: 100,
-    onChange: _.noop,
-    lockXAxis: false,
-    lockYAxis: false,
-    x: 0,
-    y: 0
+    centerX: 0,
+    centerY: 0,
+    scale: 1,
+    scaleX: null,
+    scaleY: null,
+    translateX: 0,
+    translateY: 0,
+    centralize: false,
+    rotation: 0,
+    repeatX: colorutil.repeat.repeat,
+    repeatY: colorutil.repeat.repeat
 }

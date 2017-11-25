@@ -4,9 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import colorutil from 'color-util';
-import RgbInputs from './RgbInputs.jsx';
+import ColorInputs from './ColorInputs.jsx';
 import getClassName from './util/getClassName.js';
-import ColorMatrix from './palette/ColorMatrix.jsx';
 import HueGrayscaleMatrix from './palette/HueGrayscaleMatrix.jsx';
 import HueSliderPalette from './palette/HueSliderPalette.jsx';
 
@@ -24,7 +23,7 @@ export default class ColorPicker extends React.Component {
 
         this.onHueChange = this.onHueChange.bind(this);
         this.onHueGrayScaleChange = this.onHueGrayScaleChange.bind(this);
-        this.onRgbInputsChange = this.onRgbInputsChange.bind(this);
+        this.onInputsChange = this.onInputsChange.bind(this);
 
         this.state = {
             color: colorutil.color(this.props.color)
@@ -51,12 +50,13 @@ export default class ColorPicker extends React.Component {
         this.props.onChange(color);
     }
 
-    onRgbInputsChange(rgb) {
+    onInputsChange(color) {
 
-        // this.setState({
-        //     rgb: rgb,
-        //     hue: colorutil.rgb.hue(rgb)
-        // });
+        this.setState({
+            color: color
+        });
+
+        this.props.onChange(color);
     }
 
     render() {
@@ -81,30 +81,22 @@ export default class ColorPicker extends React.Component {
                     width={200}
                     height={200}
                     color={this.state.color}
-                    x={this.state.color.hsv.s * 200}
-                    y={(1 - this.state.color.hsv.v) * 200}
                     onChange={this.onHueGrayScaleChange}>
 
                     <GrayScaleSelection color={this.state.color.rgb} />
 
                 </HueGrayscaleMatrix>
 
-
-
-
+                <ColorInputs
+                    color={this.state.color}
+                    onChange={this.onInputsChange}
+                    types={['hex', 'cssrgb']} />
 
             </div>
 
         </div>
     }
 }
-
-// <RgbInputs
-                    // color={rgb}
-                    // onChange={this.onRgbInputsChange} />
-
-
-
 
 function GrayScaleSelection(props) {
 
