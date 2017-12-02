@@ -2,9 +2,13 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import getClassName from '../util/getClassName.js';
-import Gradient from './Gradient.jsx';
 import colorutil from 'color-util';
+
+import Gradient from './Gradient.jsx';
+
+import getClassName from '../util/getClassName.js';
+
+import '../styles/colorPicker/GradientPicker.styl';
 
 export default class GradientPicker extends React.Component {
 
@@ -73,7 +77,7 @@ export default class GradientPicker extends React.Component {
     render() {
 
         return <div
-            className={getClassName('color-matrix', this.props, this.state)}>
+            className={getClassName('gradient-picker', this.props, this.state)}>
 
             <Gradient
                 {...this.props}

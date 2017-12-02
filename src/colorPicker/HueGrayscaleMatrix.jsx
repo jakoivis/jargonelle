@@ -3,10 +3,12 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
+
 import GradientPicker from './GradientPicker.jsx';
+
 import getClassName from '../util/getClassName.js';
 
-import '../styles/hsv-grayscale-matrix.styl';
+import '../styles/colorPicker/HueGrayscaleMatrix.styl';
 
 export default class HueGrayscaleMatrix extends React.Component {
 

@@ -3,9 +3,8 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
-import getClassName from '../util/getClassName.js';
 
-import '../styles/color-matrix.styl';
+import getClassName from '../util/getClassName.js';
 
 export default class Gradient extends React.Component {
 

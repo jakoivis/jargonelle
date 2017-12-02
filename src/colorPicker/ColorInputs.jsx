@@ -2,8 +2,9 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import getClassName from './util/getClassName.js';
 import colorutil from 'color-util';
+
+import getClassName from '../util/getClassName.js';
 
 export default class ColorInputs extends React.Component {
 

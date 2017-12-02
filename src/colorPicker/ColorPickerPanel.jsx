@@ -1,16 +1,15 @@
 
-import ReactDOM from 'react-dom';
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import colorutil from 'color-util';
-import ColorInputs from './ColorInputs.jsx';
-import getClassName from './util/getClassName.js';
-import HueGrayscaleMatrix from './palette/HueGrayscaleMatrix.jsx';
-import HueSliderPalette from './palette/HueSliderPalette.jsx';
-import ClickOutside from './ClickOutside.jsx';
 
-import './styles/input.styl';
+import ColorInputs from './ColorInputs.jsx';
+import HueGrayscaleMatrix from './HueGrayscaleMatrix.jsx';
+import HueSliderPalette from './HueSliderPalette.jsx';
+
+import getClassName from '../util/getClassName.js';
+import ClickOutside from '../ClickOutside.jsx';
 
 const HUE_GRADIENT = colorutil.rgb.hueColors();
 const HUE_MATRIX = [colorutil.rgb.hueColors()];

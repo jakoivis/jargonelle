@@ -1,16 +1,17 @@
 
-import ReactDOM from 'react-dom';
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import colorutil from 'color-util';
+
 import ColorInputs from './ColorInputs.jsx';
-import getClassName from './util/getClassName.js';
-import HueGrayscaleMatrix from './palette/HueGrayscaleMatrix.jsx';
-import HueSliderPalette from './palette/HueSliderPalette.jsx';
+import HueGrayscaleMatrix from './HueGrayscaleMatrix.jsx';
+import HueSliderPalette from './HueSliderPalette.jsx';
 import ColorPickerPanel from './ColorPickerPanel.jsx';
 
-import './styles/color-picker.styl';
+import getClassName from '../util/getClassName.js';
+
+import '../styles/colorPicker/ColorPicker.styl';
 
 export default class ColorPicker extends React.Component {
 
