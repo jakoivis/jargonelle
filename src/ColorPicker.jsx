@@ -8,12 +8,9 @@ import ColorInputs from './ColorInputs.jsx';
 import getClassName from './util/getClassName.js';
 import HueGrayscaleMatrix from './palette/HueGrayscaleMatrix.jsx';
 import HueSliderPalette from './palette/HueSliderPalette.jsx';
+import ColorPickerPanel from './ColorPickerPanel.jsx';
 
 import './styles/color-picker.styl';
-import './styles/input.styl';
-
-const HUE_GRADIENT = colorutil.rgb.hueColors();
-const HUE_MATRIX = [colorutil.rgb.hueColors()];
 
 export default class ColorPicker extends React.Component {
 
@@ -21,104 +18,68 @@ export default class ColorPicker extends React.Component {
 
         super(props);
 
-        this.onHueChange = this.onHueChange.bind(this);
-        this.onHueGrayScaleChange = this.onHueGrayScaleChange.bind(this);
-        this.onInputsChange = this.onInputsChange.bind(this);
-
-        let color = colorutil.color(this.props.color);
-        let hue = color.hue();
+        this.onSwatchClick = this.onSwatchClick.bind(this);
+        this.onColorChange = this.onColorChange.bind(this);
+        this.onClickOutside = this.onClickOutside.bind(this);
 
         this.state = {
-            color: color,
-            hue: hue
+            color: colorutil.color(this.props.color),
+            visible: false
         }
     }
 
-    onHueChange(hue) {
-
-        let newColor = this.state.color.hueFromColor(hue);
+    onSwatchClick() {
 
         this.setState({
-            color: newColor,
-            hue: hue
+            visible: !this.state.visible
         });
-
-        this.props.onChange(newColor);
     }
 
-    onHueGrayScaleChange(color) {
+    onClickOutside() {
+
+        this.setState({
+            visible: false
+        });
+    }
+
+    onColorChange(color) {
 
         this.setState({
             color: color
         });
-
-        this.props.onChange(color);
-    }
-
-    onInputsChange(color) {
-
-        this.setState({
-            color: color,
-            hue: color.hue()
-        });
-
-        this.props.onChange(color);
     }
 
     render() {
 
-        return <div
-            className={getClassName('color-picker', this.props)}>
+        return <div className='color-picker'>
+            <ColorSwatch
+                onClick={this.onSwatchClick}
+                color={this.state.color}>
 
-            <HueSliderPalette
-                height={280}
-                width={10}
-                color={this.state.hue}
-                onChange={this.onHueChange}>
+            </ColorSwatch>
 
-                <HueSelection />
+            {
+                this.state.visible &&
 
-            </HueSliderPalette>
-
-            <div className='right'>
-
-                <HueGrayscaleMatrix
-                    className='gray-scale'
-                    width={200}
-                    height={200}
-                    hue={this.state.hue}
+                <ColorPickerPanel
+                    onClickOutside={this.onClickOutside}
+                    onChange={this.onColorChange}
                     color={this.state.color}
-                    onChange={this.onHueGrayScaleChange}>
-
-                    <GrayScaleSelection color={this.state.color} />
-
-                </HueGrayscaleMatrix>
-
-                <ColorInputs
-                    color={this.state.color}
-                    onChange={this.onInputsChange}
-                    types={['hex', 'cssrgb']} />
-
-            </div>
+                    className='' />
+            }
 
         </div>
     }
 }
 
-function GrayScaleSelection(props) {
+function ColorSwatch(props) {
 
     return <div
-        className='selection'
-        style={{backgroundColor: props.color.hex}} />
-}
-
-function HueSelection() {
-
-    return <svg className="selection">
-
-        <polygon points="0,0 0,16 10,8"/>
-
-    </svg>
+        className='color-picker-swatch'
+        onClick={props.onClick}
+        style={{
+            backgroundColor: props.color.hex
+        }} />
 }
 
 ColorPicker.propTypes = {
