@@ -8,7 +8,6 @@ import ColorInputs from './ColorInputs.jsx';
 import HueGrayscaleMatrix from './HueGrayscaleMatrix.jsx';
 import HueSliderPalette from './HueSliderPalette.jsx';
 
-import getClassName from '../util/getClassName.js';
 import ClickOutside from '../ClickOutside.jsx';
 
 const HUE_GRADIENT = colorutil.rgb.hueColors();
@@ -67,7 +66,7 @@ class ColorPickerPanel extends React.Component {
     render() {
 
         return <div
-            className={getClassName('color-picker-panel', this.props)}>
+            className='color-picker-panel'>
 
             <HueSliderPalette
                 height={280}

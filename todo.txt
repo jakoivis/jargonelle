@@ -1,5 +1,4 @@
 
 - color picker
-    - color swatch, when clicked opens the color picker
     - canvas is drawn twice when color picker is opened
-    - cahnge click outside to mouse down so that dragging would not cause it to close
+    - define styling. now just some styles are applied.

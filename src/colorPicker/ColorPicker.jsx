@@ -9,8 +9,6 @@ import HueGrayscaleMatrix from './HueGrayscaleMatrix.jsx';
 import HueSliderPalette from './HueSliderPalette.jsx';
 import ColorPickerPanel from './ColorPickerPanel.jsx';
 
-import getClassName from '../util/getClassName.js';
-
 import '../styles/colorPicker/ColorPicker.styl';
 
 export default class ColorPicker extends React.Component {
@@ -25,21 +23,21 @@ export default class ColorPicker extends React.Component {
 
         this.state = {
             color: colorutil.color(this.props.color),
-            visible: false
+            open: false
         }
     }
 
     onSwatchClick() {
 
         this.setState({
-            visible: !this.state.visible
+            open: !this.state.open
         });
     }
 
     onClickOutside() {
 
         this.setState({
-            visible: false
+            open: false
         });
     }
 
@@ -53,20 +51,19 @@ export default class ColorPicker extends React.Component {
     render() {
 
         return <div className='color-picker'>
+
             <ColorSwatch
                 onClick={this.onSwatchClick}
-                color={this.state.color}>
-
-            </ColorSwatch>
+                color={this.state.color}
+                open={this.state.open} />
 
             {
-                this.state.visible &&
+                this.state.open &&
 
                 <ColorPickerPanel
                     onClickOutside={this.onClickOutside}
                     onChange={this.onColorChange}
-                    color={this.state.color}
-                    className='' />
+                    color={this.state.color} />
             }
 
         </div>
@@ -75,12 +72,17 @@ export default class ColorPicker extends React.Component {
 
 function ColorSwatch(props) {
 
+    let className = props.open ? ' open' : '';
+
     return <div
-        className='color-picker-swatch'
-        onClick={props.onClick}
-        style={{
+        className={'color-picker-swatch' + className}
+        onClick={props.onClick}>
+
+        <div style={{
             backgroundColor: props.color.hex
         }} />
+
+    </div>
 }
 
 ColorPicker.propTypes = {

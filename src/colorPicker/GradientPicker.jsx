@@ -42,7 +42,7 @@ export default class GradientPicker extends React.Component {
 
             this.setState({
                 y: nextProps.y
-            })
+            });
         }
     }
 

@@ -1,9 +1,22 @@
 
-.color-picker-swatch
-    width: 50px
-    height: 20px
+.color-picker
+    position: relative
 
-.color-picker-panel
+.color-picker > .color-picker-swatch
+    width: 20px
+    height: 20px
+    border: solid 1px #AAA
+    border-radius: 3px
+    padding: 1px
+    background-color: #fff
+
+    > div
+        width: 100%
+        height: 100%
+        border-radius: inherit
+
+
+.color-picker > .color-picker-panel
     position: absolute
     width: 210px
     height: 280px

@@ -4,7 +4,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
 import GradientPicker from './GradientPicker.jsx';
-import getClassName from '../util/getClassName.js';
 
 const HUE_MATRIX = [
     {h:0, s: 1, l: 0.5},

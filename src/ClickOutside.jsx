@@ -14,12 +14,12 @@ export default (Component) => class ClickOutside extends React.Component {
 
     componentDidMount() {
 
-        document.addEventListener('click', this.handleClick);
+        document.addEventListener('mousedown', this.handleClick);
     }
 
     componentWillUnmount() {
 
-        document.removeEventListener('click', this.handleClick);
+        document.removeEventListener('mousedown', this.handleClick);
     }
 
     handleClick(event) {
