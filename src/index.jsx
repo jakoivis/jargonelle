@@ -1,10 +1,12 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import colorutil from 'color-util';
 import ColorPicker from './colorPicker/ColorPicker.jsx';
+import GradientGrid from './GradientGrid.jsx';
+import GradientPickerGrid from './colorPicker/GradientPickerGrid.jsx';
 
 import './styles/samples.styl';
 import './styles/common.styl';
+import './styles/GradientGrid.styl';
 
 class Components extends React.Component {
 
@@ -26,6 +28,12 @@ class Components extends React.Component {
             <ColorPicker
                 onChange={this.onColorChange}
                 color={0xff0000} />
+
+            <GradientPickerGrid
+                width={300}
+                height={300}
+                positions={[{x:0, y:0}, {x:0.5, y:0.5}]}
+                />
         </div>
     }
 }

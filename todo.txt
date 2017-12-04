@@ -1,4 +1,16 @@
 
 - color picker
-    - canvas is drawn twice when color picker is opened
+    - remove color-picker root position style. should not rely on that
+    - gradient class name: color -> gradient
+    - check the color picker other classname and usage of getClassName
     - define styling. now just some styles are applied.
+
+- silder
+
+- color slider
+    -utilizes slider
+
+- color grid
+    - rename GradientPicker GradientSelector
+    - rename GradientPickerGrid GradientMultiSelector
+    - Think about making the interface more alike, though functionality is a little bit different
