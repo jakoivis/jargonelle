@@ -1,0 +1,47 @@
+
+.snap-drag-grid
+
+    .content
+        position: relative
+        width: inherit
+        height: inherit
+        background: #EEE
+        user-select: none
+
+    .lines
+        position: absolute
+        width: inherit
+        height: inherit
+
+        .xline
+            position: absolute
+            border-left: 1px dashed rgba(255, 255, 255, 0.7)
+            border-right: 1px dashed rgba(200, 200, 200, 0.7)
+            width: 0
+            height: inherit
+
+        .yline
+            position: absolute
+            border-top: 1px dashed rgba(255, 255, 255, 0.7)
+            border-bottom: 1px dashed rgba(200, 200, 200, 0.7)
+            width: inherit
+            height: 0
+
+    .points
+        position: absolute
+        width: inherit
+        height: inherit
+
+    .selection-container
+        top: 0
+        left: 0
+        position: absolute
+        transform: translate(-50%, -50%)
+
+    .selection
+        width: 12px
+        height: 12px
+        border: 1px solid #AAA
+        border-radius: 50%
+        transition: all 0.1s ease-out
+        background: #FF0
