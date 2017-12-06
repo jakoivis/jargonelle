@@ -82,7 +82,6 @@ export default class SnapDragGrid extends React.Component {
         if (this.isPositionOutsideBounds(position, this.props.removeDistance)) {
 
             this.removeActivePoint();
-            this.updateLines();
         }
 
         this.setState(() => {
@@ -91,17 +90,23 @@ export default class SnapDragGrid extends React.Component {
                 activePointKey: null
             }
         });
+
+        this.updateLines();
     }
 
     onMouseMove(event) {
 
-        this.updateActivePoint(event);
-        this.updateLines();
+        if (this.state.activePointKey) {
+
+            this.updateActivePoint(event);
+            this.updateLines();
+        }
     }
 
-    getLineData(pointData, axis) {
+    getLineData(pointData, axis, activePointKey=null) {
 
         return _.chain(pointData)
+            .filter(point => point.key !== activePointKey)
             .map(point => {
 
                 this.keyCounter += 1;
@@ -120,26 +125,16 @@ export default class SnapDragGrid extends React.Component {
 
     updateLines() {
 
-        if (!this.state.activePointKey) {
-
-            return;
-        }
-
         this.setState((prevState) => {
 
             return {
-                xLineData: this.getLineData(prevState.pointData, 'x'),
-                yLineData: this.getLineData(prevState.pointData, 'y')
+                xLineData: this.getLineData(prevState.pointData, 'x', prevState.activePointKey),
+                yLineData: this.getLineData(prevState.pointData, 'y', prevState.activePointKey)
             }
         });
     }
 
     updateActivePoint(event) {
-
-        if (!this.state.activePointKey) {
-
-            return;
-        }
 
         let pointData = _.cloneDeep(this.state.pointData);
         let dataItem = _.find(pointData, ['key', this.state.activePointKey]);
@@ -149,8 +144,12 @@ export default class SnapDragGrid extends React.Component {
             let position = this.getMousePosition(event);
             let limitedPosition = this.limitPositionToBounds(position);
 
-            dataItem.x = limitedPosition.x;
-            dataItem.y = limitedPosition.y;
+            let xSnapLine = this.getSnapLine(position, 'x');
+            let ySnapLine = this.getSnapLine(position, 'y');
+
+            dataItem.x = xSnapLine ? xSnapLine.x : limitedPosition.x;
+            dataItem.y = ySnapLine ? ySnapLine.y : limitedPosition.y;
+
             dataItem.visible = !this.isPositionOutsideBounds(
                 position, this.props.removeDistance);
 
@@ -161,6 +160,19 @@ export default class SnapDragGrid extends React.Component {
                 }
             });
         }
+    }
+
+    getSnapLine(position, axis) {
+
+        let snapDistance = this.props.snapDistance;
+        let lineData = this.state[axis + 'LineData'];
+
+        return _.find(lineData, (line) => {
+
+            return position[axis] !== line[axis] &&
+                position[axis] > line[axis] - snapDistance &&
+                position[axis] < line[axis] + snapDistance;
+        });
     }
 
     createNewActivePoint(event) {
@@ -359,6 +371,7 @@ function DefaultPointContent() {
 SnapDragGrid.propTypes = {
     pointComponent: PropTypes.func,
     removeDistance: PropTypes.number,
+    snapDistance: PropTypes.number,
     data: PropTypes.arrayOf(
         PropTypes.shape({
             x: PropTypes.number,
@@ -370,5 +383,6 @@ SnapDragGrid.propTypes = {
 SnapDragGrid.defaultProps = {
     pointComponent: DefaultPointContent,
     removeDistance: 50,
+    snapDistance: 8,
     data: []
 }
