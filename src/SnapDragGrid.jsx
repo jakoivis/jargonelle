@@ -103,6 +103,7 @@ export default class SnapDragGrid extends React.Component {
         }
     }
 
+    // TODO: keys will be updated whenever point is dragged
     getLineData(pointData, axis, activePointKey=null) {
 
         return _.chain(pointData)
@@ -152,6 +153,8 @@ export default class SnapDragGrid extends React.Component {
 
             dataItem.visible = !this.isPositionOutsideBounds(
                 position, this.props.removeDistance);
+
+            this.props.onChange(pointData);
 
             this.setState(() => {
 
@@ -377,12 +380,14 @@ SnapDragGrid.propTypes = {
             x: PropTypes.number,
             y: PropTypes.number
         })
-    )
+    ),
+    onChange: PropTypes.func
 }
 
 SnapDragGrid.defaultProps = {
     pointComponent: DefaultPointContent,
     removeDistance: 50,
     snapDistance: 8,
-    data: []
+    data: [],
+    onChange: _.noop
 }

@@ -6,6 +6,7 @@ import colorutil from 'color-util';
 
 import Gradient from './colorPicker/Gradient.jsx';
 import ColorPicker from './colorPicker/ColorPicker.jsx';
+import SnapDragGrid from './SnapDragGrid.jsx';
 
 import './styles/GradientGrid.styl';
 
@@ -25,34 +26,6 @@ export default class GradientGrid extends React.Component {
         };
 
         console.log(gradientData);
-    }
-
-    componentDidMount() {
-
-    }
-
-    componentWillUnmount() {
-
-    }
-
-    renderGrid() {
-
-        let result = [];
-
-        _.forEach(this.state.data, (row) => {
-
-            result = result.concat(_.map(row.colors, (color) => {
-
-                return <Thumb
-                    key={color.x + ';' + row.y}
-                    x={color.x * this.props.width}
-                    y={row.y * this.props.height}
-                    color={colorutil.color(color)}
-                    />
-            }));
-        });
-
-        return result;
     }
 
     createGradient(dataCallback) {
@@ -84,15 +57,9 @@ export default class GradientGrid extends React.Component {
 
             <Gradient {...this.props} colors={this.state.data} />
 
-            <div className='grid'
-                style={{
-                    width: this.props.width,
-                    height: this.props.height
-                }}>
-
-                {this.renderGrid()}
-
-            </div>
+            <SnapDragGrid
+                width={this.props.width}
+                height={this.props.height} />
 
         </div>
     }

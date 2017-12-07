@@ -33,6 +33,10 @@ class Components extends React.Component {
                 data={[{x:0, y:0}, {x:0.5, y:0.5}]}
                 />
 
+            <GradientGrid
+                width={300}
+                height={300} />
+
             <ColorPicker
                 onChange={this.onColorChange}
                 color={0xff0000} />

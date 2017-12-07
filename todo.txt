@@ -14,3 +14,7 @@
     - rename GradientPicker GradientSelector
     - rename GradientPickerGrid GradientMultiSelector
     - Think about making the interface more alike, though functionality is a little bit different
+
+- sanp drag grid
+    - line keys are updated whenever point is dragged -> unnecessary dom updates
+    - snap top certain divisions on a line -> snap top mid point for example
