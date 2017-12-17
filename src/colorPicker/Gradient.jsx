@@ -100,61 +100,9 @@ export default class Gradient extends React.Component {
 
         console.log('update canvas');
 
-        let w = this.props.width;
-        let h = this.props.height;
-        let ctx = this.canvas.getContext('2d');
-        let imageData = ctx.createImageData(w, h);
-        let buffer = imageData.data.buffer;
-        let uint32View = new Uint32Array(buffer);
-        let uint8CView = new Uint8ClampedArray(buffer);
         let gradient = this.createGradient();
-        let drawPixel = this.getDrawPixelFunction();
 
-        for(let x = 0; x < w; x++) {
-
-            for(let y = 0; y < h; y++) {
-
-                drawPixel(x, y, w, gradient, uint32View);
-            }
-        }
-
-        imageData.data.set(uint8CView);
-
-        ctx.putImageData(imageData, 0, 0);
-    }
-
-    getDrawPixelFunction() {
-
-        switch (this.props.colorType) {
-
-            case 'rgb': return this.drawPixelRgb;
-            case 'hsv': return this.drawPixelHsv;
-            case 'hsl': return this.drawPixelHsl;
-            default: return this.drawPixelRgb;
-        }
-    }
-
-    drawPixelRgb(x, y, w, gradient, uint32View) {
-
-        let rgb = gradient(x, y);
-
-        uint32View[y * w + x] = colorutil.rgb.to.intabgr(rgb);
-    }
-
-    drawPixelHsv(x, y, w, gradient, uint32View) {
-
-        let hsv = gradient(x, y);
-        let rgb = colorutil.hsv.to.rgb(hsv);
-
-        uint32View[y * w + x] = colorutil.rgb.to.intabgr(rgb);
-    }
-
-    drawPixelHsl(x, y, w, gradient, uint32View) {
-
-        let hsl = gradient(x, y);
-        let rgb = colorutil.hsl.to.rgb(hsl);
-
-        uint32View[y * w + x] = colorutil.rgb.to.intabgr(rgb);
+        colorutil[this.props.colorType].draw(this.canvas, gradient);
     }
 
     createGradient() {
