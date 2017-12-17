@@ -16,22 +16,17 @@ export default class GradientGrid extends React.Component {
 
         super(props);
 
-        let gradientData;
-        let gradient = this.createGradient((data) => {
-            gradientData = data;
-        });
-
         this.state = {
-            data: gradientData
+            data: this.createGradientData(this.props.colors)
         };
 
-        console.log(gradientData);
+        this.onGridChange = this.onGridChange.bind(this);
     }
 
-    createGradient(dataCallback) {
+    createGradient(data) {
 
         return colorutil[this.props.colorType].gradient({
-            colors: this.props.colors,
+            colors: data,
             type: this.props.type,
             defaultColor: this.props.defaultColor,
             width: this.props.width,
@@ -51,7 +46,25 @@ export default class GradientGrid extends React.Component {
         });
     }
 
+    createGradientData(data) {
+
+        return colorutil[this.props.colorType].gradientData(data);
+    }
+
+    onGridChange(data) {
+
+        console.log(data);
+
+        this.setState(() => {
+            return {
+                data: this.createGradientData(data)
+            };
+        });
+    }
+
     render() {
+
+        // console.log(this.state.data.object2d);
 
         return <div className='gradient-grid'>
 
@@ -59,7 +72,9 @@ export default class GradientGrid extends React.Component {
 
             <SnapDragGrid
                 width={this.props.width}
-                height={this.props.height} />
+                height={this.props.height}
+                data={this.state.data.flat2d}
+                onChange={this.onGridChange} />
 
         </div>
     }

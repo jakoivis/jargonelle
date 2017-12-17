@@ -28,14 +28,17 @@ class Components extends React.Component {
         return <div>
 
             <SnapDragGrid
-                width={300}
-                height={300}
+                width={150}
+                height={150}
                 data={[{x:0, y:0}, {x:0.5, y:0.5}]}
                 />
 
             <GradientGrid
-                width={300}
-                height={300} />
+                width={150}
+                height={150}
+                colors={
+                    [[{r:255}, {g:255}],[{b:255}, {r:255, g: 255}]]
+                }/>
 
             <ColorPicker
                 onChange={this.onColorChange}

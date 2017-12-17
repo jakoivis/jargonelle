@@ -29,6 +29,11 @@ export default class Gradient extends React.Component {
         document.removeEventListener('mouseup', this.onMouseUp)
     }
 
+    componentDidUpdate() {
+
+        this.updateCanvas();
+    }
+
     onMouseDown(event) {
 
         this.mouseDown = true;
@@ -193,7 +198,10 @@ Gradient.propTypes = {
     onMouseDown: PropTypes.func,
     onMouseUp: PropTypes.func,
 
-    colors: PropTypes.array,
+    colors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object // GradientData instance
+    ]),
     type: PropTypes.string,
     defaultColor: PropTypes.object,
     width: PropTypes.number,

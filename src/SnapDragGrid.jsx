@@ -23,12 +23,14 @@ export default class SnapDragGrid extends React.Component {
 
             this.keyCounter += 1;
 
-            return {
-                key: String(this.keyCounter),
-                x: point.x * this.props.width,
-                y: point.y * this.props.height,
-                visible: true
-            }
+            let newPoint = _.clone(point);
+
+            newPoint.key = String(this.keyCounter);
+            newPoint.x = point.x * this.props.width;
+            newPoint.y = point.y * this.props.height;
+            newPoint.visible = true;
+
+            return newPoint;
         });
 
         this.state = {
@@ -154,7 +156,16 @@ export default class SnapDragGrid extends React.Component {
             dataItem.visible = !this.isPositionOutsideBounds(
                 position, this.props.removeDistance);
 
-            this.props.onChange(pointData);
+            let callbackData = _.map(pointData, (point) => {
+                let newPoint = _.clone(point);
+                newPoint.x = newPoint.x / this.props.width;
+                newPoint.y = newPoint.y / this.props.height;
+                return newPoint;
+            });
+
+            callbackData = _.sortBy(callbackData, 'y');
+
+            this.props.onChange(callbackData);
 
             this.setState(() => {
 
