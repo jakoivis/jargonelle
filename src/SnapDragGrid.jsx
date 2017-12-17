@@ -163,7 +163,7 @@ export default class SnapDragGrid extends React.Component {
                 return newPoint;
             });
 
-            callbackData = _.sortBy(callbackData, 'y');
+            callbackData = _.sortBy(callbackData, ['y', 'x']);
 
             this.props.onChange(callbackData);
 
