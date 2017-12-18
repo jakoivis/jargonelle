@@ -156,14 +156,14 @@ export default class SnapDragGrid extends React.Component {
             dataItem.visible = !this.isPositionOutsideBounds(
                 position, this.props.removeDistance);
 
+            pointData = _.sortBy(pointData, ['y', 'x']);
+
             let callbackData = _.map(pointData, (point) => {
                 let newPoint = _.clone(point);
                 newPoint.x = newPoint.x / this.props.width;
                 newPoint.y = newPoint.y / this.props.height;
                 return newPoint;
             });
-
-            callbackData = _.sortBy(callbackData, ['y', 'x']);
 
             this.props.onChange(callbackData);
 
@@ -197,14 +197,16 @@ export default class SnapDragGrid extends React.Component {
         let pointData = _.cloneDeep(this.state.pointData);
         let position = this.getMousePosition(event);
         let limitedPosition = this.limitPositionToBounds(position);
+        let newItem = this.props.createNewPointData(limitedPosition.x, limitedPosition.y);
 
-        pointData.push({
-            key: key,
-            x: limitedPosition.x,
-            y: limitedPosition.y,
-            visible: !this.isPositionOutsideBounds(
+        newItem = newItem || {};
+        newItem.key = key;
+        newItem.x = limitedPosition.x;
+        newItem.y = limitedPosition.y;
+        newItem.visible = !this.isPositionOutsideBounds(
                 position, this.props.removeDistance)
-        });
+
+        pointData.push(newItem);
 
         this.setState(() => {
 
@@ -377,15 +379,17 @@ export default class SnapDragGrid extends React.Component {
     }
 }
 
-function DefaultPointContent() {
+function DefaultPointContent(props) {
 
-    return <div className='selection' />
+    return <div
+        className='selection' />
 }
 
 SnapDragGrid.propTypes = {
     pointComponent: PropTypes.func,
     removeDistance: PropTypes.number,
     snapDistance: PropTypes.number,
+    createNewPointData: PropTypes.func,
     data: PropTypes.arrayOf(
         PropTypes.shape({
             x: PropTypes.number,
@@ -399,6 +403,7 @@ SnapDragGrid.defaultProps = {
     pointComponent: DefaultPointContent,
     removeDistance: 50,
     snapDistance: 8,
+    createNewPointData: _.noop,
     data: [],
     onChange: _.noop
 }

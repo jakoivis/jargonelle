@@ -21,6 +21,7 @@ export default class GradientGrid extends React.Component {
         };
 
         this.onGridChange = this.onGridChange.bind(this);
+        this.createNewPointData = this.createNewPointData.bind(this);
     }
 
     createGradient(data) {
@@ -41,8 +42,7 @@ export default class GradientGrid extends React.Component {
             centralize: this.props.centralize,
             rotation: this.props.rotation,
             repeatX: this.props.repeatX,
-            repeatY: this.props.repeatY,
-            onValidationComplete: dataCallback
+            repeatY: this.props.repeatY
         });
     }
 
@@ -53,13 +53,24 @@ export default class GradientGrid extends React.Component {
 
     onGridChange(data) {
 
-        console.log(data);
+        // console.log(data);
 
         this.setState(() => {
             return {
                 data: this.createGradientData(data)
             };
         });
+    }
+
+    createNewPointData(x, y) {
+
+        let gradient = this.createGradient(this.state.data);
+
+        let color = gradient(x, y);
+
+        console.log(x, y, color);
+
+        return color;
     }
 
     render() {
@@ -74,7 +85,8 @@ export default class GradientGrid extends React.Component {
                 width={this.props.width}
                 height={this.props.height}
                 data={this.state.data.flat2d}
-                onChange={this.onGridChange} />
+                onChange={this.onGridChange}
+                createNewPointData={this.createNewPointData}/>
 
         </div>
     }
