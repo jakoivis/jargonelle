@@ -17,7 +17,7 @@ var config = {
     ],
     devtool: 'source-map',
     output: {
-        path: PATHS.dista,
+        path: PATHS.dist,
         filename: name + '.js',
         publicPath: '/',
         library: name,
@@ -34,6 +34,15 @@ var config = {
             {
                 test: /\.styl$/,
                 use: ['style-loader', 'css-loader', 'stylus-loader'],
+            },
+            {
+                test: /\.(ttf|eot|woff|woff2)$/,
+                use: {
+                    loader: "file-loader",
+                    options: {
+                        name: "fonts/[name].[ext]"
+                    }
+                }
             }
         ]
     }

@@ -42,7 +42,7 @@ class Components extends React.Component {
 
             <ColorPicker
                 onChange={this.onColorChange}
-                color={0xff0000} />
+                color={0xff0055} />
 
         </div>
     }
