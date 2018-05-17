@@ -30,7 +30,10 @@ class Components extends React.Component {
             <SnapDragGrid
                 width={150}
                 height={150}
-                data={[{x:0, y:0}, {x:0.5, y:0.5}]}
+                data={[
+                    {x:0, y:0}, {x:1, y:0},
+                    {x:0.5, y:0.5},
+                    {x:0, y:1}, {x:1, y:1}]}
                 />
 
             <GradientGrid
