@@ -16,21 +16,15 @@ export default class SnapDragGrid extends React.Component {
         this.onGridMouseDown = this.onGridMouseDown.bind(this);
         this.onPointMouseDown = this.onPointMouseDown.bind(this);
 
-        this.keyCounter = 0;
-        this.activePointKey = null;
+        let pointData = _.map(this.props.data, point => {
 
-        let pointData = _.map(this.props.data, (point) => {
-
-            this.keyCounter += 1;
-
-            let newPoint = _.clone(point);
-
-            newPoint.key = String(this.keyCounter);
-            newPoint.x = point.x * this.props.width;
-            newPoint.y = point.y * this.props.height;
-            newPoint.visible = true;
-
-            return newPoint;
+            return {
+                ...point,
+                visible: true,
+                key: this.getNextKey(),
+                x: point.x * this.props.width,
+                y: point.y * this.props.height
+            };
         });
 
         this.state = {
@@ -39,6 +33,13 @@ export default class SnapDragGrid extends React.Component {
             yLineData: this.getLineData(pointData, 'y'),
             activePointKey: null
         };
+    }
+
+    getNextKey() {
+
+        this.keyCounter = (this.keyCounter || 0) + 1;
+
+        return String(this.keyCounter);
     }
 
     componentDidMount() {
@@ -58,7 +59,6 @@ export default class SnapDragGrid extends React.Component {
         let className = event.target.getAttribute('class');
 
         if (className !== 'points') {
-
             return;
         }
 
@@ -69,12 +69,9 @@ export default class SnapDragGrid extends React.Component {
 
         const key = event.currentTarget.dataset.key;
 
-        this.setState(() => {
-
-            return {
-                activePointKey: key
-            }
-        });
+        this.setState(() => ({
+            activePointKey: key
+        }));
     }
 
     onMouseUp(event) {
@@ -86,12 +83,9 @@ export default class SnapDragGrid extends React.Component {
             this.removeActivePoint();
         }
 
-        this.setState(() => {
-
-            return {
-                activePointKey: null
-            }
-        });
+        this.setState(() => ({
+            activePointKey: null
+        }));
 
         this.updateLines();
     }
@@ -110,31 +104,20 @@ export default class SnapDragGrid extends React.Component {
 
         return _.chain(pointData)
             .filter(point => point.key !== activePointKey)
-            .map(point => {
-
-                this.keyCounter += 1;
-
-                let line = {
-                    key: String(this.keyCounter)
-                };
-
-                line[axis] = point[axis];
-
-                return line;
-            })
+            .map(point => ({
+                key: this.getNextKey(),
+                [axis]: point[axis]
+            }))
             .uniqBy(axis)
             .value();
     }
 
     updateLines() {
 
-        this.setState((prevState) => {
-
-            return {
-                xLineData: this.getLineData(prevState.pointData, 'x', prevState.activePointKey),
-                yLineData: this.getLineData(prevState.pointData, 'y', prevState.activePointKey)
-            }
-        });
+        this.setState(prevState => ({
+            xLineData: this.getLineData(prevState.pointData, 'x', prevState.activePointKey),
+            yLineData: this.getLineData(prevState.pointData, 'y', prevState.activePointKey)
+        }));
     }
 
     updateActivePoint(event) {
@@ -158,21 +141,17 @@ export default class SnapDragGrid extends React.Component {
 
             pointData = _.sortBy(pointData, ['y', 'x']);
 
-            let callbackData = _.map(pointData, (point) => {
-                let newPoint = _.clone(point);
-                newPoint.x = newPoint.x / this.props.width;
-                newPoint.y = newPoint.y / this.props.height;
-                return newPoint;
-            });
+            let callbackData = _.map(pointData, point => ({
+                ...point,
+                x: point.x / this.props.width,
+                y: point.y / this.props.height
+            }));
 
             this.props.onChange(callbackData);
 
-            this.setState(() => {
-
-                return {
-                    pointData: pointData
-                }
-            });
+            this.setState(() => ({
+                pointData: pointData
+            }));
         }
     }
 
@@ -181,7 +160,7 @@ export default class SnapDragGrid extends React.Component {
         let snapDistance = this.props.snapDistance;
         let lineData = this.state[axis + 'LineData'];
 
-        return _.find(lineData, (line) => {
+        return _.find(lineData, line => {
 
             return position[axis] !== line[axis] &&
                 position[axis] > line[axis] - snapDistance &&
@@ -191,16 +170,13 @@ export default class SnapDragGrid extends React.Component {
 
     createNewActivePoint(event) {
 
-        this.keyCounter += 1;
-
-        let key = String(this.keyCounter);
         let pointData = _.cloneDeep(this.state.pointData);
         let position = this.getMousePosition(event);
         let limitedPosition = this.limitPositionToBounds(position);
         let newItem = this.props.createNewPointData(limitedPosition.x, limitedPosition.y);
 
         newItem = newItem || {};
-        newItem.key = key;
+        newItem.key = this.getNextKey();
         newItem.x = limitedPosition.x;
         newItem.y = limitedPosition.y;
         newItem.visible = !this.isPositionOutsideBounds(
@@ -208,30 +184,24 @@ export default class SnapDragGrid extends React.Component {
 
         pointData.push(newItem);
 
-        this.setState(() => {
-
-            return {
-                pointData: pointData,
-                activePointKey: key
-            }
-        });
+        this.setState(() => ({
+            pointData: pointData,
+            activePointKey: newItem.key
+        }));
     }
 
     removeActivePoint() {
 
         let pointData = _.cloneDeep(this.state.pointData);
 
-        _.remove(pointData, (point) => {
+        _.remove(pointData, point => {
 
             return point.key === this.state.activePointKey;
         });
 
-        this.setState(() => {
-
-            return {
-                pointData: pointData
-            }
-        });
+        this.setState(() => ({
+            pointData: pointData
+        }));
     }
 
     getMousePosition(event) {
@@ -270,37 +240,9 @@ export default class SnapDragGrid extends React.Component {
             x < -padding || x > w + padding;
     }
 
-    // onChange(color, x, y) {
-
-    //     this.setState({
-    //         x: x,
-    //         y: y
-    //     });
-
-    //     this.props.onChange(color, x, y);
-    // }
-
-    // onMouseUp() {
-
-    //     this.setState({
-    //         css: {
-    //             dragging: false
-    //         }
-    //     });
-    // }
-
-    // onMouseDown() {
-
-    //     this.setState({
-    //         css: {
-    //             dragging: true
-    //         }
-    //     });
-    // }
-
     renderLines() {
 
-        let lines = _.map(this.state.xLineData, (line) => {
+        let xlines = _.map(this.state.xLineData, line => {
 
             return <div
                 key={line.key}
@@ -310,7 +252,7 @@ export default class SnapDragGrid extends React.Component {
                 }} />
         });
 
-        return lines.concat(_.map(this.state.yLineData, (line) => {
+        let ylines = _.map(this.state.yLineData, line => {
 
             return <div
                 key={line.key}
@@ -318,17 +260,16 @@ export default class SnapDragGrid extends React.Component {
                 style={{
                     top: line.y
                 }}/>
-        }));
+        });
+
+        return [...xlines, ...ylines];
     }
 
     renderPoints() {
 
-        let childComponent = this.props.pointComponent;
-
         return _.map(this.state.pointData, point => {
 
             if (!point.visible) {
-
                 return null;
             }
 
@@ -342,7 +283,7 @@ export default class SnapDragGrid extends React.Component {
                     left: point.x
                 }}>
 
-                {React.createElement(childComponent)}
+                {React.createElement(this.props.pointComponent)}
 
             </div>
         });
