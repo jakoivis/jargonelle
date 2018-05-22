@@ -284,8 +284,15 @@ export default class SnapDragGrid extends React.Component {
                 return null;
             }
 
+            let isDragging = this.state.activePointKey === point.key;
+            let className = 'selection-container';
+
+            if (isDragging) {
+                className += ' dragging';
+            }
+
             return <div
-                className='selection-container'
+                className={className}
                 onMouseDown={this.onPointMouseDown}
                 data-key={point.key}
                 key={point.key}
@@ -294,7 +301,7 @@ export default class SnapDragGrid extends React.Component {
                     left: point.x
                 }}>
 
-                {React.createElement(this.props.pointComponent)}
+                {React.createElement(this.props.pointComponent, point)}
 
             </div>
         });

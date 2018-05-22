@@ -20,12 +20,19 @@ class Components extends React.Component {
 
     onColorChange(color) {
 
-        document.body.style.backgroundColor = color.hex;
+        // document.body.style.backgroundColor = color.hex;
     }
 
     render() {
 
-        return <div>
+        return <div className="samples">
+
+            <GradientGrid
+                width={150}
+                height={150}
+                colors={
+                    [[{r:255}, {g:255}],[{b:255}, {r:255, g: 255}]]
+                }/>
 
             <SnapDragGrid
                 width={150}
@@ -35,13 +42,6 @@ class Components extends React.Component {
                     {x:0.5, y:0.5},
                     {x:0, y:1}, {x:1, y:1}]}
                 />
-
-            <GradientGrid
-                width={150}
-                height={150}
-                colors={
-                    [[{r:255}, {g:255}],[{b:255}, {r:255, g: 255}]]
-                }/>
 
             <ColorPicker
                 onChange={this.onColorChange}
@@ -56,3 +56,8 @@ let div = document.createElement('div');
 document.body.appendChild(div)
 
 ReactDOM.render(<Components/>, div);
+
+/*
+
+
+                */

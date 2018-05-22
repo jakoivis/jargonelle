@@ -53,8 +53,6 @@ export default class GradientGrid extends React.Component {
 
     onGridChange(data) {
 
-        // console.log(data);
-
         this.setState(() => {
             return {
                 data: this.createGradientData(data)
@@ -68,26 +66,31 @@ export default class GradientGrid extends React.Component {
 
         let color = gradient(x, y);
 
-        console.log(x, y, color);
-
         return color;
     }
 
     render() {
 
-        // console.log(this.state.data.object2d);
+        return <div 
+            className='gradient-grid'
+            style={{
+                width: this.props.width,
+                height: this.props.height
+            }}>
 
-        return <div className='gradient-grid'>
+            <div className='container'>
 
-            <Gradient {...this.props} colors={this.state.data} />
+                <Gradient {...this.props} colors={this.state.data} />
 
-            <SnapDragGrid
-                width={this.props.width}
-                height={this.props.height}
-                data={this.state.data.flat2d}
-                onChange={this.onGridChange}
-                createNewPointData={this.createNewPointData}/>
+                <SnapDragGrid
+                    width={this.props.width}
+                    height={this.props.height}
+                    data={this.state.data.flat2d}
+                    onChange={this.onGridChange}
+                    createNewPointData={this.createNewPointData}
+                    pointComponent={Thumb}/>
 
+            </div>
         </div>
     }
 }
@@ -96,14 +99,13 @@ function Thumb(props) {
 
     return <div
         className='selection-container'
-        onClick={props.onClick}
-        style={{
-            top: props.y,
-            left: props.x
-        }}>
+        onClick={props.onClick}>
 
         <div
             className='selection'
+            style={{
+                backgroundColor: colorutil.rgb.to.hex(props)
+            }}
         />
 
     </div>
