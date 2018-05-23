@@ -4,10 +4,12 @@ import ColorPicker from './colorPicker/ColorPicker.jsx';
 import GradientGrid from './GradientGrid.jsx';
 import SnapDragGrid from './SnapDragGrid.jsx';
 import GradientPickerGrid from './colorPicker/GradientPickerGrid.jsx';
+import ColorPicker2 from './colorPicker2/ColorPicker2.js';
 
 import './styles/samples.styl';
 import './styles/common.styl';
 import './styles/GradientGrid.styl';
+import './styles/ColorPicker2.styl';
 
 class Components extends React.Component {
 
@@ -27,6 +29,19 @@ class Components extends React.Component {
 
         return <div className="samples">
 
+            <ColorPicker2 />
+
+        </div>
+    }
+}
+
+let div = document.createElement('div');
+
+document.body.appendChild(div)
+
+ReactDOM.render(<Components/>, div);
+
+/*
             <GradientGrid
                 width={150}
                 height={150}
@@ -47,17 +62,4 @@ class Components extends React.Component {
                 onChange={this.onColorChange}
                 color={0xff0055} />
 
-        </div>
-    }
-}
-
-let div = document.createElement('div');
-
-document.body.appendChild(div)
-
-ReactDOM.render(<Components/>, div);
-
-/*
-
-
-                */
+*/

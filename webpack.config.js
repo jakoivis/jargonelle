@@ -8,13 +8,21 @@ var poststylus = require('poststylus');
 
 const PATHS = {
     index: path.join(__dirname, 'src/index.jsx'),
-    dist: path.join(__dirname, 'dist')
+    dist: path.join(__dirname, 'dist'),
+    nodeModules: path.join(__dirname, 'node_modules'),
+    src: path.join(__dirname, 'src')
 };
 
 var config = {
     entry: [
         PATHS.index
     ],
+    resolve: {
+        modules: [
+            PATHS.nodeModules,
+            PATHS.src
+        ]
+    },
     devtool: 'source-map',
     output: {
         path: PATHS.dist,
