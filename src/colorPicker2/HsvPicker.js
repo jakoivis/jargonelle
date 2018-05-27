@@ -1,23 +1,28 @@
 
 import _ from 'lodash';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import colorutil from 'color-util';
 
+import Bounds from 'Bounds';
 import HsvCanvas from 'colorPicker2/HsvCanvas.js';
 
-export default class HsvPicker extends React.Component {
+class HsvPicker extends React.Component {
 
     constructor(props) {
 
         super(props);
 
+        let color = colorutil.color(this.props.color);
+
         this.state = {
-            x: this.props.x,
-            y: this.props.y,
+            ...this.colorToXY(color),
+            hue: color.hue().hex,
             dragging: false
         };
 
-        this.onChange = this.onChange.bind(this);
+        // this.onChange = this.onChange.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
@@ -35,32 +40,22 @@ export default class HsvPicker extends React.Component {
         document.removeEventListener('mouseup', this.onMouseUp)
     }
 
-    componentWillReceiveProps(nextProps) {
+    // componentWillReceiveProps(nextProps) {
 
-        if (nextProps.x !== this.props.x) {
+    //     if (nextProps.x !== this.props.x) {
 
-            this.setState({
-                x: nextProps.x,
-            });
-        }
+    //         this.setState({
+    //             x: nextProps.x,
+    //         });
+    //     }
 
-        if (nextProps.y !== this.props.y) {
+    //     if (nextProps.y !== this.props.y) {
 
-            this.setState({
-                y: nextProps.y
-            });
-        }
-    }
-
-    onChange(color, x, y) {
-
-        this.setState({
-            x: x,
-            y: y
-        });
-
-        this.props.onChange(color, x, y);
-    }
+    //         this.setState({
+    //             y: nextProps.y
+    //         });
+    //     }
+    // }
 
     onMouseUp() {
 
@@ -71,24 +66,33 @@ export default class HsvPicker extends React.Component {
 
     onMouseDown(event) {
 
+        let point = this.calculatePointerPosition(event);
+        let color = this.createColor(point);
+
         this.setState({
-            ...this.calculatePointerPosition(event),
+            ...point,
+            color,
             dragging: true
         });
+
+        this.props.onChange(color);
     }
 
     onMouseMove(event) {
 
-        console.log(event);
         if (this.state.dragging) {
 
-            this.setState(this.calculatePointerPosition(event));
+            let point = this.calculatePointerPosition(event);
+            let color = this.createColor(point);
+
+            this.setState({...point, color});
+            this.props.onChange(color);
         }
     }
 
     calculatePointerPosition(event) {
 
-        let bounds = event.target.getBoundingClientRect();
+        let bounds = this.props.bounds;
         let x = event.clientX - bounds.left;
         let y = event.clientY - bounds.top;
         let w = bounds.width;
@@ -100,41 +104,65 @@ export default class HsvPicker extends React.Component {
         return {x, y};
     }
 
-    render() {
+    createColor(point) {
 
+        let bounds = this.props.bounds;
+        let normalizedX = point.x / bounds.width;
+        let normalizedY = point.y / bounds.height;
+
+        return colorutil.color({h: 0, s: normalizedX, v: normalizedY})
+            .hueFromColor(this.state.hue);
+    }
+
+    pointToSV() {
+
+    }
+
+    colorToXY(color) {
+
+        let bounds = this.props.bounds;
+
+        return {
+            x: color.hsv.s * bounds.width,
+            y: (1 - color.hsv.v) * bounds.height
+        };
+    }
+
+    render() {
 
         let draggerClassName = 'selection-container' + 
             (this.state.dragging ? ' dragging' : '');
 
         return <div 
             className='hsv-picker'
-            onMouseDown={this.onMouseDown}>
+            onMouseDown={this.onMouseDown}
+            ref={root => this.root = root}>
 
-            <HsvCanvas hue={this.props.hue} />
+                <HsvCanvas hue={this.state.hue} />
 
-            <div
-                className={draggerClassName}
-                style={{
-                    left: this.state.x,
-                    top: this.state.y
-                }}>
+                <div
+                    className={draggerClassName}
+                    style={{
+                        left: this.state.x,
+                        top: this.state.y
+                    }}>
 
-                <div className='selection' />
+                    <div className='selection' />
 
-            </div>
+                </div>
 
         </div>;
     }
 }
 
 HsvPicker.propTypes = {
-    hue: PropTypes.string,
-    // x: PropTypes.number,
-    // y: PropTypes.number
+    color: PropTypes.any,
+    onChange: PropTypes.func
 }
 
 HsvPicker.defaultProps = {
-    hue: '#ff0000',
-    // x: 0,
-    // y: 0
+    color: '#ff0000',
+    onChange: _.noop
 }
+
+export default Bounds(HsvPicker);

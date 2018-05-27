@@ -22,7 +22,7 @@ export default class ColorPicker2 extends React.Component {
 
         return <div className='color-picker2'>
 
-            <HsvPicker hue={'#00FF00'} />
+            <HsvPicker hue={'#00FF00'} boundsClassName='hsv-picker-wrapper' />
 
         </div>
     }
