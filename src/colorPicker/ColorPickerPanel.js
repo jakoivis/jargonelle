@@ -4,11 +4,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
 
-import ColorInputs from './ColorInputs.jsx';
-import HueGrayscaleMatrix from './HueGrayscaleMatrix.jsx';
-import HueSliderPalette from './HueSliderPalette.jsx';
+import ColorInputs from 'colorPicker/ColorInputs';
+import HueGrayscaleMatrix from 'colorPicker/HueGrayscaleMatrix';
+import HueSliderPalette from 'colorPicker/HueSliderPalette';
 
-import ClickOutside from '../ClickOutside.jsx';
+import ClickOutside from 'hocs/ClickOutside';
 
 const HUE_GRADIENT = colorutil.rgb.hueColors();
 const HUE_MATRIX = [colorutil.rgb.hueColors()];

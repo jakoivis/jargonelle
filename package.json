@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "npm run watch",
     "test": "mocha --compilers js:babel-core/register ./test/*.spec.js",
     "test-watch": "mocha --compilers js:babel-core/register -w ./test/*.spec.js",
     "watch": "nodemon --watch webpack.config.js --exec \"webpack-dev-server --env development\"",

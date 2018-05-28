@@ -4,11 +4,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
 
-import GradientPicker from './GradientPicker.jsx';
+import GradientPicker from 'colorPicker/GradientPicker';
 
-import getClassName from '../util/getClassName.js';
+import getClassName from 'util/getClassName';
 
-import '../styles/colorPicker/HueGrayscaleMatrix.styl';
+import 'styles/colorPicker/HueGrayscaleMatrix';
 
 export default class HueGrayscaleMatrix extends React.Component {
 

@@ -4,11 +4,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
 
-import Gradient from './colorPicker/Gradient.jsx';
-import ColorPicker from './colorPicker/ColorPicker.jsx';
-import SnapDragGrid from './SnapDragGrid.jsx';
+import Gradient from 'colorPicker/Gradient';
+import ColorPicker from 'colorPicker/ColorPicker';
+import SnapDragGrid from 'SnapDragGrid';
 
-import './styles/GradientGrid.styl';
+import 'styles/GradientGrid';
 
 export default class GradientGrid extends React.Component {
 

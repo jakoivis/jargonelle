@@ -5,8 +5,8 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
 
-import Bounds from 'Bounds';
-import HsvCanvas from 'colorPicker2/HsvCanvas.js';
+import Bounds from 'hocs/Bounds';
+import HsvCanvas from 'colorPicker2/HsvCanvas';
 
 class HsvPicker extends React.Component {
 

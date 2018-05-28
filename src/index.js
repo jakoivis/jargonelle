@@ -1,15 +1,15 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import ColorPicker from './colorPicker/ColorPicker.jsx';
-import GradientGrid from './GradientGrid.jsx';
-import SnapDragGrid from './SnapDragGrid.jsx';
-import GradientPickerGrid from './colorPicker/GradientPickerGrid.jsx';
-import ColorPicker2 from './colorPicker2/ColorPicker2.js';
+import ColorPicker from 'colorPicker/ColorPicker';
+import GradientGrid from 'GradientGrid';
+import SnapDragGrid from 'SnapDragGrid';
+import GradientPickerGrid from 'colorPicker/GradientPickerGrid';
+import ColorPicker2 from 'colorPicker2/ColorPicker2';
 
-import './styles/samples.styl';
-import './styles/common.styl';
-import './styles/GradientGrid.styl';
-import './styles/ColorPicker2.styl';
+import 'styles/samples';
+import 'styles/common';
+import 'styles/GradientGrid';
+import 'styles/ColorPicker2';
 
 class Components extends React.Component {
 

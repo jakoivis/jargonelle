@@ -4,12 +4,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
 
-import ColorInputs from './ColorInputs.jsx';
-import HueGrayscaleMatrix from './HueGrayscaleMatrix.jsx';
-import HueSliderPalette from './HueSliderPalette.jsx';
-import ColorPickerPanel from './ColorPickerPanel.jsx';
+import ColorInputs from 'colorPicker/ColorInputs';
+import HueGrayscaleMatrix from 'colorPicker/HueGrayscaleMatrix';
+import HueSliderPalette from 'colorPicker/HueSliderPalette';
+import ColorPickerPanel from 'colorPicker/ColorPickerPanel';
 
-import '../styles/colorPicker/ColorPicker.styl';
+import '../styles/colorPicker/ColorPicker';
 
 export default class ColorPicker extends React.Component {
 

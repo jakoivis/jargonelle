@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './styles/SnapDragGrid.styl';
+import 'styles/SnapDragGrid';
 
 export default class SnapDragGrid extends React.Component {
 

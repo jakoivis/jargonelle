@@ -6,7 +6,7 @@ import colorutil from 'color-util';
 
 import HsvPicker from 'colorPicker2/HsvPicker';
 
-import 'styles/ColorPicker2.styl';
+import 'styles/ColorPicker2';
 
 export default class ColorPicker2 extends React.Component {
 

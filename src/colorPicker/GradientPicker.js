@@ -4,11 +4,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
 
-import Gradient from './Gradient.jsx';
+import Gradient from 'colorPicker/Gradient';
 
-import getClassName from '../util/getClassName.js';
+import getClassName from 'util/getClassName';
 
-import '../styles/colorPicker/GradientPicker.styl';
+import 'styles/colorPicker/GradientPicker';
 
 export default class GradientPicker extends React.Component {
 
