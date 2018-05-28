@@ -2,7 +2,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export default (Component) => class Bounds extends React.Component {
+export default (Component, {className='bounds'}={}) => 
+    class Bounds extends React.Component {
 
     constructor(props) {
 
@@ -20,12 +21,6 @@ export default (Component) => class Bounds extends React.Component {
     }
 
     render() {
-
-        let className = 'bounds container ';
-
-        if (this.props.boundsClassName) {
-            className = className + this.props.boundsClassName;
-        }
 
         return <div 
             ref={(component) => {this.component = component; }}

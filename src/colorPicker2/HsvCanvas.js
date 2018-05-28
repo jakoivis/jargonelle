@@ -128,30 +128,27 @@ class HsvCanvas extends React.Component {
         let draggerClassName = 'selection-container' + 
             (this.state.dragging ? ' dragging' : '');
 
-        return <div 
-            className='hsv-picker'
-            onMouseDown={this.onMouseDown}
-            ref={root => this.root = root}>
+        return <React.Fragment>
 
-                <div className='hsv-canvas'>
+            <div className='gradient' onMouseDown={this.onMouseDown}>
 
-                    <div className='hue' style={{backgroundColor: this.state.hue}} />
-                    <div className='saturation-value' />
+                <div className='hue' style={{backgroundColor: this.state.hue}} />
+                <div className='saturation-value' />
 
-                </div>
+            </div>
 
-                <div
-                    className={draggerClassName}
-                    style={{
-                        left: this.state.x,
-                        top: this.state.y
-                    }}>
+            <div
+                className={draggerClassName}
+                style={{
+                    left: this.state.x,
+                    top: this.state.y
+                }}>
 
-                    <div className='selection' />
+                <div className='selection' />
 
-                </div>
+            </div>
 
-        </div>;
+        </React.Fragment>
     }
 }
 
@@ -165,4 +162,6 @@ HsvCanvas.defaultProps = {
     onChange: _.noop
 }
 
-export default Bounds(HsvCanvas);
+export default Bounds(HsvCanvas, {
+    className: 'hsv-canvas'
+});

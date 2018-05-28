@@ -1,19 +1,14 @@
 
 .color-picker2
 
-    .hsv-picker-wrapper
-        width: 200px
+    .hsv-canvas
+        width: 250px
         height: 200px
-
-    .hsv-picker
         position: relative
-        width: inherit
-        height: inherit
         cursor: pointer
 
         .selection-container
             position: absolute
-            pointer-events: none
             transform: translate(-50%, -50%)
 
             .selection
@@ -31,11 +26,10 @@
                     border: 2px solid white
                     border-radius: 50%
 
-        .hsv-canvas
+        .gradient
             position: relative
             width: inherit
             height: inherit
-            pointer-events: none
 
             .saturation-value
                 position:absolute
