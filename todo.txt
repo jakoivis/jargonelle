@@ -5,6 +5,10 @@
     - check the color picker other classname and usage of getClassName
     - define styling. now just some styles are applied.
 
+-color picker 2
+    - add invert color to colorutil and try with the selection borders
+    - color-util rgb->hex rounding issue
+
 - silder
 
 - color slider

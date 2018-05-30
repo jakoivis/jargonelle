@@ -23,8 +23,7 @@ export default class ColorPicker2 extends React.Component {
         return <div className='color-picker2'>
 
             <HsvCanvas 
-                color='#ff00ee'
-                onChange={color => console.log(color.hex)} />
+                color='#ff00ee' />
 
         </div>
     }

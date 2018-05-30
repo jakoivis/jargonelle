@@ -10,21 +10,25 @@
         .selection-container
             position: absolute
             transform: translate(-50%, -50%)
+            pointer-events: none
 
             .selection
                 width: 12px
                 height: 12px
-                border: 1px solid #AAA
+                border: 1px solid #999
                 border-radius: 50%
                 transition: all 0.1s ease-out
 
-            &.dragging,
-            &:hover
+            &.dragging
                 .selection
                     width: 18px
                     height: 18px
                     border: 2px solid white
                     border-radius: 50%
+                    
+        &:hover
+            .selection
+                border: 1px solid #AAA
 
         .gradient
             position: relative

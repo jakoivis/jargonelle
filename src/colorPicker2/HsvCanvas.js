@@ -14,10 +14,11 @@ class HsvCanvas extends React.Component {
         super(props);
 
         let color = colorutil.color(this.props.color);
+        let hue = color.hue();
 
         this.state = {
             ...this.colorToXY(color),
-            hue: color.hue().hex,
+            hue, color,
             dragging: false
         };
 
@@ -132,7 +133,7 @@ class HsvCanvas extends React.Component {
 
             <div className='gradient' onMouseDown={this.onMouseDown}>
 
-                <div className='hue' style={{backgroundColor: this.state.hue}} />
+                <div className='hue' style={{backgroundColor: this.state.hue.hex}} />
                 <div className='saturation-value' />
 
             </div>
@@ -144,7 +145,11 @@ class HsvCanvas extends React.Component {
                     top: this.state.y
                 }}>
 
-                <div className='selection' />
+                <div 
+                    className='selection'
+                    style={{
+                        backgroundColor: this.state.color.hex
+                    }} />
 
             </div>
 
