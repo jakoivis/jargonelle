@@ -74,14 +74,24 @@ class HsvCanvas extends React.Component {
 
     calculatePointerPosition(event) {
 
+        let orientation = this.props.orientation;
         let bounds = this.props.bounds;
-        let x = event.clientX - bounds.left;
-        let y = event.clientY - bounds.top;
         let w = bounds.width;
         let h = bounds.height;
+        let y = h / 2;
+        let x = w / 2;
 
-        y = y < 0 ? 0 : y > h ? h : y;
-        x = x < 0 ? 0 : x > w ? w : x;
+        if (orientation !== 'horizontal') {
+            
+            y = event.clientY - bounds.top;
+            y = y < 0 ? 0 : y > h ? h : y;
+        }
+
+        if (orientation !== 'vertical') {
+            
+            x = event.clientX - bounds.left;
+            x = x < 0 ? 0 : x > w ? w : x;
+        }
 
         return {x, y};
     }
@@ -134,11 +144,13 @@ class HsvCanvas extends React.Component {
 
 HsvCanvas.propTypes = {
     color: PropTypes.any,
+    orientation: PropTypes.oneOf(['vertical', 'horizontal', 'both']),
     onChange: PropTypes.func
 }
 
 HsvCanvas.defaultProps = {
     color: '#ff0000',
+    orientation: 'both',
     onChange: _.noop
 }
 
