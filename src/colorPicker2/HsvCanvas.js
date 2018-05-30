@@ -22,7 +22,6 @@ class HsvCanvas extends React.Component {
             dragging: false
         };
 
-        // this.onChange = this.onChange.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
@@ -39,23 +38,6 @@ class HsvCanvas extends React.Component {
         document.removeEventListener('mousemove', this.onMouseMove)
         document.removeEventListener('mouseup', this.onMouseUp)
     }
-
-    // componentWillReceiveProps(nextProps) {
-
-    //     if (nextProps.x !== this.props.x) {
-
-    //         this.setState({
-    //             x: nextProps.x,
-    //         });
-    //     }
-
-    //     if (nextProps.y !== this.props.y) {
-
-    //         this.setState({
-    //             y: nextProps.y
-    //         });
-    //     }
-    // }
 
     onMouseUp() {
 
@@ -126,20 +108,15 @@ class HsvCanvas extends React.Component {
 
     render() {
 
-        let draggerClassName = 'selection-container' + 
-            (this.state.dragging ? ' dragging' : '');
+        let dragging = this.state.dragging ? ' dragging' : '';
 
-        return <React.Fragment>
-
-            <div className='gradient' onMouseDown={this.onMouseDown}>
-
-                <div className='hue' style={{backgroundColor: this.state.hue.hex}} />
-                <div className='saturation-value' />
-
-            </div>
+        return <div 
+            className='color' 
+            onMouseDown={this.onMouseDown} 
+            style={{backgroundColor: this.state.hue.hex}}>
 
             <div
-                className={draggerClassName}
+                className={`selection-container${dragging}`}
                 style={{
                     left: this.state.x,
                     top: this.state.y
@@ -147,13 +124,11 @@ class HsvCanvas extends React.Component {
 
                 <div 
                     className='selection'
-                    style={{
-                        backgroundColor: this.state.color.hex
-                    }} />
+                    style={{backgroundColor: this.state.color.hex}} />
 
             </div>
 
-        </React.Fragment>
+        </div>
     }
 }
 
