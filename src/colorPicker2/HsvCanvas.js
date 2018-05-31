@@ -121,7 +121,7 @@ class HsvCanvas extends React.Component {
         let dragging = this.state.dragging ? ' dragging' : '';
 
         return <div 
-            className='color' 
+            className='track' 
             onMouseDown={this.onMouseDown} 
             style={{backgroundColor: this.state.hue.hex}}>
 

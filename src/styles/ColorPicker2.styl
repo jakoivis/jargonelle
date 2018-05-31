@@ -1,48 +1,47 @@
 
-.color-picker2
+// .color-picker2
 
-    .hsv-canvas
-        width: 250px
-        height: 200px
-        cursor: pointer
-        
-        .color
-            position: relative
-            width: inherit
-            height: inherit
-            background-color: rgba(255,255,255,0)
-            background-image: linear-gradient(
-                0deg, 
-                rgba(0,0,0,1) 0%,
-                rgba(0,0,0,0) 100%
-            ),
-            linear-gradient(
-                90deg, 
-                rgba(255,255,255,1) 0%, 
-                rgba(255,255,255,0) 100%
-            );
-            
+.hsv-canvas, .slider
+    width: 250px
+    height: 200px
+    cursor: pointer
+    
+    .track
+        position: relative
+        width: inherit
+        height: inherit
+        background-color: rgba(255,255,255,0)
+        background-image: linear-gradient(
+            0deg, 
+            rgba(0,0,0,1) 0%,
+            rgba(0,0,0,0) 100%
+        ),
+        linear-gradient(
+            90deg, 
+            rgba(255,255,255,1) 0%, 
+            rgba(255,255,255,0) 100%
+        );
 
-            .selection-container
-                position: absolute
-                transform: translate(-50%, -50%)
-                pointer-events: none
+        .selection-container
+            position: absolute
+            transform: translate(-50%, -50%)
+            pointer-events: none
 
+            .selection
+                width: 12px
+                height: 12px
+                border: 1px solid #999
+                border-radius: 50%
+                transition: all 0.1s ease-out
+
+            &.dragging
                 .selection
-                    width: 12px
-                    height: 12px
-                    border: 1px solid #999
+                    width: 18px
+                    height: 18px
+                    border: 2px solid white
                     border-radius: 50%
-                    transition: all 0.1s ease-out
-
-                &.dragging
-                    .selection
-                        width: 18px
-                        height: 18px
-                        border: 2px solid white
-                        border-radius: 50%
-                        
-            &:hover
-                .selection
-                    border: 1px solid #AAA
+                    
+        &:hover
+            .selection
+                border: 1px solid #AAA
             
