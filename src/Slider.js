@@ -1,187 +1,117 @@
 
-import _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import colorutil from 'color-util';
 
-import Bounds from 'hocs/Bounds';
+import Canvas from 'Canvas';
 
-class Slider extends React.Component {
+class Slider2 extends React.Component {
 
     constructor(props) {
 
         super(props);
 
-        let point = this.limitPoint(this.valueToPoint(this.props.value));
-        let value = this.pointToValue(point);
-
-        this.state = {...point, value, dragging: false};
-
-        this.onMouseUp = this.onMouseUp.bind(this);
-        this.onMouseDown = this.onMouseDown.bind(this);
-        this.onMouseMove = this.onMouseMove.bind(this);
-    }
-
-    componentDidMount() {
-
-        document.addEventListener('mousemove', this.onMouseMove);
-        document.addEventListener('mouseup', this.onMouseUp);
-    }
-
-    componentWillUnmount() {
-
-        document.removeEventListener('mousemove', this.onMouseMove)
-        document.removeEventListener('mouseup', this.onMouseUp)
-    }
-
-    onMouseUp() {
-
-        this.setState({dragging: false});
-    }
-
-    onMouseDown(event) {
-
-        let point = this.calculatePointerPosition(event);
-        let value = this.pointToValue(point);
-
-        this.setState({...point, value, dragging: true});
-        this.props.onChange(value);
-    }
-
-    onMouseMove(event) {
-
-        if (this.state.dragging) {
-
-            let point = this.calculatePointerPosition(event);
-            let value = this.pointToValue(point);
-
-            this.setState({...point, value});
-            this.props.onChange(value);
-        }
-    }
-
-    calculatePointerPosition(event) {
-
-        let {orientation, bounds} = this.props;
-        let w = bounds.width;
-        let h = bounds.height;
-        let x, y;
+        let {min, max, value, orientation} = this.props;
+        let newMin, newMax, newValue;
 
         if (orientation === 'horizontal') {
-            
-            x = event.clientX - bounds.left;
-            y = h / 2;
+            newMin = {x: min, y: 0};
+            newMax = {x: max, y: 1};
+            newValue = {x: value, y: 0};
         
         } else {
-            
-            y = event.clientY - bounds.top;
-            x = w / 2;
+            newMin = {x: 0, y: min};
+            newMax = {x: 1, y: max};
+            newValue = {x: 0, y: value};
         }
 
-        return this.limitPoint({x, y});
-    }
-
-    limitPoint(point) {
-
-        let {orientation, bounds} = this.props;
-        let w = bounds.width;
-        let h = bounds.height;
-        let {x, y} = point;
-
-        if (orientation === 'horizontal') {
-            
-            return {x: x < 0 ? 0 : x > w ? w : x, y};
-        }
-
-        return {y: y < 0 ? 0 : y > h ? h : y, x};
-    }
-
-    pointToValue(point) {
-
-        let {max, min, bounds, orientation} = this.props;
-        let size = bounds.height;
-        let position = point.y;
-
-        if (orientation === 'horizontal') {
-
-            size = bounds.width;
-            position = bounds.x;
-        }
-
-        return min + (position / size) * (max - min);
-    }
-
-    valueToPoint(value) {
-
-        let {max, min, bounds, orientation} = this.props;
-
-        if (orientation === 'horizontal') {
-
-            return {
-                x: ((value - min) / (max - min)) * bounds.width,
-                y: bounds.height / 2
-            }
-        }
-
-        return {
-            y: ((value - min) / (max - min)) * bounds.height,
-            x: bounds.width / 2
-        }
+        this.state = {
+            min: newMin,
+            max: newMax,
+            value: newValue
+        };
     }
 
     render() {
 
-        let dragging = this.state.dragging ? ' dragging' : '';
+        let {min, max, value} = this.state;
+        let {style, thumbStyle} = this.props;
 
-        return <div 
-            className={`track ${this.props.orientation}`}
-            onMouseDown={this.onMouseDown} 
-            style={this.props.style}>
+        return <Canvas
+            className={`slider ${this.props.className}`}
+            min={min}
+            max={max}
+            value={value}
+            style={style}
+            thumbStyle={thumbStyle}
+            onChange={(value) => {
 
-            <div
-                className={`selection-container${dragging}`}
-                style={{
-                    left: this.state.x,
-                    top: this.state.y
-                }}>
+                value = this.props.orientation === 'horizontal' ? value.x : value.y;
 
-                <div 
-                    className='selection'
-                    style={this.props.thumbStyle} />
+                this.props.onChange(value);
+            }}
+            limitPoint={(point, bounds) => {
 
-            </div>
+                let {x, y} = point;
+                let {width, height} = bounds;
+                let {orientation} = this.props;
 
-        </div>
+                if (orientation === 'horizontal') {
+
+                    return {
+                        x: x < 0 ? 0 : x > width ? width : x,
+                        y: height / 2
+                    };
+                }
+
+                return {
+                    y: y < 0 ? 0 : y > height ? height : y,
+                    x: width / 2
+                };
+            }}
+            limitValue={(value) => {
+
+                let {x, y} = value;
+                let {x: minx, y: miny} = this.state.min;
+                let {x: maxx, y: maxy} = this.state.max;
+                let {orientation} = this.props;
+
+                if (orientation === 'horizontal') {
+
+                    return {
+                        x: x < minx ? minx : x > maxx ? maxx : x,
+                        y: y
+                    }
+                }
+
+                return {
+                    y: y < miny ? miny : y > maxy ? maxy : y,
+                    x: x
+                };
+            }} />
     }
 }
 
-Slider.propTypes = {
-    value: PropTypes.oneOfType([
-        PropTypes.number
-    ]),
-    min: PropTypes.oneOfType([
-        PropTypes.number
-    ]),
-    max: PropTypes.oneOfType([
-        PropTypes.number
-    ]),
+Slider2.propTypes = {
+    className: PropTypes.string,
+    value: PropTypes.number,
+    min: PropTypes.number,
+    max: PropTypes.number,
     style: PropTypes.object,
     thumbStyle: PropTypes.object,
     orientation: PropTypes.oneOf(['vertical', 'horizontal']),
     onChange: PropTypes.func
 }
 
-Slider.defaultProps = {
+Slider2.defaultProps = {
+    className: '',
     value: 0,
     min: 0,
     max: 1,
     style: {},
     thumbStyle: {},
     orientation: 'horizontal',
-    onChange: _.noop
+    onChange: ()=>{}
 }
 
-export default Bounds(Slider, {
-    className: 'slider'
-});
+export default Slider2;
