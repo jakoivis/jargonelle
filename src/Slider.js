@@ -1,11 +1,10 @@
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import Canvas from 'Canvas';
 
-class Slider2 extends React.Component {
+class Slider extends React.Component {
 
     constructor(props) {
 
@@ -38,7 +37,7 @@ class Slider2 extends React.Component {
         let {style, thumbStyle} = this.props;
 
         return <Canvas
-            className={`slider ${this.props.className}`}
+            className={`slider ${this.props.className} ${this.props.orientation}`}
             min={min}
             max={max}
             value={value}
@@ -92,7 +91,7 @@ class Slider2 extends React.Component {
     }
 }
 
-Slider2.propTypes = {
+Slider.propTypes = {
     className: PropTypes.string,
     value: PropTypes.number,
     min: PropTypes.number,
@@ -103,7 +102,7 @@ Slider2.propTypes = {
     onChange: PropTypes.func
 }
 
-Slider2.defaultProps = {
+Slider.defaultProps = {
     className: '',
     value: 0,
     min: 0,
@@ -114,4 +113,4 @@ Slider2.defaultProps = {
     onChange: ()=>{}
 }
 
-export default Slider2;
+export default Slider;

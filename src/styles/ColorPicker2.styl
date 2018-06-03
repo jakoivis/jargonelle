@@ -1,28 +1,24 @@
 
-// .color-picker2
+.jargonelle.color-picker2
 
-.hsv-canvas, .canvas
-    width: 250px
-    height: 200px
-    cursor: pointer
-    
-.slider.horizontal
-    width: 250px
-    height: 20px
-    cursor: pointer
-    
-.slider.vertical
-    width: 20px
-    height: 250px
-    cursor: pointer
-
-.hsv-canvas, .slider, .canvas
-    
-    .track
-        position: relative
-        width: inherit
-        height: inherit
-        background-color: rgba(255,255,255,0)
+    .saturation-value
+        width: 250px
+        height: 200px
+        cursor: pointer
+        
+    .slider.horizontal
+        width: 250px
+        height: 20px
+        cursor: pointer
+        
+    .slider.vertical
+        width: 20px
+        height: 250px
+        cursor: pointer
+        
+    /* slider and canvas backgrounds */
+        
+    .canvas .track
         background-image: linear-gradient(
             0deg, 
             rgba(0,0,0,1) 0%,
@@ -34,26 +30,87 @@
             rgba(255,255,255,0) 100%
         );
 
-        .selection-container
-            position: absolute
-            transform: translate(-50%, -50%)
-            pointer-events: none
+    .slider.hue .track
+        background-image: linear-gradient(
+            180deg, 
+            #FF0000,
+            #FFFF00,
+            #00FF00,
+            #00FFFF,
+            #0000FF,
+            #FF00FF,
+            #FF0000
+        );
 
+    .slider.alpha 
+        background-image: linear-gradient(
+            45deg, 
+            #AAA 25%, 
+            transparent 25%
+        ), 
+        linear-gradient(
+            -45deg, 
+            #AAA 25%, 
+            transparent 25%
+        ),
+        linear-gradient(
+            45deg, 
+            transparent 75%, 
+            #AAA 75%
+        ), 
+        linear-gradient(
+            -45deg, 
+            transparent 75%, 
+            #AAA 75%
+        );
+        background-size: 12px 12px;
+        background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+        
+        .track
+            background-image: linear-gradient(
+                -90deg, 
+                rgba(0,0,0,1) 0%,
+                rgba(0,0,0,0) 100%
+            );
+        
+    /* thumb styles */
+
+    .slider.horizontal .selection
+        width: 6px
+        height: 22px
+
+    .slider.vertical .selection
+        width: 22px
+        height: 6px
+
+    .slider
+        .selection
+            box-shadow: inset 0px 1px 0px 0px #fff
+            background: linear-gradient(to bottom, #EEE 5%, #CCC 100%)
+            background-color: #f9f9f9
+            border-radius: 2px
+            border: 1px solid #999
+            transition: all 0.1s ease-out
+            
+        &.dragging
             .selection
-                width: 12px
-                height: 12px
-                border: 1px solid #999
-                border-radius: 50%
-                transition: all 0.1s ease-out
+                background: linear-gradient(to bottom, #CCC 5%, #EEE 100%)
 
-            &.dragging
-                .selection
-                    width: 18px
-                    height: 18px
-                    border: 2px solid white
-                    border-radius: 50%
-                    
+    .saturation-value
+        .selection
+            width: 12px
+            height: 12px
+            border: 1px solid #999
+            border-radius: 50%
+            transition: all 0.1s ease-out
+            
         &:hover
             .selection
                 border: 1px solid #AAA
-            
+                
+        &.dragging
+            .selection
+                width: 18px
+                height: 18px
+                border: 2px solid white
+                border-radius: 50%

@@ -4,8 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
 
-import HsvCanvas from 'colorPicker2/HsvCanvas';
 import Slider from 'Slider';
+import Canvas from 'Canvas';
 
 import 'styles/ColorPicker2';
 
@@ -15,18 +15,65 @@ export default class ColorPicker2 extends React.Component {
 
         super(props);
 
+        let color = colorutil.color(this.props.color);
+
         this.state = {
+            a: color.hsv.a,
+            h: color.hsv.h,
+            sv: {
+                x: color.hsv.s,
+                y: (1 - color.hsv.v)
+            },
+            color
         }
+    }
+
+    getColor({
+        h = this.state.h,
+        sv = this.state.sv,
+        a = this.state.a
+    } = {}) {
+
+        return colorutil.color({
+            h, a,
+            s: sv.x,
+            v: (1 - sv.y)
+        });
     }
 
     render() {
 
-        return <div className='color-picker2'>
+        return <div className='jargonelle color-picker2'>
 
-            <HsvCanvas color='#ff00ee' />
-            <Slider value={-1} style={{backgroundColor:'#FF0000'}}/>
-            <Slider value={0.25} min={-1} max={1} orientation='vertical' style={{backgroundColor:'#FFFF00'}}/>
+            <Slider
+                className='alpha'
+                value={this.state.a} 
+                onChange={(a) => {
+                    let color = this.getColor({a});
+                    this.setState({a, color});
+                    this.props.onChange(color);
+                }} />
 
+            <Slider
+                className='hue'
+                orientation='vertical' 
+                value={this.state.h} 
+                style={{backgroundColor:'#FF0000'}}
+                onChange={(h) => {
+                    let color = this.getColor({h});
+                    this.setState({h, color});
+                    this.props.onChange(color);
+                }} />
+            
+            <Canvas
+                className='saturation-value'
+                value={this.state.sv} 
+                style={{backgroundColor: this.state.color.hue().hex}}
+                onChange={(sv) => {
+                    let color = this.getColor({sv});
+                    this.setState({sv, color});
+                    this.props.onChange(color);
+                }} />
         </div>
     }
 }
@@ -38,5 +85,5 @@ ColorPicker2.propTypes = {
 
 ColorPicker2.defaultProps = {
     color: 0xFF0000,
-    onChange: _.noop
+    // onChange: _.noop
 }

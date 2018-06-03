@@ -3,6 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
+import 'styles/Canvas';
+
 class Canvas extends React.Component {
 
     constructor(props) {
@@ -138,7 +140,7 @@ class Canvas extends React.Component {
 
         let dragging = this.state.dragging ? ' dragging' : '';
 
-        return <div className={`canvas ${this.props.orientation}`}>
+        return <div className={`jargonelle canvas ${this.props.className}${dragging}`}>
             
             {
                 this.state.bounds && 
@@ -149,7 +151,7 @@ class Canvas extends React.Component {
                     style={this.props.style}>
 
                     <div
-                        className={`selection-container${dragging}`}
+                        className='selection-container'
                         style={{
                             left: this.state.x,
                             top: this.state.y
@@ -169,6 +171,7 @@ class Canvas extends React.Component {
 }
 
 Canvas.propTypes = {
+    className: PropTypes.string,
     value: PropTypes.shape({
         x: PropTypes.number,
         y: PropTypes.number
@@ -189,6 +192,7 @@ Canvas.propTypes = {
 }
 
 Canvas.defaultProps = {
+    className: '',
     value: {x: 0, y: 0},
     min: {x: 0, y: 0},
     max: {x: 1, y: 1},
