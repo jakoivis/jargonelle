@@ -1,6 +1,14 @@
 
 .jargonelle.color-picker2
-
+    
+    // .background
+    // background: linear-gradient(to top, #444 5%, #000 25%)
+        
+    // border-radius: 2px
+    // border: 1px solid #555
+    width: 300px;
+    height: 400px;
+    
     .saturation-value
         width: 250px
         height: 200px
@@ -12,9 +20,14 @@
         cursor: pointer
         
     .slider.vertical
-        width: 20px
-        height: 250px
+        width: 15px
+        height: 300px
         cursor: pointer
+        
+    .content
+        background: linear-gradient(to top, #444 5%, #000 25%)
+        width: 300px;
+        height: inherit;
         
     /* slider and canvas backgrounds */
         
@@ -72,45 +85,20 @@
                 rgba(0,0,0,1) 0%,
                 rgba(0,0,0,0) 100%
             );
+            
+    .slider.vertical
+        .triangle-thumb
+            width: 10px;
+            height: 16px;
+            
+        polygon
+            fill: #000
+            stroke: #AAA
+            stroke-width: 1
+            transition: stroke 0.1s ease-out, stroke-width 0.1s ease-out;
         
-    /* thumb styles */
-
-    .slider.horizontal .selection
-        width: 6px
-        height: 22px
-
-    .slider.vertical .selection
-        width: 22px
-        height: 6px
-
-    .slider
-        .selection
-            box-shadow: inset 0px 1px 0px 0px #fff
-            background: linear-gradient(to bottom, #EEE 5%, #CCC 100%)
-            background-color: #f9f9f9
-            border-radius: 2px
-            border: 1px solid #999
-            transition: all 0.1s ease-out
-            
-        &.dragging
-            .selection
-                background: linear-gradient(to bottom, #CCC 5%, #EEE 100%)
-
-    .saturation-value
-        .selection
-            width: 12px
-            height: 12px
-            border: 1px solid #999
-            border-radius: 50%
-            transition: all 0.1s ease-out
-            
-        &:hover
-            .selection
-                border: 1px solid #AAA
-                
-        &.dragging
-            .selection
-                width: 18px
-                height: 18px
-                border: 2px solid white
-                border-radius: 50%
+        &.dragging,
+        &:hover 
+            polygon
+                stroke: #FFF
+                stroke-width: 1.1

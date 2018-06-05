@@ -5,7 +5,25 @@
         width: inherit
         height: inherit
 
-        .selection-container
+        .thumb-container
             position: absolute
             transform: translate(-50%, -50%)
             pointer-events: none
+            
+    .default-thumb
+        width: 12px
+        height: 12px
+        border: 1px solid #999
+        border-radius: 50%
+        transition: all 0.1s ease-out
+        
+    &:hover
+        .default-thumb
+            border: 1px solid #AAA
+            
+    &.dragging
+        .default-thumb
+            width: 18px
+            height: 18px
+            border: 2px solid white
+            border-radius: 50%

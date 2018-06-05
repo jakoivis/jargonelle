@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import 'styles/Canvas';
 
-class Canvas extends React.Component {
+export default class Canvas extends React.Component {
 
     constructor(props) {
 
@@ -151,15 +151,15 @@ class Canvas extends React.Component {
                     style={this.props.style}>
 
                     <div
-                        className='selection-container'
+                        className='thumb-container'
                         style={{
                             left: this.state.x,
                             top: this.state.y
                         }}>
 
-                        <div 
-                            className='selection'
-                            style={this.props.thumbStyle} />
+                        {
+                            React.createElement(this.props.thumb, this.props)
+                        }
 
                     </div>
 
@@ -169,6 +169,10 @@ class Canvas extends React.Component {
         </div>
     }
 }
+
+const DefaultThumb = props => (
+    <div className='thumb default-thumb' style={props.thumbStyle} />
+);
 
 Canvas.propTypes = {
     className: PropTypes.string,
@@ -188,8 +192,9 @@ Canvas.propTypes = {
     thumbStyle: PropTypes.object,
     onChange: PropTypes.func,
     limitPoint: PropTypes.func,
-    limitValue: PropTypes.func
-}
+    limitValue: PropTypes.func,
+    thumb: PropTypes.func
+};
 
 Canvas.defaultProps = {
     className: '',
@@ -200,7 +205,6 @@ Canvas.defaultProps = {
     thumbStyle: {},
     onChange: ()=>{},
     limitPoint: null,
-    limitValue: null
-}
-
-export default Canvas;
+    limitValue: null,
+    thumb: DefaultThumb
+};

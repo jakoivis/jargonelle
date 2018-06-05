@@ -43,6 +43,7 @@ class Slider extends React.Component {
             value={value}
             style={style}
             thumbStyle={thumbStyle}
+            thumb={this.props.thumb}
             onChange={(value) => {
 
                 value = this.props.orientation === 'horizontal' ? value.x : value.y;
