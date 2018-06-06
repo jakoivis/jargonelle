@@ -1,61 +1,107 @@
 
+width = 200px
+height = 300px
+sliderThickness = 15px
+hueSaturationHeight = 150px
+
 .jargonelle.color-picker2
     
-    // .background
-    // background: linear-gradient(to top, #444 5%, #000 25%)
-        
-    // border-radius: 2px
-    // border: 1px solid #555
-    width: 300px;
-    height: 400px;
+    height: height
+    width: width
     
-    .saturation-value
-        width: 250px
-        height: 200px
+    > .content
+        position: relative
+        width: inherit
+        height: inherit
+        
+        > slider.hue
+            position: absolute
+            top: 0
+            left: 0
+            
+        > .content
+            position: absolute
+            padding-left: 3px
+            padding-right: 3px
+            width: width - sliderThickness
+            height: inherit
+            left: sliderThickness
+            top: 0
+            
+    .slider.hue.vertical
+        width: sliderThickness
+        height: inherit
         cursor: pointer
         
-    .slider.horizontal
-        width: 250px
-        height: 20px
+    .canvas.saturation-value
+        width: inherit
+        height: hueSaturationHeight
         cursor: pointer
         
-    .slider.vertical
-        width: 15px
-        height: 300px
+    .slider.alpha.horizontal
+        width: inherit
+        height: sliderThickness
         cursor: pointer
         
+    /* details */
+        
+    .slider.hue.vertical
+        .track
+            margin-left: 5px
+            transition: margin-left 0.1s ease-out
+            
+        .triangle-thumb
+            width: 10px
+            height: 16px
+            margin-left: -6px
+            margin-top: 3px
+            
+        polygon
+            fill: #000
+            // stroke: #000
+            // stroke-width: 1
+            // transition: stroke 0.1s ease-out, stroke-width 0.1s ease-out
+        
+        &.dragging,
+        &:hover 
+            .track
+                margin-left: 0
+            // polygon
+                // stroke: #FFF
+                // stroke-width: 1.1
+        
+    /* backgrounds */
+    
     .content
         background: linear-gradient(to top, #444 5%, #000 25%)
-        width: 300px;
-        height: inherit;
         
-    /* slider and canvas backgrounds */
-        
-    .canvas .track
-        background-image: linear-gradient(
-            0deg, 
-            rgba(0,0,0,1) 0%,
-            rgba(0,0,0,0) 100%
-        ),
-        linear-gradient(
-            90deg, 
-            rgba(255,255,255,1) 0%, 
-            rgba(255,255,255,0) 100%
-        );
+    .canvas.saturation-value
+        .track
+            background-image: linear-gradient(
+                0deg, 
+                rgba(0,0,0,1) 0%,
+                rgba(0,0,0,0) 100%
+            ),
+            linear-gradient(
+                90deg, 
+                rgba(255,255,255,1) 0%, 
+                rgba(255,255,255,0) 100%
+            );
 
-    .slider.hue .track
-        background-image: linear-gradient(
-            180deg, 
-            #FF0000,
-            #FFFF00,
-            #00FF00,
-            #00FFFF,
-            #0000FF,
-            #FF00FF,
-            #FF0000
-        );
+    .slider.hue.vertical 
+        .track
+            background-image: linear-gradient(
+                180deg, 
+                #FF0000,
+                #FFFF00,
+                #00FF00,
+                #00FFFF,
+                #0000FF,
+                #FF00FF,
+                #FF0000
+            );
 
-    .slider.alpha 
+    .slider.alpha.horizontal
         background-image: linear-gradient(
             45deg, 
             #AAA 25%, 
@@ -76,8 +122,9 @@
             transparent 75%, 
             #AAA 75%
         );
-        background-size: 12px 12px;
-        background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+        background-size: 10px 10px;
+        background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
+        background-color: #444
         
         .track
             background-image: linear-gradient(
@@ -85,20 +132,3 @@
                 rgba(0,0,0,1) 0%,
                 rgba(0,0,0,0) 100%
             );
-            
-    .slider.vertical
-        .triangle-thumb
-            width: 10px;
-            height: 16px;
-            
-        polygon
-            fill: #000
-            stroke: #AAA
-            stroke-width: 1
-            transition: stroke 0.1s ease-out, stroke-width 0.1s ease-out;
-        
-        &.dragging,
-        &:hover 
-            polygon
-                stroke: #FFF
-                stroke-width: 1.1

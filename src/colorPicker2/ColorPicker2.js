@@ -45,39 +45,42 @@ export default class ColorPicker2 extends React.Component {
 
         return <div className='jargonelle color-picker2'>
 
-            <Slider
-                className='hue'
-                orientation='vertical' 
-                value={this.state.h} 
-                style={{backgroundColor:'#FF0000'}}
-                thumb={TriangleThumb}
-                onChange={(h) => {
-                    let color = this.getColor({h});
-                    this.setState({h, color});
-                    this.props.onChange(color);
-                }} />
-
             <div className='content'>
 
-                <Canvas
-                    className='saturation-value'
-                    value={this.state.sv} 
-                    style={{backgroundColor: this.state.color.hue().hex}}
-                    onChange={(sv) => {
-                        let color = this.getColor({sv});
-                        this.setState({sv, color});
-                        this.props.onChange(color);
-                    }} />
-
                 <Slider
-                    className='alpha'
-                    value={this.state.a} 
-                    onChange={(a) => {
-                        let color = this.getColor({a});
-                        this.setState({a, color});
+                    className='hue'
+                    orientation='vertical' 
+                    value={this.state.h} 
+                    style={{backgroundColor:'#FF0000'}}
+                    thumb={TriangleThumb}
+                    onChange={(h) => {
+                        let color = this.getColor({h});
+                        this.setState({h, color});
                         this.props.onChange(color);
                     }} />
 
+                <div className='content'>
+
+                    <Canvas
+                        className='saturation-value'
+                        value={this.state.sv} 
+                        style={{backgroundColor: this.state.color.hue().hex}}
+                        onChange={(sv) => {
+                            let color = this.getColor({sv});
+                            this.setState({sv, color});
+                            this.props.onChange(color);
+                        }} />
+
+                    <Slider
+                        className='alpha'
+                        value={this.state.a} 
+                        onChange={(a) => {
+                            let color = this.getColor({a});
+                            this.setState({a, color});
+                            this.props.onChange(color);
+                        }} />
+
+                </div>
             </div>
         </div>
     }
