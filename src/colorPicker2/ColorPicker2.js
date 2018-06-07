@@ -52,7 +52,7 @@ export default class ColorPicker2 extends React.Component {
                     orientation='vertical' 
                     value={this.state.h} 
                     style={{backgroundColor:'#FF0000'}}
-                    thumb={TriangleThumb}
+                    thumb={TriangleThumbVertica}
                     onChange={(h) => {
                         let color = this.getColor({h});
                         this.setState({h, color});
@@ -65,6 +65,7 @@ export default class ColorPicker2 extends React.Component {
                         className='saturation-value'
                         value={this.state.sv} 
                         style={{backgroundColor: this.state.color.hue().hex}}
+                        thumbStyle={{backgroundColor: this.state.color.hex}}
                         onChange={(sv) => {
                             let color = this.getColor({sv});
                             this.setState({sv, color});
@@ -74,6 +75,7 @@ export default class ColorPicker2 extends React.Component {
                     <Slider
                         className='alpha'
                         value={this.state.a} 
+                        thumb={TriangleThumbHorizontal}
                         onChange={(a) => {
                             let color = this.getColor({a});
                             this.setState({a, color});
@@ -86,9 +88,15 @@ export default class ColorPicker2 extends React.Component {
     }
 }
 
-const TriangleThumb = props => (
+const TriangleThumbVertica = props => (
     <svg className='triangle-thumb'>
         <polygon points='0,0 0,16 10,8'/>
+    </svg>
+);
+
+const TriangleThumbHorizontal = props => (
+    <svg className='triangle-thumb'>
+        <polygon points='0,10 16,10 8,0'/>
     </svg>
 );
 
@@ -99,5 +107,5 @@ ColorPicker2.propTypes = {
 
 ColorPicker2.defaultProps = {
     color: 0xFF0000,
-    // onChange: _.noop
+    onChange: _.noop
 }

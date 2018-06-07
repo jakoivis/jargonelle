@@ -47,6 +47,7 @@ hueSaturationHeight = 150px
         
     .slider.hue.vertical
         .track
+            overflow: hidden
             margin-left: 5px
             transition: margin-left 0.1s ease-out
             
@@ -58,17 +59,27 @@ hueSaturationHeight = 150px
             
         polygon
             fill: #000
-            // stroke: #000
-            // stroke-width: 1
-            // transition: stroke 0.1s ease-out, stroke-width 0.1s ease-out
         
         &.dragging,
         &:hover 
             .track
                 margin-left: 0
-            // polygon
-                // stroke: #FFF
-                // stroke-width: 1.1
+                
+    .slider.alpha.horizontal
+        
+        .track
+            overflow: hidden
+            
+        .triangle-thumb
+            width: 16px
+            height: 10px
+            margin-top: 8px
+        polygon
+            fill: #fff
+                
+    .canvas.saturation-value
+        .default-thumb
+            box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.2);
         
     /* backgrounds */
     

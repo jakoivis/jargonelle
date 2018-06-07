@@ -4,6 +4,7 @@
         position: relative
         width: inherit
         height: inherit
+        overflow: hidden
 
         .thumb-container
             position: absolute
@@ -16,12 +17,11 @@
         border: 1px solid #999
         border-radius: 50%
         transition: all 0.1s ease-out
-        
-    &:hover
-        .default-thumb
-            border: 1px solid #AAA
-            
+
+    &:hover,
     &.dragging
+        .track
+            overflow: visible
         .default-thumb
             width: 18px
             height: 18px

@@ -29,7 +29,7 @@ class Components extends React.Component {
 
         return <div className="samples">
 
-            <ColorPicker2 />
+            <ColorPicker2 onChange={color => console.log(color.hex)} />
 
         </div>
     }
