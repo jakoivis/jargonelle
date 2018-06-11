@@ -4,8 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
 
-import Gradient from 'colorPicker/Gradient';
-import ColorPicker from 'colorPicker/ColorPicker';
+import Gradient from 'Gradient';
 import SnapDragGrid from 'SnapDragGrid';
 
 import 'styles/GradientGrid';

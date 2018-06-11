@@ -31,6 +31,21 @@ class Slider extends React.Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+
+        const {orientation, value} = this.props;
+
+        if (nextProps.value !== value) {
+
+            if (orientation === 'horizontal') {
+                this.setState({value: {x: value, y: 0}});
+                
+            } else {
+                this.setState({value: {x: 0, y: value}});
+            }
+        }
+    }
+
     render() {
 
         let {min, max, value} = this.state;

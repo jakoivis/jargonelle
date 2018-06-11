@@ -6,8 +6,9 @@ import colorutil from 'color-util';
 
 import Slider from 'Slider';
 import Canvas from 'Canvas';
+import ColorInputs from 'ColorInputs';
 
-import 'styles/ColorPicker2';
+import 'styles/ColorPicker';
 
 export default class ColorPicker2 extends React.Component {
 
@@ -17,18 +18,10 @@ export default class ColorPicker2 extends React.Component {
 
         let color = colorutil.color(this.props.color);
 
-        this.state = {
-            a: color.hsv.a,
-            h: color.hsv.h,
-            sv: {
-                x: color.hsv.s,
-                y: (1 - color.hsv.v)
-            },
-            color
-        }
+        this.state = this.colorToState(color);
     }
 
-    getColor({
+    stateToColor({
         h = this.state.h,
         sv = this.state.sv,
         a = this.state.a
@@ -39,6 +32,20 @@ export default class ColorPicker2 extends React.Component {
             s: sv.x,
             v: (1 - sv.y)
         });
+    }
+
+    colorToState(color) {
+
+        console.log(color.hsv);
+        return {
+            a: color.hsv.a,
+            h: color.hsv.h,
+            sv: {
+                x: color.hsv.s,
+                y: (1 - color.hsv.v)
+            },
+            color
+        }
     }
 
     render() {
@@ -54,7 +61,7 @@ export default class ColorPicker2 extends React.Component {
                     style={{backgroundColor:'#FF0000'}}
                     thumb={TriangleThumbVertica}
                     onChange={(h) => {
-                        let color = this.getColor({h});
+                        let color = this.stateToColor({h});
                         this.setState({h, color});
                         this.props.onChange(color);
                     }} />
@@ -67,7 +74,7 @@ export default class ColorPicker2 extends React.Component {
                         style={{backgroundColor: this.state.color.hue().hex}}
                         thumbStyle={{backgroundColor: this.state.color.hex}}
                         onChange={(sv) => {
-                            let color = this.getColor({sv});
+                            let color = this.stateToColor({sv});
                             this.setState({sv, color});
                             this.props.onChange(color);
                         }} />
@@ -77,8 +84,15 @@ export default class ColorPicker2 extends React.Component {
                         value={this.state.a} 
                         thumb={TriangleThumbHorizontal}
                         onChange={(a) => {
-                            let color = this.getColor({a});
+                            let color = this.stateToColor({a});
                             this.setState({a, color});
+                            this.props.onChange(color);
+                        }} />
+
+                    <ColorInputs 
+                        color={this.state.color}
+                        onChange={color => {
+                            this.setState(this.colorToState(color));
                             this.props.onChange(color);
                         }} />
 

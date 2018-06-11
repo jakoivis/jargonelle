@@ -8,6 +8,7 @@
 -color picker 2
     - add invert color to colorutil and try with the selection borders
     - color-util rgb->hex rounding issue
+    - change the canvas handle on top of alpha slider
 
 - silder
 

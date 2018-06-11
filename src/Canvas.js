@@ -29,9 +29,9 @@ export default class Canvas extends React.Component {
         document.addEventListener('mousemove', this.onMouseMove);
         document.addEventListener('mouseup', this.onMouseUp);
 
-        let rootNode = ReactDOM.findDOMNode(this);
-        let bounds = rootNode.getBoundingClientRect();
-        let value = this.limitValue(this.props.value);
+        const rootNode = ReactDOM.findDOMNode(this);
+        const bounds = rootNode.getBoundingClientRect();
+        const value = this.limitValue(this.props.value);
         let point = this.valueToPoint(value, bounds);
         point = this.limitPoint(point, bounds);
 
@@ -42,6 +42,20 @@ export default class Canvas extends React.Component {
 
         document.removeEventListener('mousemove', this.onMouseMove)
         document.removeEventListener('mouseup', this.onMouseUp)
+    }
+
+    componentWillReceiveProps(nextProps) {
+
+        if (nextProps.value.x !== this.props.value.x ||
+            nextProps.value.y !== this.props.value.y) {
+
+            const bounds = this.state.bounds;
+            const value = this.limitValue(nextProps.value);
+            let point = this.valueToPoint(value, bounds);
+            point = this.limitPoint(point, bounds);
+
+            this.setState({...point, value, bounds});
+        }
     }
 
     onMouseUp() {

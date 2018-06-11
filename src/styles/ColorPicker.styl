@@ -143,3 +143,22 @@ hueSaturationHeight = 150px
                 rgba(0,0,0,1) 0%,
                 rgba(0,0,0,0) 100%
             );
+
+    .inputs
+        margin: 10px
+
+        input
+            margin-bottom: 10px
+
+        input:not([type=submit]):not([type=file])
+
+            border: 0
+            border-bottom: 1px dashed #444
+            background: rgba(0,0,0,0);
+            color: #888
+
+            &:hover
+                border-bottom: 1px dashed #888
+
+            &:focus
+                border-bottom: 1px solid #888

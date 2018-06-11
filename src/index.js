@@ -1,15 +1,13 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import ColorPicker from 'colorPicker/ColorPicker';
 import GradientGrid from 'GradientGrid';
 import SnapDragGrid from 'SnapDragGrid';
-import GradientPickerGrid from 'colorPicker/GradientPickerGrid';
-import ColorPicker2 from 'colorPicker2/ColorPicker2';
+import ColorPicker from 'ColorPicker';
 
 import 'styles/samples';
 import 'styles/common';
 import 'styles/GradientGrid';
-import 'styles/ColorPicker2';
+import 'styles/ColorPicker';
 
 class Components extends React.Component {
 
@@ -29,7 +27,7 @@ class Components extends React.Component {
 
         return <div className="samples">
 
-            <ColorPicker2 onChange={color => console.log(color.hex)} />
+            <ColorPicker onChange={color => console.log(color.hex)} />
 
         </div>
     }
