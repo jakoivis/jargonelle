@@ -1,19 +1,10 @@
 
 - color picker
-    - remove color-picker root position style. should not rely on that
-    - gradient class name: color -> gradient
-    - check the color picker other classname and usage of getClassName
-    - define styling. now just some styles are applied.
-
--color picker 2
     - add invert color to colorutil and try with the selection borders
     - color-util rgb->hex rounding issue
     - change the canvas handle on top of alpha slider
-
-- silder
-
-- color slider
-    -utilizes slider
+    - different format color inputs
+    - color swatch
 
 - color grid
     - rename GradientPicker GradientSelector

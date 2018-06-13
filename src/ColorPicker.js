@@ -36,7 +36,6 @@ export default class ColorPicker2 extends React.Component {
 
     colorToState(color) {
 
-        console.log(color.hsv);
         return {
             a: color.hsv.a,
             h: color.hsv.h,
@@ -91,6 +90,7 @@ export default class ColorPicker2 extends React.Component {
 
                     <ColorInputs 
                         color={this.state.color}
+                        types={this.props.inputs}
                         onChange={color => {
                             this.setState(this.colorToState(color));
                             this.props.onChange(color);
@@ -116,10 +116,12 @@ const TriangleThumbHorizontal = props => (
 
 ColorPicker2.propTypes = {
     color: PropTypes.any,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onChange: PropTypes.array
 }
 
 ColorPicker2.defaultProps = {
     color: 0xFF0000,
-    onChange: _.noop
+    onChange: _.noop,
+    inputs: ['hex']
 }

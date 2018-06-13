@@ -12,7 +12,9 @@
     "build-lib": "babel src --out-dir lib",
     "build-bundle": "webpack --env production",
     "build": "npm run build-bundle",
-    "docs": "jsdoc2md --template readme.hbs --files src/ColorUtil.js > README.md"
+    "docs": "jsdoc2md --template readme.hbs --files src/ColorUtil.js > README.md",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",
@@ -50,7 +52,12 @@
     "stylus-loader": "^3.0.2",
     "url-loader": "^1.0.1",
     "webpack": "^4.9.1",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.1.4",
+    "@storybook/react": "^v4.0.0-alpha.9",
+    "@storybook/addon-actions": "^v4.0.0-alpha.9",
+    "@storybook/addon-links": "^v4.0.0-alpha.9",
+    "@storybook/addons": "^v4.0.0-alpha.9",
+    "babel-runtime": "^6.26.0"
   },
   "dependencies": {
     "color-util": "^2.2.1",
