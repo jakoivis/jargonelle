@@ -10,7 +10,7 @@ import ColorInputs from 'ColorInputs';
 
 import 'styles/ColorPicker';
 
-export default class ColorPicker2 extends React.Component {
+export default class ColorPicker extends React.Component {
 
     constructor(props) {
 
@@ -78,15 +78,19 @@ export default class ColorPicker2 extends React.Component {
                             this.props.onChange(color);
                         }} />
 
-                    <Slider
-                        className='alpha'
-                        value={this.state.a} 
-                        thumb={TriangleThumbHorizontal}
-                        onChange={(a) => {
-                            let color = this.stateToColor({a});
-                            this.setState({a, color});
-                            this.props.onChange(color);
-                        }} />
+                    {
+                        this.props.alpha && 
+
+                        <Slider
+                            className='alpha'
+                            value={this.state.a} 
+                            thumb={TriangleThumbHorizontal}
+                            onChange={(a) => {
+                                let color = this.stateToColor({a});
+                                this.setState({a, color});
+                                this.props.onChange(color);
+                            }} />
+                    }
 
                     <ColorInputs 
                         color={this.state.color}
@@ -114,14 +118,16 @@ const TriangleThumbHorizontal = props => (
     </svg>
 );
 
-ColorPicker2.propTypes = {
+ColorPicker.propTypes = {
     color: PropTypes.any,
     onChange: PropTypes.func,
-    onChange: PropTypes.array
+    inputs: PropTypes.array,
+    alpha: PropTypes.bool
 }
 
-ColorPicker2.defaultProps = {
+ColorPicker.defaultProps = {
     color: 0xFF0000,
     onChange: _.noop,
-    inputs: ['hex']
+    inputs: ['hex'],
+    alpha: false
 }

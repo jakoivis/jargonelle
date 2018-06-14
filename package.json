@@ -28,6 +28,11 @@
   },
   "homepage": "https://github.com/jakoivis/jargonelle#readme",
   "devDependencies": {
+    "@storybook/addon-actions": "^v4.0.0-alpha.9",
+    "@storybook/addon-knobs": "^3.4.7",
+    "@storybook/addon-links": "^v4.0.0-alpha.9",
+    "@storybook/addons": "^v4.0.0-alpha.9",
+    "@storybook/react": "^v4.0.0-alpha.9",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
@@ -52,12 +57,7 @@
     "stylus-loader": "^3.0.2",
     "url-loader": "^1.0.1",
     "webpack": "^4.9.1",
-    "webpack-dev-server": "^3.1.4",
-    "@storybook/react": "^v4.0.0-alpha.9",
-    "@storybook/addon-actions": "^v4.0.0-alpha.9",
-    "@storybook/addon-links": "^v4.0.0-alpha.9",
-    "@storybook/addons": "^v4.0.0-alpha.9",
-    "babel-runtime": "^6.26.0"
+    "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
     "color-util": "^2.2.1",

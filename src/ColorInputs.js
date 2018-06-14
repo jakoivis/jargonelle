@@ -12,8 +12,8 @@ export default class ColorInputs extends React.Component {
 
         this.onInputChange = this.onInputChange.bind(this);
 
-        let color = colorutil.color(this.props.color);
-        let inputValues = this.getInputValuesFromColor(color);
+        const color = colorutil.color(this.props.color);
+        const inputValues = this.getInputValuesFromColor(color);
 
         this.state = {
             color: color,
@@ -23,10 +23,13 @@ export default class ColorInputs extends React.Component {
 
     componentWillReceiveProps(nextProps) {
 
-        if (nextProps.color !== this.props.color) {
+        const {color, types} = this.props;
 
-            let color = colorutil.color(nextProps.color);
-            let inputValues = this.getInputValuesFromColor(color);
+        if (nextProps.color !== color ||
+            nextProps.types !== types) {
+
+            const color = colorutil.color(nextProps.color);
+            const inputValues = this.getInputValuesFromColor(color, nextProps.types);
 
             this.setState({
                 color: color,
@@ -35,9 +38,9 @@ export default class ColorInputs extends React.Component {
         }
     }
 
-    getInputValuesFromColor(color) {
+    getInputValuesFromColor(color, types=this.props.types) {
 
-        return _.map(this.props.types, (type) => {
+        return _.map(types, (type) => {
 
             return {
                 type: type,
@@ -48,11 +51,10 @@ export default class ColorInputs extends React.Component {
 
     onInputChange(event) {
 
-        let type = event.target.name;
-        let value = event.target.value;
-        let inputValues = this.state.inputValues;
-        let inputObject = _.find(inputValues, ['type', type]);
-        let isValid = colorutil[type].test(value);
+        const {type, value} = event.target;
+        const inputValues = this.state.inputValues;
+        const inputObject = _.find(inputValues, ['type', type]);
+        const isValid = colorutil[type].test(value);
 
         inputObject.value = value;
 
@@ -62,7 +64,7 @@ export default class ColorInputs extends React.Component {
 
         if (isValid) {
 
-            let color = colorutil.color(value);
+            const color = colorutil.color(value);
 
             this.props.onChange(color);
         }
