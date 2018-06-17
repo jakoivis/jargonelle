@@ -13,14 +13,7 @@ stories.addDecorator(withKnobs);
 stories.add('Default', () => (
         <ColorPicker />
     ))
-    .add('multiple input types', () => (
-        // https://www.npmjs.com/package/color-util#color-format-conversion
-        <ColorPicker inputs={['int', 'hex', 'rgb', 'cssrgb', 
-            'cssrgba', 'hsl', 'csshsl', 'csshsla', 'hsv']} />
-    ))
-    .add('alpha slider', () => (
-        <ColorPicker alpha={true} inputs={['cssrgba']} />
-    ))
+    // https://www.npmjs.com/package/color-util#color-format-conversion
     .add('tester', () => (
         <ColorPicker 
             alpha={boolean('alpha', false)} 

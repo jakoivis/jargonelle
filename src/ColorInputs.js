@@ -38,13 +38,20 @@ export default class ColorInputs extends React.Component {
 
     getInputValuesFromColor(color, types=this.props.types) {
 
-        return _.map(types, (type) => {
+        return types.reduce((acc, type) => {
+            
+            type = type.trim();
 
-            return {
-                type: type,
-                value: color[type]
-            };
-        });
+            if (colorutil[type]) {
+
+                acc.push({
+                    type: type,
+                    value: color[type]
+                });
+            }
+
+            return acc;
+        }, []);
     }
 
     onInputChange = event => {
