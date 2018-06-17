@@ -24,7 +24,8 @@ stories.add('Default', () => (
     .add('tester', () => (
         <ColorPicker 
             alpha={boolean('alpha', false)} 
-            inputs={array('inputs', ['hex', 'cssrgb'], ',')} />
+            inputs={array('inputs', ['hex', 'cssrgb'], ',')} 
+            color='#00ff00'/>
     ))
 
 
