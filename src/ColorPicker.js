@@ -49,7 +49,7 @@ export default class ColorPicker extends React.Component {
 
     render() {
 
-        return <div className='jargonelle color-picker2'>
+        return <div className='jargonelle color-picker'>
 
             <div className='content'>
 
