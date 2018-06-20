@@ -59,11 +59,13 @@ export default class Canvas extends React.Component {
     }
 
     onMouseUp() {
-
+        
         this.setState({dragging: false});
     }
 
     onMouseDown(event) {
+
+        event.preventDefault();
 
         let point = this.calculatePointerPosition(event);
         let value = this.pointToValue(point);
