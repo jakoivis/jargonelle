@@ -51,56 +51,53 @@ export default class ColorPicker extends React.Component {
 
         return <div className='jargonelle color-picker'>
 
+            <Slider
+                className='hue'
+                orientation='vertical' 
+                value={this.state.h} 
+                style={{backgroundColor:'#FF0000'}}
+                thumb={TriangleThumbVertica}
+                onChange={(h) => {
+                    let color = this.stateToColor({h});
+                    this.setState({h, color});
+                    this.props.onChange(color);
+                }} />
+
             <div className='content'>
 
-                <Slider
-                    className='hue'
-                    orientation='vertical' 
-                    value={this.state.h} 
-                    style={{backgroundColor:'#FF0000'}}
-                    thumb={TriangleThumbVertica}
-                    onChange={(h) => {
-                        let color = this.stateToColor({h});
-                        this.setState({h, color});
+                <Canvas
+                    className='saturation-value'
+                    value={this.state.sv} 
+                    style={{backgroundColor: this.state.color.hue().hex}}
+                    thumbStyle={{backgroundColor: this.state.color.hex}}
+                    onChange={(sv) => {
+                        let color = this.stateToColor({sv});
+                        this.setState({sv, color});
                         this.props.onChange(color);
                     }} />
 
-                <div className='content'>
+                {
+                    this.props.alpha && 
 
-                    <Canvas
-                        className='saturation-value'
-                        value={this.state.sv} 
-                        style={{backgroundColor: this.state.color.hue().hex}}
-                        thumbStyle={{backgroundColor: this.state.color.hex}}
-                        onChange={(sv) => {
-                            let color = this.stateToColor({sv});
-                            this.setState({sv, color});
+                    <Slider
+                        className='alpha'
+                        value={this.state.a} 
+                        thumb={TriangleThumbHorizontal}
+                        onChange={(a) => {
+                            let color = this.stateToColor({a});
+                            this.setState({a, color});
                             this.props.onChange(color);
                         }} />
+                }
 
-                    {
-                        this.props.alpha && 
+                <ColorInputs 
+                    color={this.state.color}
+                    types={this.props.inputs}
+                    onChange={color => {
+                        this.setState(this.colorToState(color));
+                        this.props.onChange(color);
+                    }} />
 
-                        <Slider
-                            className='alpha'
-                            value={this.state.a} 
-                            thumb={TriangleThumbHorizontal}
-                            onChange={(a) => {
-                                let color = this.stateToColor({a});
-                                this.setState({a, color});
-                                this.props.onChange(color);
-                            }} />
-                    }
-
-                    <ColorInputs 
-                        color={this.state.color}
-                        types={this.props.inputs}
-                        onChange={color => {
-                            this.setState(this.colorToState(color));
-                            this.props.onChange(color);
-                        }} />
-
-                </div>
             </div>
         </div>
     }
