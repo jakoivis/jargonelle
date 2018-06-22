@@ -123,7 +123,7 @@ ColorPicker.propTypes = {
 }
 
 ColorPicker.defaultProps = {
-    color: 0xFF0000,
+    color: '#ff0000',
     onChange: _.noop,
     inputs: ['hex'],
     alpha: false

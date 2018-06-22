@@ -7,22 +7,13 @@ import 'styles/Canvas';
 
 export default class Canvas extends React.Component {
 
-    constructor(props) {
-
-        super(props);
-
-        this.state = {
-            value: {x: 0, y: 0},
-            x: 0,
-            y: 0,
-            dragging: false,
-            bounds: null
-        };
-
-        // this.onMouseUp = this.onMouseUp.bind(this);
-        // this.onMouseDown = this.onMouseDown.bind(this);
-        // this.onMouseMove = this.onMouseMove.bind(this);
-    }
+    state = {
+        value: {x: 0, y: 0},
+        x: 0,
+        y: 0,
+        dragging: false,
+        bounds: null
+    };
 
     componentDidMount() {
 
