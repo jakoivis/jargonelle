@@ -1,6 +1,6 @@
 
 width = 200px
-height = 300px
+height = 150px
 sliderThickness = 15px
 hueSaturationHeight = 150px
 contentPadding = 3px
@@ -30,44 +30,60 @@ contentWidth = width - (sliderThickness + 2 * contentPadding)
         height: hueSaturationHeight
         cursor: pointer
         
-    .slider.alpha.horizontal
+    .slider.horizontal
         width: inherit
         height: sliderThickness
         cursor: pointer
         
     /* details */
         
-    .slider.hue.vertical
+    .inputs
+
+        input
+            width: calc(100% - 20px);
+            margin: 5px 10px 5px 10px
+
+        input:not([type=submit]):not([type=file])
+
+            border: 0
+            border-bottom: 1px dashed #444
+            background: rgba(0,0,0,0);
+            color: #888
+
+            &:hover
+                border-bottom: 1px dashed #888
+
+            &:focus
+                border-bottom: 1px solid #888
+        
+    .slider 
         .track
             overflow: hidden
-            margin-left: 5px
-            transition: margin-left 0.1s ease-out
             
-        .triangle-thumb
+        &.vertical .triangle-thumb
             width: 10px
             height: 16px
             margin-left: -6px
             margin-top: 3px
+        &.horizontal .triangle-thumb
+            width: 16px
+            height: 10px
+            margin-top: 8px
             
-        polygon
-            fill: #000
+    .slider.hue polygon
+        fill: #000
+    .slider.alpha polygon
+        fill: #fff
         
+    .slider.hue.vertical
+        .track
+            margin-left: 5px
+            transition: margin-left 0.1s ease-out
+            
         &.dragging,
         &:hover 
             .track
                 margin-left: 0
-                
-    .slider.alpha.horizontal
-        
-        .track
-            overflow: hidden
-            
-        .triangle-thumb
-            width: 16px
-            height: 10px
-            margin-top: 8px
-        polygon
-            fill: #fff
                 
     .canvas.saturation-value
         .default-thumb
@@ -97,6 +113,19 @@ contentWidth = width - (sliderThickness + 2 * contentPadding)
         .track
             background-image: linear-gradient(
                 180deg, 
+                #FF0000,
+                #FFFF00,
+                #00FF00,
+                #00FFFF,
+                #0000FF,
+                #FF00FF,
+                #FF0000
+            );
+            
+    .slider.hue.horizontal 
+        .track
+            background-image: linear-gradient(
+                90deg, 
                 #FF0000,
                 #FFFF00,
                 #00FF00,
@@ -137,22 +166,3 @@ contentWidth = width - (sliderThickness + 2 * contentPadding)
                 rgba(0,0,0,1) 0%,
                 rgba(0,0,0,0) 100%
             );
-
-    .inputs
-        margin: 10px
-
-        input
-            margin-bottom: 10px
-
-        input:not([type=submit]):not([type=file])
-
-            border: 0
-            border-bottom: 1px dashed #444
-            background: rgba(0,0,0,0);
-            color: #888
-
-            &:hover
-                border-bottom: 1px dashed #888
-
-            &:focus
-                border-bottom: 1px solid #888

@@ -4,7 +4,6 @@ import GradientGrid from 'GradientGrid';
 import SnapDragGrid from 'SnapDragGrid';
 import ColorPicker from 'ColorPicker';
 
-import 'styles/samples';
 import 'styles/common';
 import 'styles/GradientGrid';
 import 'styles/ColorPicker';

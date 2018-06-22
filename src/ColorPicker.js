@@ -8,6 +8,7 @@ import Slider from 'Slider';
 import Canvas from 'Canvas';
 import ColorInputs from 'ColorInputs';
 
+import 'styles/common';
 import 'styles/ColorPicker';
 
 export default class ColorPicker extends React.Component {
@@ -49,7 +50,9 @@ export default class ColorPicker extends React.Component {
 
     render() {
 
-        return <div className='jargonelle color-picker'>
+        return <div 
+            className='jargonelle color-picker' 
+            style={this.props.style}>
 
             <Slider
                 className='hue'
@@ -119,12 +122,14 @@ ColorPicker.propTypes = {
     color: PropTypes.any,
     onChange: PropTypes.func,
     inputs: PropTypes.array,
-    alpha: PropTypes.bool
+    alpha: PropTypes.bool,
+    style: PropTypes.object
 }
 
 ColorPicker.defaultProps = {
     color: '#ff0000',
     onChange: _.noop,
-    inputs: ['hex'],
-    alpha: false
+    inputs: [],
+    alpha: false,
+    style: {}
 }

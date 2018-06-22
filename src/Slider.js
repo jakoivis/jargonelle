@@ -46,6 +46,54 @@ class Slider extends React.Component {
         }
     }
 
+    onChange = value => {
+
+        value = this.props.orientation === 'horizontal' ? value.x : value.y;
+
+        this.props.onChange(value);
+    }
+
+    limitPoint = (point, bounds) => {
+
+        let {x, y} = point;
+        let {width, height} = bounds;
+        let {orientation} = this.props;
+
+        if (orientation === 'horizontal') {
+
+            return {
+                x: x < 0 ? 0 : x > width ? width : x,
+                y: height / 2
+            };
+        }
+
+        return {
+            y: y < 0 ? 0 : y > height ? height : y,
+            x: width / 2
+        };
+    }
+
+    limitValue = value => {
+
+        let {x, y} = value;
+        let {x: minx, y: miny} = this.state.min;
+        let {x: maxx, y: maxy} = this.state.max;
+        let {orientation} = this.props;
+
+        if (orientation === 'horizontal') {
+
+            return {
+                x: x < minx ? minx : x > maxx ? maxx : x,
+                y: y
+            }
+        }
+
+        return {
+            y: y < miny ? miny : y > maxy ? maxy : y,
+            x: x
+        };
+    }
+
     render() {
 
         let {min, max, value} = this.state;
@@ -59,51 +107,9 @@ class Slider extends React.Component {
             style={style}
             thumbStyle={thumbStyle}
             thumb={this.props.thumb}
-            onChange={(value) => {
-
-                value = this.props.orientation === 'horizontal' ? value.x : value.y;
-
-                this.props.onChange(value);
-            }}
-            limitPoint={(point, bounds) => {
-
-                let {x, y} = point;
-                let {width, height} = bounds;
-                let {orientation} = this.props;
-
-                if (orientation === 'horizontal') {
-
-                    return {
-                        x: x < 0 ? 0 : x > width ? width : x,
-                        y: height / 2
-                    };
-                }
-
-                return {
-                    y: y < 0 ? 0 : y > height ? height : y,
-                    x: width / 2
-                };
-            }}
-            limitValue={(value) => {
-
-                let {x, y} = value;
-                let {x: minx, y: miny} = this.state.min;
-                let {x: maxx, y: maxy} = this.state.max;
-                let {orientation} = this.props;
-
-                if (orientation === 'horizontal') {
-
-                    return {
-                        x: x < minx ? minx : x > maxx ? maxx : x,
-                        y: y
-                    }
-                }
-
-                return {
-                    y: y < miny ? miny : y > maxy ? maxy : y,
-                    x: x
-                };
-            }} />
+            onChange={this.onChange}
+            limitPoint={this.limitPoint}
+            limitValue={this.limitValue} />
     }
 }
 
