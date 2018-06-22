@@ -19,15 +19,16 @@ export default class Canvas extends React.Component {
             bounds: null
         };
 
-        this.onMouseUp = this.onMouseUp.bind(this);
-        this.onMouseDown = this.onMouseDown.bind(this);
-        this.onMouseMove = this.onMouseMove.bind(this);
+        // this.onMouseUp = this.onMouseUp.bind(this);
+        // this.onMouseDown = this.onMouseDown.bind(this);
+        // this.onMouseMove = this.onMouseMove.bind(this);
     }
 
     componentDidMount() {
 
         document.addEventListener('mousemove', this.onMouseMove);
         document.addEventListener('mouseup', this.onMouseUp);
+        document.addEventListener('mouseout', this.onMouseOut);
 
         const rootNode = ReactDOM.findDOMNode(this);
         const bounds = rootNode.getBoundingClientRect();
@@ -40,8 +41,9 @@ export default class Canvas extends React.Component {
 
     componentWillUnmount() {
 
-        document.removeEventListener('mousemove', this.onMouseMove)
-        document.removeEventListener('mouseup', this.onMouseUp)
+        document.removeEventListener('mousemove', this.onMouseMove);
+        document.removeEventListener('mouseup', this.onMouseUp);
+        document.removeEventListener('mouseout', this.onMouseOut);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -58,12 +60,20 @@ export default class Canvas extends React.Component {
         }
     }
 
-    onMouseUp() {
+    onMouseUp = event => {
         
         this.setState({dragging: false});
     }
 
-    onMouseDown(event) {
+    onMouseOut = event => {
+
+        if (!event.relatedTarget) {
+            // rolling out of window
+            this.setState({dragging: false});
+        }
+    }
+
+    onMouseDown = event => {
 
         event.preventDefault();
 
@@ -74,7 +84,7 @@ export default class Canvas extends React.Component {
         this.props.onChange(value);
     }
 
-    onMouseMove(event) {
+    onMouseMove = event => {
 
         if (this.state.dragging) {
 
