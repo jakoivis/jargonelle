@@ -1,0 +1,44 @@
+.jargonelle.slider
+    
+    /* thumbs */
+        
+    &.vertical .triangle-thumb
+        width: 10px
+        height: 16px
+        margin-left: -6px
+        margin-top: 3px
+        
+    &.horizontal .triangle-thumb
+        width: 16px
+        height: 10px
+        margin-top: 8px
+            
+    /* expanding states */
+        
+    &.expanding.horizontal
+        overflow: hidden
+        
+        .track
+            margin-top: -5px
+            transition: margin-top 0.1s ease-out
+            transition-delay: 0.1s
+            
+        &.dragging,
+        &:hover
+            .track 
+                margin-top: 0
+                transition-delay: 0s;
+                
+    &.expanding.vertical
+        overflow: hidden
+        
+        .track
+            margin-left: 5px
+            transition: margin-left 0.1s ease-out
+            transition-delay: 0.1s
+            
+        &.dragging,
+        &:hover
+            .track 
+                margin-left: 0
+                transition-delay: 0s;

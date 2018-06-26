@@ -55,47 +55,20 @@ contentWidth = width - (sliderThickness + 2 * contentPadding)
 
             &:focus
                 border-bottom: 1px solid #888
-        
-    .slider 
-        .track
-            overflow: hidden
-            
-        &.vertical .triangle-thumb
-            width: 10px
-            height: 16px
-            margin-left: -6px
-            margin-top: 3px
-        &.horizontal .triangle-thumb
-            width: 16px
-            height: 10px
-            margin-top: 8px
-            
+    
     .slider.hue polygon
         fill: #000
     .slider.alpha polygon
         fill: #fff
         
-    .slider.hue.vertical
-        .track
-            margin-left: 5px
-            transition: margin-left 0.1s ease-out
-            
-        &.dragging,
-        &:hover 
-            .track
-                margin-left: 0
-                
     .canvas.saturation-value
         .default-thumb
             box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.2);
-        
+
     /* backgrounds */
     
     background: linear-gradient(to top, #444 5%, #000 25%)
     
-    .content
-        background: linear-gradient(to top, #444 5%, #000 25%)
-        
     .canvas.saturation-value
         .track
             background-image: linear-gradient(
@@ -136,31 +109,33 @@ contentWidth = width - (sliderThickness + 2 * contentPadding)
             );
 
     .slider.alpha.horizontal
-        background-image: linear-gradient(
-            45deg, 
-            #AAA 25%, 
-            transparent 25%
-        ), 
-        linear-gradient(
-            -45deg, 
-            #AAA 25%, 
-            transparent 25%
-        ),
-        linear-gradient(
-            45deg, 
-            transparent 75%, 
-            #AAA 75%
-        ), 
-        linear-gradient(
-            -45deg, 
-            transparent 75%, 
-            #AAA 75%
-        );
-        background-size: 10px 10px;
-        background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
-        background-color: #444
         
         .track
+            background-image: linear-gradient(
+                45deg, 
+                #AAA 25%, 
+                transparent 25%
+            ), 
+            linear-gradient(
+                -45deg, 
+                #AAA 25%, 
+                transparent 25%
+            ),
+            linear-gradient(
+                45deg, 
+                transparent 75%, 
+                #AAA 75%
+            ), 
+            linear-gradient(
+                -45deg, 
+                transparent 75%, 
+                #AAA 75%
+            );
+            background-size: 10px 10px;
+            background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
+            background-color: #444
+        
+        .overlay
             background-image: linear-gradient(
                 -90deg, 
                 rgba(0,0,0,1) 0%,

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import Canvas from 'Canvas';
 
+import 'styles/Slider';
+
 class Slider extends React.Component {
 
     constructor(props) {
@@ -96,11 +98,12 @@ class Slider extends React.Component {
 
     render() {
 
-        let {min, max, value} = this.state;
-        let {style, thumbStyle} = this.props;
+        const {min, max, value} = this.state;
+        const {style, thumbStyle, expanding, orientation, className} = this.props;
+        const clsExpanding = expanding ? 'expanding' : '';
 
         return <Canvas
-            className={`slider ${this.props.className} ${this.props.orientation}`}
+            className={`slider ${className} ${orientation} ${clsExpanding}`}
             min={min}
             max={max}
             value={value}
@@ -121,7 +124,9 @@ Slider.propTypes = {
     style: PropTypes.object,
     thumbStyle: PropTypes.object,
     orientation: PropTypes.oneOf(['vertical', 'horizontal']),
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onDragChange: PropTypes.func,
+    expanding: PropTypes.bool
 }
 
 Slider.defaultProps = {
@@ -132,7 +137,9 @@ Slider.defaultProps = {
     style: {},
     thumbStyle: {},
     orientation: 'horizontal',
-    onChange: ()=>{}
+    onChange: ()=>{},
+    onDragChange: ()=>{},
+    expanding: true
 }
 
 export default Slider;

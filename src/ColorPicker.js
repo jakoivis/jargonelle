@@ -60,6 +60,7 @@ export default class ColorPicker extends React.Component {
                 value={this.state.h} 
                 style={{backgroundColor:'#FF0000'}}
                 thumb={TriangleThumbVertica}
+                expanding={this.props.hueExpanding}
                 onChange={(h) => {
                     let color = this.stateToColor({h});
                     this.setState({h, color});
@@ -86,6 +87,7 @@ export default class ColorPicker extends React.Component {
                         className='alpha'
                         value={this.state.a} 
                         thumb={TriangleThumbHorizontal}
+                        expanding={this.props.alphaExpanding}
                         onChange={(a) => {
                             let color = this.stateToColor({a});
                             this.setState({a, color});
@@ -123,6 +125,8 @@ ColorPicker.propTypes = {
     onChange: PropTypes.func,
     inputs: PropTypes.array,
     alpha: PropTypes.bool,
+    alphaExpanding: PropTypes.bool,
+    hueExpanding: PropTypes.bool,
     style: PropTypes.object
 }
 
@@ -131,5 +135,7 @@ ColorPicker.defaultProps = {
     onChange: _.noop,
     inputs: [],
     alpha: false,
-    style: {}
+    alphaExpanding: false,
+    hueExpanding: true,
+    style: {},
 }

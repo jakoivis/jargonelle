@@ -54,6 +54,7 @@ export default class Canvas extends React.Component {
     onMouseUp = event => {
         
         this.setState({dragging: false});
+        this.props.onDragChange(false);
     }
 
     onMouseOut = event => {
@@ -61,6 +62,7 @@ export default class Canvas extends React.Component {
         if (!event.relatedTarget) {
             // rolling out of window
             this.setState({dragging: false});
+            this.props.onDragChange(false);
         }
     }
 
@@ -72,6 +74,7 @@ export default class Canvas extends React.Component {
         let value = this.pointToValue(point);
 
         this.setState({...point, value, dragging: true});
+        this.props.onDragChange(true);
         this.props.onChange(value);
     }
 
@@ -155,17 +158,20 @@ export default class Canvas extends React.Component {
 
     render() {
 
-        let dragging = this.state.dragging ? ' dragging' : '';
+        const {className} = this.props;
+        const dragging = this.state.dragging ? ' dragging' : '';
 
-        return <div className={`jargonelle canvas ${this.props.className}${dragging}`}>
+        return <div className={`jargonelle canvas ${className}${dragging}`}>
             
             {
                 this.state.bounds && 
-
+                
                 <div 
                     className='track'
                     onMouseDown={this.onMouseDown} 
                     style={this.props.style}>
+
+                    <div className='overlay'></div>
 
                     <div
                         className='thumb-container'
@@ -181,6 +187,7 @@ export default class Canvas extends React.Component {
                     </div>
 
                 </div>
+
             }
 
         </div>
@@ -208,6 +215,7 @@ Canvas.propTypes = {
     style: PropTypes.object,
     thumbStyle: PropTypes.object,
     onChange: PropTypes.func,
+    onDragChange: PropTypes.func,
     limitPoint: PropTypes.func,
     limitValue: PropTypes.func,
     thumb: PropTypes.func
@@ -221,6 +229,7 @@ Canvas.defaultProps = {
     style: {},
     thumbStyle: {},
     onChange: ()=>{},
+    onDragChange: ()=>{},
     limitPoint: null,
     limitValue: null,
     thumb: DefaultThumb
