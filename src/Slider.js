@@ -99,7 +99,8 @@ class Slider extends React.Component {
     render() {
 
         const {min, max, value} = this.state;
-        const {style, thumbStyle, expanding, orientation, className} = this.props;
+        const {style, thumbStyle, expanding, orientation, 
+            className, onDragChange, trackStyle} = this.props;
         const clsExpanding = expanding ? 'expanding' : '';
 
         return <Canvas
@@ -109,8 +110,10 @@ class Slider extends React.Component {
             value={value}
             style={style}
             thumbStyle={thumbStyle}
+            trackStyle={trackStyle}
             thumb={this.props.thumb}
             onChange={this.onChange}
+            onDragChange={onDragChange}
             limitPoint={this.limitPoint}
             limitValue={this.limitValue} />
     }
@@ -123,6 +126,7 @@ Slider.propTypes = {
     max: PropTypes.number,
     style: PropTypes.object,
     thumbStyle: PropTypes.object,
+    trackStyle: PropTypes.object,
     orientation: PropTypes.oneOf(['vertical', 'horizontal']),
     onChange: PropTypes.func,
     onDragChange: PropTypes.func,
@@ -136,6 +140,7 @@ Slider.defaultProps = {
     max: 1,
     style: {},
     thumbStyle: {},
+    trackStyle: {},
     orientation: 'horizontal',
     onChange: ()=>{},
     onDragChange: ()=>{},

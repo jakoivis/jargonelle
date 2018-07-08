@@ -1,11 +1,15 @@
 
+- Add tests
+
 - color picker
-    - change the canvas handle on top of alpha slider
-    - different format color inputs
-    - color swatch
-    - color-util pretty format (rounding to decimal precision)
-    - color-util rgb->hex rounding issue
-    - add invert color to colorutil and try with the selection borders
+    - bug: change the canvas thumb on top of alpha slider, currently it is under the slider
+    - feat: color swatch: button where color-picker is opened
+    - feat: color-util: handle object type of string formatting (color-input)
+    - feat: color-util: pretty format (rounding to decimal precision)
+    - feat: color-util: upper case or lower case output
+    - bug: color-util: rgb->hex rounding issue. rounded down -> round to nearest
+    - feat: color-util: add invert color to colorutil and try with the selection borders
+    - feat: color-inputs: classname for invalid input value 
 
 - color grid
     - rename GradientPicker GradientSelector

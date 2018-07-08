@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import {CanvasDefaultThumb} from 'Thumbs';
 
 import 'styles/Canvas';
 
@@ -161,15 +162,17 @@ export default class Canvas extends React.Component {
         const {className} = this.props;
         const dragging = this.state.dragging ? ' dragging' : '';
 
-        return <div className={`jargonelle canvas ${className}${dragging}`}>
+        return <div 
+            className={`jargonelle canvas ${className}${dragging}`}
+            style={this.props.style}>
             
             {
                 this.state.bounds && 
                 
                 <div 
                     className='track'
-                    onMouseDown={this.onMouseDown} 
-                    style={this.props.style}>
+                    onMouseDown={this.onMouseDown}
+                    style={this.props.trackStyle}>
 
                     <div className='overlay'></div>
 
@@ -194,10 +197,6 @@ export default class Canvas extends React.Component {
     }
 }
 
-const DefaultThumb = props => (
-    <div className='thumb default-thumb' style={props.thumbStyle} />
-);
-
 Canvas.propTypes = {
     className: PropTypes.string,
     value: PropTypes.shape({
@@ -214,6 +213,7 @@ Canvas.propTypes = {
     }),
     style: PropTypes.object,
     thumbStyle: PropTypes.object,
+    trackStyle: PropTypes.object,
     onChange: PropTypes.func,
     onDragChange: PropTypes.func,
     limitPoint: PropTypes.func,
@@ -228,9 +228,10 @@ Canvas.defaultProps = {
     max: {x: 1, y: 1},
     style: {},
     thumbStyle: {},
+    trackStyle: {},
     onChange: ()=>{},
     onDragChange: ()=>{},
     limitPoint: null,
     limitValue: null,
-    thumb: DefaultThumb
+    thumb: CanvasDefaultThumb
 };

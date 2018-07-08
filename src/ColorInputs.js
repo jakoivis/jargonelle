@@ -14,8 +14,8 @@ export default class ColorInputs extends React.Component {
         const inputValues = this.getInputValuesFromColor(color);
 
         this.state = {
-            color: color,
-            inputValues: inputValues
+            color,
+            inputValues
         };
     }
 
@@ -29,10 +29,7 @@ export default class ColorInputs extends React.Component {
             const color = colorutil.color(nextProps.color);
             const inputValues = this.getInputValuesFromColor(color, nextProps.types);
 
-            this.setState({
-                color: color,
-                inputValues: inputValues
-            });
+            this.setState({color, inputValues});
         }
     }
 
@@ -57,20 +54,22 @@ export default class ColorInputs extends React.Component {
     onInputChange = event => {
 
         const {name, value} = event.target;
-        const inputValues = this.state.inputValues;
+        let inputValues = this.state.inputValues;
         const inputObject = _.find(inputValues, ['type', name]);
         const isValid = colorutil[name].test(value);
 
+        // TODO: clone before assign
         inputObject.value = value;
 
-        this.setState({
-            inputValues: inputValues
-        });
+        this.setState({inputValues});
 
         if (isValid) {
 
             const color = colorutil.color(value);
 
+            inputValues = this.getInputValuesFromColor(color);
+
+            this.setState({color, inputValues});
             this.props.onChange(color);
         }
     }
@@ -106,6 +105,6 @@ ColorInputs.propTypes = {
 
 ColorInputs.defaultProps = {
     color: null,
-    onChange: _.noop,
+    onChange: (color)=>{},
     types: ['hex']
 }

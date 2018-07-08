@@ -1,5 +1,4 @@
 
-import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import colorutil from 'color-util';
@@ -7,6 +6,7 @@ import colorutil from 'color-util';
 import Slider from 'Slider';
 import Canvas from 'Canvas';
 import ColorInputs from 'ColorInputs';
+import {TriangleThumbVertical, TriangleThumbHorizontal} from 'Thumbs';
 
 import 'styles/common';
 import 'styles/ColorPicker';
@@ -58,8 +58,7 @@ export default class ColorPicker extends React.Component {
                 className='hue'
                 orientation='vertical' 
                 value={this.state.h} 
-                style={{backgroundColor:'#FF0000'}}
-                thumb={TriangleThumbVertica}
+                thumb={TriangleThumbVertical}
                 expanding={this.props.hueExpanding}
                 onChange={(h) => {
                     let color = this.stateToColor({h});
@@ -108,18 +107,6 @@ export default class ColorPicker extends React.Component {
     }
 }
 
-const TriangleThumbVertica = props => (
-    <svg className='triangle-thumb'>
-        <polygon points='0,0 0,16 10,8'/>
-    </svg>
-);
-
-const TriangleThumbHorizontal = props => (
-    <svg className='triangle-thumb'>
-        <polygon points='0,10 16,10 8,0'/>
-    </svg>
-);
-
 ColorPicker.propTypes = {
     color: PropTypes.any,
     onChange: PropTypes.func,
@@ -132,7 +119,7 @@ ColorPicker.propTypes = {
 
 ColorPicker.defaultProps = {
     color: '#ff0000',
-    onChange: _.noop,
+    onChange: (color)=>{},
     inputs: [],
     alpha: false,
     alphaExpanding: false,

@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import { withKnobs, array, boolean} from '@storybook/addon-knobs/react';
 import ColorPicker from 'ColorPicker';
 
-const stories = storiesOf('Slider', module);
+const stories = storiesOf('ColorPicker', module);
 
 stories.addDecorator(withKnobs);
 
