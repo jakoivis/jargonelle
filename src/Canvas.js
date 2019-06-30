@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {CanvasDefaultThumb} from 'Thumbs';
 
-import 'styles/Canvas';
+import 'styles/Canvas.styl';
 
 export default class Canvas extends React.Component {
 
@@ -53,7 +53,7 @@ export default class Canvas extends React.Component {
     }
 
     onMouseUp = event => {
-        
+
         this.setState({dragging: false});
         this.props.onDragChange(false);
     }
@@ -96,7 +96,7 @@ export default class Canvas extends React.Component {
         let {top, left} = this.state.bounds;
         let x = event.clientX - left;
         let y = event.clientY - top;
-        
+
         return this.limitPoint({x, y});
     }
 
@@ -162,14 +162,14 @@ export default class Canvas extends React.Component {
         const {className} = this.props;
         const dragging = this.state.dragging ? ' dragging' : '';
 
-        return <div 
+        return <div
             className={`jargonelle canvas ${className}${dragging}`}
             style={this.props.style}>
-            
+
             {
-                this.state.bounds && 
-                
-                <div 
+                this.state.bounds &&
+
+                <div
                     className='track'
                     onMouseDown={this.onMouseDown}
                     style={this.props.trackStyle}>

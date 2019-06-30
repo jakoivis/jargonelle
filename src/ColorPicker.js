@@ -8,8 +8,8 @@ import Canvas from 'Canvas';
 import ColorInputs from 'ColorInputs';
 import {TriangleThumbVertical, TriangleThumbHorizontal} from 'Thumbs';
 
-import 'styles/common';
-import 'styles/ColorPicker';
+import 'styles/common.styl';
+import 'styles/ColorPicker.styl';
 
 export default class ColorPicker extends React.Component {
 
@@ -23,10 +23,10 @@ export default class ColorPicker extends React.Component {
     }
 
     stateToColor({
-        h = this.state.h,
-        sv = this.state.sv,
-        a = this.state.a
-    } = {}) {
+            h = this.state.h,
+            sv = this.state.sv,
+            a = this.state.a
+        } = {}) {
 
         return colorutil.color({
             h, a,
@@ -50,14 +50,14 @@ export default class ColorPicker extends React.Component {
 
     render() {
 
-        return <div 
-            className='jargonelle color-picker' 
+        return <div
+            className='jargonelle color-picker'
             style={this.props.style}>
 
             <Slider
                 className='hue'
-                orientation='vertical' 
-                value={this.state.h} 
+                orientation='vertical'
+                value={this.state.h}
                 thumb={TriangleThumbVertical}
                 expanding={this.props.hueExpanding}
                 onChange={(h) => {
@@ -70,7 +70,7 @@ export default class ColorPicker extends React.Component {
 
                 <Canvas
                     className='saturation-value'
-                    value={this.state.sv} 
+                    value={this.state.sv}
                     style={{backgroundColor: this.state.color.hue().hex}}
                     thumbStyle={{backgroundColor: this.state.color.hex}}
                     onChange={(sv) => {
@@ -80,11 +80,11 @@ export default class ColorPicker extends React.Component {
                     }} />
 
                 {
-                    this.props.alpha && 
+                    this.props.alpha &&
 
                     <Slider
                         className='alpha'
-                        value={this.state.a} 
+                        value={this.state.a}
                         thumb={TriangleThumbHorizontal}
                         expanding={this.props.alphaExpanding}
                         onChange={(a) => {
@@ -94,7 +94,7 @@ export default class ColorPicker extends React.Component {
                         }} />
                 }
 
-                <ColorInputs 
+                <ColorInputs
                     color={this.state.color}
                     types={this.props.inputs}
                     onChange={color => {

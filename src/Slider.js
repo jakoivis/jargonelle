@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Canvas from 'Canvas';
 
-import 'styles/Slider';
+import 'styles/Slider.styl';
 
 class Slider extends React.Component {
 
@@ -19,7 +19,7 @@ class Slider extends React.Component {
             newMin = {x: min, y: 0};
             newMax = {x: max, y: 1};
             newValue = {x: value, y: 0};
-        
+
         } else {
             newMin = {x: 0, y: min};
             newMax = {x: 1, y: max};
@@ -41,7 +41,7 @@ class Slider extends React.Component {
 
             if (orientation === 'horizontal') {
                 this.setState({value: {x: nextProps.value, y: 0}});
-                
+
             } else {
                 this.setState({value: {x: 0, y: nextProps.value}});
             }
@@ -99,7 +99,7 @@ class Slider extends React.Component {
     render() {
 
         const {min, max, value} = this.state;
-        const {style, thumbStyle, expanding, orientation, 
+        const {style, thumbStyle, expanding, orientation,
             className, onDragChange, trackStyle} = this.props;
         const clsExpanding = expanding ? 'expanding' : '';
 

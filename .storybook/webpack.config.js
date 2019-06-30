@@ -1,50 +1,35 @@
-// you can use this file to add your custom webpack plugins, loaders and anything you like.
-// This is just the basic way to add additional webpack configurations.
-// For more information refer the docs: https://storybook.js.org/configurations/custom-webpack-config
 
-// IMPORTANT
-// When you add this file, we won't add the default configurations which is similar
-// to "React Create App". This only has babel loader to load JavaScript.
+const path = require('path');
 
-var webpack = require('webpack');
-var path = require('path');
+const PATH_SRC = path.join(__dirname, '../src');
 
-const PATHS = {
-    nodeModules: path.join(__dirname, '../node_modules'),
-    src: path.join(__dirname, '../src')
-};
+module.exports = async ({ config, mode }) => {
+    // `mode` has a value of 'DEVELOPMENT' or 'PRODUCTION'
+    // You can change the configuration based on that.
+    // 'PRODUCTION' is used when building the static version of storybook.
 
-module.exports = {
-    resolve: {
-        modules: [
-            PATHS.nodeModules,
-            PATHS.src
-        ],
-        extensions: ['.js', '.jsx', '.styl', '.css']
-    },
-    plugins: [
-        // your custom plugins
-    ],
-    module: {
-        rules: [
-            {
-                test: /(\.jsx|\.js)$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.styl$/,
-                use: ['style-loader', 'css-loader', 'stylus-loader'],
-            },
-            {
-                test: /\.(ttf|eot|woff|woff2)$/,
-                use: {
-                    loader: "file-loader",
-                    options: {
-                        name: "fonts/[name].[ext]"
-                    }
-                }
-            }
-        ],
-    },
+    config.resolve.modules.push(PATH_SRC);
+
+    config.module.rules.push({
+        test: /\.styl$/,
+        use: ['style-loader', 'css-loader', 'stylus-loader'],
+    });
+
+    config.module.rules.push({
+        test: /\.stories\.jsx?$/,
+        loaders: [require.resolve('@storybook/addon-storysource/loader')],
+        enforce: 'pre',
+    });
+
+    // config.module.rules.push({
+    //     test: /\.(ttf|eot|woff|woff2)$/,
+    //     use: {
+    //         loader: "file-loader",
+    //         options: {
+    //             name: "fonts/[name].[ext]"
+    //         }
+    //     }
+    // });
+
+    return config;
 };
