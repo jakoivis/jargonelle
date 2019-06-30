@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import 'styles/SnapDragGrid';
+import 'styles/SnapDragGrid.styl';
 
 export default class SnapDragGrid extends React.Component {
 
@@ -18,7 +18,7 @@ export default class SnapDragGrid extends React.Component {
 
         let pointData = _.map(this.props.data, point => {
 
-            // visible: used to toggle point visibility to indicate 
+            // visible: used to toggle point visibility to indicate
             //      that it's being removed when dragged out of grid
             // x, y: point position on local coordiates
             // key: used as a key for react components
@@ -106,11 +106,11 @@ export default class SnapDragGrid extends React.Component {
 
     /**
      * Generate line data from point data
-     * 
+     *
      * @param      {Array}  pointData       The point data
      * @param      {String}  axis           x or y indicating the axis
      * @param      {String}  [activePointKey]  filter away active point if specified
-     * @return     {Array} 
+     * @return     {Array}
      */
     getLineData(pointData, axis, activePointKey=null) {
 

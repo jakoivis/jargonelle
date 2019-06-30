@@ -7,7 +7,7 @@ import colorutil from 'color-util';
 import Gradient from 'Gradient';
 import SnapDragGrid from 'SnapDragGrid';
 
-import 'styles/GradientGrid';
+import 'styles/GradientGrid.styl';
 
 export default class GradientGrid extends React.Component {
 
@@ -70,7 +70,7 @@ export default class GradientGrid extends React.Component {
 
     render() {
 
-        return <div 
+        return <div
             className='gradient-grid'
             style={{
                 width: this.props.width,
