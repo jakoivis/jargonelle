@@ -15,11 +15,11 @@ module.exports = async ({ config, mode }) => {
         use: ['style-loader', 'css-loader', 'stylus-loader'],
     });
 
-    config.module.rules.push({
-        test: /\.stories\.jsx?$/,
-        loaders: [require.resolve('@storybook/addon-storysource/loader')],
-        enforce: 'pre',
-    });
+    // config.module.rules.push({
+    //     test: /\.stories\.jsx?$/,
+    //     loaders: [require.resolve('@storybook/addon-storysource/loader')],
+    //     enforce: 'pre',
+    // });
 
     // config.module.rules.push({
     //     test: /\.(ttf|eot|woff|woff2)$/,

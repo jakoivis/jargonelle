@@ -1,4 +1,7 @@
 
+// TODO: rename this to track pad or something
+// TODO: when scrolling the page, dragging breaks
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
@@ -38,6 +41,7 @@ export default class Canvas extends React.Component {
         document.removeEventListener('mouseout', this.onMouseOut);
     }
 
+    // TODO: isn't this depricated
     componentWillReceiveProps(nextProps) {
 
         if (nextProps.value.x !== this.props.value.x ||
